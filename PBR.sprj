@@ -1,0 +1,300 @@
+<?xml version="1.0"?>
+<project version="2">
+	<pipeline>
+		<pass name="Post Process" type="shader" active="true" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\Post ProcessVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\Post ProcessPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture />
+			<items>
+				<item name="Fullscreen" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="matVP" system="Orthographic" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float2" name="screenSize" system="ViewportSize" />
+			</variables>
+			<macros />
+		</pass>
+		<pass name="Translucent" type="shader" active="true" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\TranslucentVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\TranslucentPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture name="Translucent Color Pass" />
+			<rendertexture name="Translucent Depth Pass" />
+			<items>
+				<item name="translucent2" type="geometry">
+					<type>Cube</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<scaleX>5</scaleX>
+					<scaleY>5</scaleY>
+					<x>-1.49189186</x>
+					<y>-4.79778385</y>
+					<z>-3.53938532</z>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="CubeTra" type="geometry">
+					<type>Cube</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<scaleY>1.01999998</scaleY>
+					<x>-6.56320333</x>
+					<y>-4.34018898</y>
+					<z>5.08081484</z>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float2" name="TextureTile">
+					<row>
+						<value>0</value>
+						<value>0</value>
+					</row>
+				</variable>
+			</variables>
+			<macros />
+		</pass>
+		<pass name="Lighting" type="shader" active="true" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\LightingVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\LightingPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture name="Lighting Pass" />
+			<items>
+				<item name="Fullscreen2" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="matVP" system="Orthographic" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float4" name="camPos" system="CameraPosition" />
+			</variables>
+			<macros />
+		</pass>
+		<pass name="Main" type="shader" active="true" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\MainVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\MainPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Tangent" semantic="TANGENT" />
+				<item value="Bitangent" semantic="BITANGENT" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture name="Color Pass" />
+			<rendertexture name="Position Pass" />
+			<rendertexture name="Normal Pass" />
+			<items>
+				<item name="Ground Plane" type="geometry">
+					<type>Cube</type>
+					<width>20</width>
+					<height>0.25</height>
+					<depth>20</depth>
+					<y>-6.66613531</y>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="cube" type="geometry">
+					<type>Cube</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<scaleY>3</scaleY>
+					<yaw>0.785398185</yaw>
+					<x>-2.38215733</x>
+					<y>-4.84313726</y>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="sphere" type="geometry">
+					<type>Sphere</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<x>2.18175888</x>
+					<y>-5.16855621</y>
+					<z>1.42546558</z>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="int" name="PositionBuffer@count.@count">
+					<row>
+						<value>0</value>
+					</row>
+				</variable>
+				<variable type="float2" name="TextureTile">
+					<row>
+						<value>0</value>
+						<value>0</value>
+					</row>
+				</variable>
+				<variable type="float4x4" name="invMatGeo" system="GeometryTransform" />
+			</variables>
+			<macros />
+		</pass>
+		<pass name="DebugLights" type="shader" active="true" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\DebugLightVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\DebugLightPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+			</inputlayout>
+			<rendertexture />
+			<rendertexture name="Emissive Pass" />
+			<items>
+				<item name="instLight" type="geometry">
+					<type>Cube</type>
+					<width>1</width>
+					<height>2</height>
+					<depth>1</depth>
+					<instanced>true</instanced>
+					<instancecount>3</instancecount>
+					<instancebuffer>Buffer</instancebuffer>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues>
+				<value variable="matVP" for="instLight">
+					<row>
+						<value>2.60976982</value>
+						<value>0.148330435</value>
+						<value>0.0845822319</value>
+						<value>0.0845653266</value>
+					</row>
+					<row>
+						<value>-3.81252391e-07</value>
+						<value>1.9531399</value>
+						<value>-0.587902725</value>
+						<value>-0.587785244</value>
+					</row>
+					<row>
+						<value>0.274298191</value>
+						<value>-1.41126537</value>
+						<value>-0.804746032</value>
+						<value>-0.804585159</value>
+					</row>
+					<row>
+						<value>6.2564493e-07</value>
+						<value>0</value>
+						<value>34.8069801</value>
+						<value>35.0000038</value>
+					</row>
+				</value>
+			</itemvalues>
+			<variables>
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+			</variables>
+			<macros />
+		</pass>
+		<pass name="ShadowMap" type="shader" active="false" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+			</inputlayout>
+			<rendertexture name="ShadowMap01" />
+			<items>
+				<item name="VBuffer" type="vertexbuffer">
+					<buffer>wPositionBuffer</buffer>
+					<x>0.0866496563</x>
+					<y>0.979283333</y>
+					<z>-1.22701073</z>
+					<instanced>true</instanced>
+					<instancecount>1</instancecount>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float4x4" name="matProject" system="Projection" />
+			</variables>
+			<macros />
+		</pass>
+		<pass name="UpdateBuffers" type="compute" active="false">
+			<shader type="cs" path="shaders\updateBufferCS.hlsl" entry="main" />
+			<groupsize x="8" y="1" z="1" />
+			<macros />
+		</pass>
+	</pipeline>
+	<objects>
+		<object type="buffer" name="Buffer" size="96" format="float4;float3;float;float3;float" pausedpreview="false">
+			<bind slot="0" name="Translucent" />
+			<bind slot="0" name="Lighting" />
+		</object>
+		<object type="buffer" name="wPositionBuffer" size="672" format="float4" pausedpreview="false">
+			<bind slot="0" name="Main" />
+			<bind slot="0" name="UpdateBuffers" />
+		</object>
+		<object type="rendertexture" name="ShadowMap01" format="R" rsize="1.000000,1.000000" clear="true" />
+		<object type="rendertexture" name="Emissive Pass" format="R32G32B32A32_FLOAT" rsize="1.000000,1.000000" clear="true">
+			<bind slot="2" name="Post Process" />
+		</object>
+		<object type="rendertexture" name="Lighting Pass" rsize="1.000000,1.000000" clear="true">
+			<bind slot="1" name="Post Process" />
+		</object>
+		<object type="rendertexture" name="Color Pass" format="RGB" rsize="1.000000,1.000000" clear="true">
+			<bind slot="0" name="Lighting" />
+		</object>
+		<object type="rendertexture" name="Position Pass" format="R32G32B32A32_FLOAT" rsize="1.000000,1.000000" clear="true">
+			<bind slot="0" name="Post Process" />
+			<bind slot="1" name="Lighting" />
+		</object>
+		<object type="rendertexture" name="Normal Pass" format="R32G32B32_FLOAT" rsize="1.000000,1.000000" clear="true">
+			<bind slot="2" name="Lighting" />
+		</object>
+		<object type="rendertexture" name="Translucent Color Pass" rsize="1.000000,1.000000" clear="true">
+			<bind slot="3" name="Post Process" />
+		</object>
+		<object type="rendertexture" name="Translucent Depth Pass" format="R16" rsize="1.000000,1.000000" clear="true">
+			<bind slot="4" name="Post Process" />
+		</object>
+	</objects>
+	<cameras />
+	<settings>
+		<entry type="property" name="UpdateBuffers" item="pipe" />
+		<entry type="pinned" name="TextureTile" owner="Main" />
+		<entry type="camera" fp="false">
+			<distance>35</distance>
+			<pitch>36</pitch>
+			<yaw>174</yaw>
+			<roll>360</roll>
+		</entry>
+		<entry type="clearcolor" r="0" g="0" b="0" a="1" />
+		<entry type="usealpha" val="false" />
+	</settings>
+	<plugindata />
+</project>
