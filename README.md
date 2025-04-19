@@ -9,6 +9,7 @@ Using the Shadered program as a visualization tool, I wrote multiple shaders in 
   - Specular Lighting (BRDF)
   - Shadow Mapping (Not Implemented)
   - Multiple Light support
+  - Volumetrics (Not Implemented)
 - Material
   - Albedo Map
   - Metallic Map
@@ -19,6 +20,7 @@ Using the Shadered program as a visualization tool, I wrote multiple shaders in 
   - Bloom
   - Color Grading
   - Vignette
+  - SSAO (NOt Implemented)
 # Deployment
 Run the Shadered program and open the file
 
