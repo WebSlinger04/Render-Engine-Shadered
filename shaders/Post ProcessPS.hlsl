@@ -10,10 +10,13 @@ struct PSInput
 };
 
 Texture2D PositionPass : register(t0);
-Texture2D LightingPass : register(t1);
-Texture2D EmissivePass : register(t2);
-Texture2D TranslucentPass : register(t3);
-Texture2D TranslucentDepth : register(t4);
+Texture2D NormalPass : register(t1);
+Texture2D LightingPass : register(t2);
+Texture2D EmissivePass : register(t3);
+Texture2D TranslucentPass : register(t4);
+Texture2D TranslucentDepth : register(t5);
+Texture2D Noise : register(t6);
+Texture2D NNoise : register(t7);
 SamplerState smp : register(s0);
 
 float gaussian(float x, float sigma)
@@ -25,9 +28,12 @@ float4 main(PSInput pin) : SV_TARGET
 {
 	pin.UV.y = 1-pin.UV.y;
 	float4 Position = PositionPass.Sample(smp, pin.UV);
+	float4 Normal = NormalPass.Sample(smp, pin.UV);
 	float4 Lighting = LightingPass.Sample(smp, pin.UV);
 	float4 Translucent = TranslucentPass.Sample(smp, pin.UV);
 	float4 TDepth = TranslucentDepth.Sample(smp, pin.UV);
+	float4 NoiseMap = Noise.Sample(smp, 3*pin.UV*float2(1,screenSize.y/screenSize.x));
+	float4 NNoiseMap = NNoise.Sample(smp, 3*pin.UV*float2(1,screenSize.y/screenSize.x));
 	float4 Color = Lighting;
 	
 	if (Position.a < TDepth.x)
@@ -79,5 +85,25 @@ float4 main(PSInput pin) : SV_TARGET
 	vignette = saturate((1-vignette)+.1);
 	
 	//SSAO
-	return Color + Emissive * vignette;
+	float ao = 0;
+	for (int x = -3; x < 3; x++)
+	{
+		for (int y = -3; y < 3; y++)
+		{
+		float offset = float2(x,y) * texelSize;
+		float circle = length(float2(x,y));
+		float weight = gaussian(circle,2);
+		float rand = .0004*(reflect(NoiseMap,NNoiseMap) * 2 -1) * weight;
+		float textureOffset =  PositionPass.Sample(smp, pin.UV + offset).a;
+		if (textureOffset > (Position.a + rand)) 
+		{
+			ao += 1;
+		}
+		
+		}
+	}
+
+	ao = saturate(ao/49) + .3;
+	//return ao;
+	return (Color*ao) + Emissive * vignette;
 }

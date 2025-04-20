@@ -56,6 +56,6 @@ PSOut main(PSInput pin)
 	pout.Color = cMap;
 	pout.Position = pin.wPosition;
 	pout.Position.a = pin.Position.a;
-	pout.Normal = mul(N,invMatGeo);
+	pout.Normal = N;
 	return pout;
 }
