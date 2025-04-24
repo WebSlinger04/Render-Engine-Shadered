@@ -8,11 +8,11 @@ cbuffer cbPerFrame : register(b0)
 struct VSInput
 {
 	float4 Position : POSITION;
-	uint id : SV_InstanceID;
 		
-	float4 lgtPosition;
 	float4 lgtColor;
-	float4 lgtVector;
+	float3 lgtPosition;
+	float1 fill1;
+	float3 lgtVector;
 	
 
 };
@@ -20,7 +20,6 @@ struct VSInput
 struct VSOutput
 {
 	float4 Position : SV_POSITION;
-	uint id;
 };
 
 VSOutput main(VSInput vin)
@@ -40,6 +39,5 @@ VSOutput main(VSInput vin)
 	VSOutput vout = (VSOutput)0;
 	newView = mul(newView,matProject);
 	vout.Position = mul(vin.Position-float4(vin.lgtPosition.x,vin.lgtPosition.y,vin.lgtPosition.z,0),newView);
-	vout.id = vin.id;
 	return vout;
 }

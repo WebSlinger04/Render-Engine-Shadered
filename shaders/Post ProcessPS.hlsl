@@ -1,6 +1,8 @@
 cbuffer cbPerFrame : register(b0)
 {
 	float2 screenSize;
+	float4x4 matVP;
+	float4x4 matProject;
 };
 
 struct PSInput
@@ -24,6 +26,12 @@ float gaussian(float x, float sigma)
     return exp(-0.5 * (x * x) / (sigma * sigma));
 }
 
+float randomNumber(float maxNumber)
+{
+	return 	frac(sin(dot(maxNumber/15,float2(12.9898,78.233)))*43758.5453123);
+
+}
+
 float4 main(PSInput pin) : SV_TARGET
 {
 	pin.UV.y = 1-pin.UV.y;
@@ -32,8 +40,8 @@ float4 main(PSInput pin) : SV_TARGET
 	float4 Lighting = LightingPass.Sample(smp, pin.UV);
 	float4 Translucent = TranslucentPass.Sample(smp, pin.UV);
 	float4 TDepth = TranslucentDepth.Sample(smp, pin.UV);
-	float4 NoiseMap = Noise.Sample(smp, 3*pin.UV*float2(1,screenSize.y/screenSize.x));
-	float4 NNoiseMap = NNoise.Sample(smp, 3*pin.UV*float2(1,screenSize.y/screenSize.x));
+	float4 NoiseMap = Noise.Sample(smp, 6*pin.UV*float2(1,screenSize.y/screenSize.x));
+	float4 NNoiseMap = NNoise.Sample(smp, 5*pin.UV*float2(1,screenSize.y/screenSize.x));
 	float4 Color = Lighting;
 	
 	if (Position.a < TDepth.x)
@@ -86,24 +94,26 @@ float4 main(PSInput pin) : SV_TARGET
 	
 	//SSAO
 	float ao = 0;
-	for (int x = -3; x < 3; x++)
+	float aoSamples = 256;
+	for (int i = 0; i < aoSamples ; i ++)
 	{
-		for (int y = -3; y < 3; y++)
-		{
-		float offset = float2(x,y) * texelSize;
-		float circle = length(float2(x,y));
-		float weight = gaussian(circle,2);
-		float rand = .0004*(reflect(NoiseMap,NNoiseMap) * 2 -1) * weight;
-		float textureOffset =  PositionPass.Sample(smp, pin.UV + offset).a;
-		if (textureOffset > (Position.a + rand)) 
-		{
-			ao += 1;
-		}
+		float3 random = float3(randomNumber(i) * 2 - 1,
+						randomNumber(i * 3 + 2),
+						randomNumber(i * 2 + 1) * 2 - 1);
+		random = normalize(random);
+		float scale = float(i)/aoSamples;
+		random *= lerp(0.1,1, scale * scale);
 		
+		float3 radius = 0.001 * random;
+		float textureOffset =  PositionPass.Sample(smp, pin.UV + radius.xz).a;
+		if (distance(textureOffset,Position.a + radius.y) <= 1)
+		{
+				ao += (textureOffset >= Position.a + radius.y) ? 1 :0;
 		}
 	}
-
-	ao = saturate(ao/49) + .3;
-	//return ao;
-	return (Color*ao) + Emissive * vignette;
+	
+	
+	ao =  1 - (ao/aoSamples);
+	return ao;
+	return (Color * ao) + Emissive * vignette;
 }

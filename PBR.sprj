@@ -21,9 +21,36 @@
 			</items>
 			<itemvalues />
 			<variables>
-				<variable type="float4x4" name="matVP" system="Orthographic" />
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float2" name="screenSize" system="ViewportSize" />
+				<variable type="float4x4" name="ortho" system="Orthographic" />
+				<variable type="float4x4" name="matProject">
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+				</variable>
 			</variables>
 			<macros />
 		</pass>
@@ -131,27 +158,19 @@
 					<scaleY>3</scaleY>
 					<yaw>0.785398185</yaw>
 					<x>-2.38215733</x>
-					<y>-5.14785147</y>
-					<topology>TriangleList</topology>
-				</item>
-				<item name="sphere" type="geometry">
-					<type>Sphere</type>
-					<width>1</width>
-					<height>1</height>
-					<depth>1</depth>
-					<x>2.18175888</x>
-					<y>-6.18806648</y>
-					<z>1.42546558</z>
+					<y>-5.28740931</y>
 					<topology>TriangleList</topology>
 				</item>
 				<item name="Monkey" type="model">
 					<filepath>..\..\..\Downloads\Untitled.obj</filepath>
 					<grouponly>false</grouponly>
-					<roll>0.024085544</roll>
-					<pitch>-0.52359879</pitch>
-					<yaw>1.57079637</yaw>
-					<y>-4.86623478</y>
-					<z>-0.831798077</z>
+					<y>-2.97857332</y>
+				</item>
+				<item name="pot" type="model">
+					<filepath>..\..\..\Downloads\Pot.obj</filepath>
+					<grouponly>false</grouponly>
+					<y>-6.61148739</y>
+					<z>-5.26113653</z>
 				</item>
 			</items>
 			<itemvalues />
@@ -187,6 +206,7 @@
 					<width>1</width>
 					<height>2</height>
 					<depth>1</depth>
+					<y>-1.43533337</y>
 					<instanced>true</instanced>
 					<instancecount>3</instancecount>
 					<instancebuffer>Buffer</instancebuffer>
@@ -196,28 +216,28 @@
 			<itemvalues>
 				<value variable="matVP" for="instLight">
 					<row>
-						<value>1.64355373</value>
-						<value>-0.967938542</value>
-						<value>-0.773634076</value>
-						<value>-0.773479462</value>
+						<value>3.16492271</value>
+						<value>-0.0553082451</value>
+						<value>-0.21441415</value>
+						<value>-0.214371294</value>
 					</row>
 					<row>
 						<value>0</value>
-						<value>2.14337611</value>
-						<value>-0.460291475</value>
-						<value>-0.460199475</value>
+						<value>2.4005444</value>
+						<value>-0.106284149</value>
+						<value>-0.106262907</value>
 					</row>
 					<row>
-						<value>-2.91687346</value>
-						<value>-0.545398712</value>
-						<value>-0.435915112</value>
-						<value>-0.435827971</value>
+						<value>-0.698764324</value>
+						<value>-0.250508368</value>
+						<value>-0.971148908</value>
+						<value>-0.970954776</value>
 					</row>
 					<row>
-						<value>-4.03125811</value>
-						<value>10.0346031</value>
-						<value>3.51071787</value>
-						<value>3.70999622</value>
+						<value>0.0890710726</value>
+						<value>7.92683411</value>
+						<value>4.00196552</value>
+						<value>4.20114565</value>
 					</row>
 				</value>
 			</itemvalues>
@@ -227,7 +247,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="ShadowMap" type="shader" active="true" patchverts="1" collapsed="true">
+		<pass name="ShadowMap" type="shader" active="true" patchverts="1">
 			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
 			<inputlayout>
@@ -260,11 +280,11 @@
 		</pass>
 	</pipeline>
 	<objects>
-		<object type="buffer" name="Buffer" size="96" format="float4;float3;float;float3;float" pausedpreview="false">
+		<object type="buffer" name="Buffer" size="48" format="float4;float3;float;float3;float" pausedpreview="false">
 			<bind slot="0" name="Translucent" />
 			<bind slot="0" name="Lighting" />
 		</object>
-		<object type="buffer" name="wPositionBuffer" size="672" format="float4" pausedpreview="false">
+		<object type="buffer" name="wPositionBuffer" size="1152" format="float4" pausedpreview="false">
 			<bind slot="0" name="Main" />
 			<bind slot="0" name="UpdateBuffers" />
 		</object>
@@ -301,16 +321,17 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Lighting" item="pipe" />
+		<entry type="property" name="VBuffer" item="pipe" />
 		<entry type="file" name="Post Process" shader="vs" />
 		<entry type="file" name="Post Process" shader="ps" />
 		<entry type="pinned" name="TextureTile" owner="Main" />
+		<entry type="pinned" name="matProject" owner="Post Process" />
 		<entry type="camera" fp="true">
-			<positionX>5.12714577</positionX>
-			<positionY>-1.98283947</positionY>
-			<positionZ>1.50691533</positionZ>
-			<yaw>60.6002998</yaw>
-			<pitch>-27.3999748</pitch>
+			<positionX>0.948990762</positionX>
+			<positionY>-2.81838584</positionY>
+			<positionZ>4.42574596</positionZ>
+			<yaw>12.4502602</yaw>
+			<pitch>-6.09993696</pitch>
 		</entry>
 		<entry type="clearcolor" r="0" g="0" b="0" a="1" />
 		<entry type="usealpha" val="false" />

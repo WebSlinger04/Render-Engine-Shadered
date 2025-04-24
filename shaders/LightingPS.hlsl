@@ -84,7 +84,7 @@ float4 main(PSInput pin) : SV_TARGET
 		DiffuseResult += saturate(Diffuse * lightFalloff * SpotCone);
 		SpecularResult += saturate(Specular * lightFalloff * SpotCone);
 		
-				/*shadowmap
+		/*shadowmap
 		 float3 lgtNormal = -normalize(lightBuffer[i].Direction.xyz * float3(-1,1,1));
 		 float3 lgtTangent = -normalize(cross(lgtNormal,float3(1,0,0)));
 		 float3 lgtBitangent = -normalize(cross(lgtNormal,lgtTangent));
