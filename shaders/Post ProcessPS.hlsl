@@ -2,7 +2,7 @@ cbuffer cbPerFrame : register(b0)
 {
 	float2 screenSize;
 	float4x4 matVP;
-	float4x4 matProject;
+	float4x4 matView;
 };
 
 struct PSInput
@@ -17,8 +17,7 @@ Texture2D LightingPass : register(t2);
 Texture2D EmissivePass : register(t3);
 Texture2D TranslucentPass : register(t4);
 Texture2D TranslucentDepth : register(t5);
-Texture2D Noise : register(t6);
-Texture2D NNoise : register(t7);
+Texture2D randomNoise : register(t6);
 SamplerState smp : register(s0);
 
 float gaussian(float x, float sigma)
@@ -28,7 +27,7 @@ float gaussian(float x, float sigma)
 
 float randomNumber(float maxNumber)
 {
-	return 	frac(sin(dot(maxNumber/15,float2(12.9898,78.233)))*43758.5453123);
+	return 	frac(sin(maxNumber) * 43758.5453123);
 
 }
 
@@ -36,12 +35,11 @@ float4 main(PSInput pin) : SV_TARGET
 {
 	pin.UV.y = 1-pin.UV.y;
 	float4 Position = PositionPass.Sample(smp, pin.UV);
-	float4 Normal = NormalPass.Sample(smp, pin.UV);
+	float3 Normal = NormalPass.Sample(smp, pin.UV);
 	float4 Lighting = LightingPass.Sample(smp, pin.UV);
 	float4 Translucent = TranslucentPass.Sample(smp, pin.UV);
 	float4 TDepth = TranslucentDepth.Sample(smp, pin.UV);
-	float4 NoiseMap = Noise.Sample(smp, 6*pin.UV*float2(1,screenSize.y/screenSize.x));
-	float4 NNoiseMap = NNoise.Sample(smp, 5*pin.UV*float2(1,screenSize.y/screenSize.x));
+	float4 Noise = randomNoise.Sample(smp,pin.UV*5);
 	float4 Color = Lighting;
 	
 	if (Position.a < TDepth.x)
@@ -92,28 +90,38 @@ float4 main(PSInput pin) : SV_TARGET
 	vignette = saturate(pow(vignette,2));
 	vignette = saturate((1-vignette)+.1);
 	
-	//SSAO
+	 //SSAO
+	float4 viewPos = mul(Position.xyz,matVP);
 	float ao = 0;
-	float aoSamples = 256;
+	float bias = 0;
+	float sphereSize = 0.1;
+	float aoSamples = 512;
+		
+	//random numbers
 	for (int i = 0; i < aoSamples ; i ++)
 	{
 		float3 random = float3(randomNumber(i) * 2 - 1,
-						randomNumber(i * 3 + 2),
-						randomNumber(i * 2 + 1) * 2 - 1);
+						randomNumber(i + 12.3243463643) * 2 - 1,
+						randomNumber(i + 34.1123352) * 2 - 1);
+						
+	//distribute points closer to center
 		random = normalize(random);
+		random *= randomNumber(i + 123.3434231);
 		float scale = float(i)/aoSamples;
-		random *= lerp(0.1,1, scale * scale);
+		random *= lerp(0.1,1, scale * scale);	
+		random *= scale;
 		
-		float3 radius = 0.001 * random;
-		float textureOffset =  PositionPass.Sample(smp, pin.UV + radius.xz).a;
-		if (distance(textureOffset,Position.a + radius.y) <= 1)
-		{
-				ao += (textureOffset >= Position.a + radius.y) ? 1 :0;
-		}
+		float3 samplePos = random;
+		samplePos = samplePos * sphereSize + float3(pin.UV.xy,Position.a);
+
+		float textureOffset =  PositionPass.Sample(smp, samplePos.xy).a;
+		float radiusCheck = (distance(textureOffset,samplePos.z + bias)/sphereSize >= 0.5) ? 1 : 0;
+		ao += ((textureOffset >= samplePos.z + bias) ? 1 :0);
 	}
 	
-	
-	ao =  1 - (ao/aoSamples);
+	ao =  saturate(1 - (ao/aoSamples));
+	ao = saturate(ao+.5);
+	ao = saturate( pow(ao,3) );
 	return ao;
-	return (Color * ao) + Emissive * vignette;
+	return (Color*ao) + Emissive * vignette;
 }

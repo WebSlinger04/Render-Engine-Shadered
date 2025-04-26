@@ -1,7 +1,6 @@
 struct PSInput
 {
 	float4 Position : SV_POSITION;
-	uint id;
 };
 
 struct PSOut

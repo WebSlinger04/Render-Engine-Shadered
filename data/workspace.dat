@@ -15,14 +15,14 @@ Collapsed=0
 DockId=0x00000004,1
 
 [Window][Preview]
-Pos=999,22
-Size=701,987
+Pos=688,22
+Size=1198,987
 Collapsed=0
 DockId=0x00000007,0
 
 [Window][Output]
-Pos=1702,760
-Size=218,249
+Pos=1888,760
+Size=32,249
 Collapsed=0
 DockId=0x00000009,0
 
@@ -45,19 +45,19 @@ Collapsed=0
 DockId=0x00000004,0
 
 [Window][Options]
-Pos=288,75
+Pos=290,76
 Size=1170,905
 Collapsed=0
 
 [Window][###code_viewVS0]
 Pos=276,22
-Size=721,987
+Size=410,987
 Collapsed=0
 DockId=0x0000000A,0
 
 [Window][###code_viewPS0]
 Pos=276,22
-Size=721,987
+Size=410,987
 Collapsed=0
 DockId=0x0000000A,1
 
@@ -69,15 +69,15 @@ DockId=0x0000000A,1
 
 [Window][###code_viewVS1]
 Pos=276,22
-Size=491,987
+Size=399,987
 Collapsed=0
 DockId=0x0000000A,2
 
 [Window][###code_viewPS1]
 Pos=276,22
-Size=491,987
+Size=399,987
 Collapsed=0
-DockId=0x0000000A,2
+DockId=0x0000000A,3
 
 [Window][##toolbar]
 Pos=0,22
@@ -85,22 +85,22 @@ Size=1920,48
 Collapsed=0
 
 [Window][###objprev0]
-Pos=1442,22
-Size=478,736
+Pos=1617,22
+Size=303,736
 Collapsed=0
 DockId=0x00000005,1
 
 [Window][###objprev1]
 Pos=276,22
-Size=537,987
+Size=597,987
 Collapsed=0
-DockId=0x0000000A,0
+DockId=0x0000000A,4
 
 [Window][###objprev2]
-Pos=1236,22
-Size=684,736
+Pos=1333,22
+Size=587,736
 Collapsed=0
-DockId=0x00000005,1
+DockId=0x00000005,2
 
 [Window][###code_viewCS0]
 Pos=222,333
@@ -108,8 +108,8 @@ Size=523,987
 Collapsed=0
 
 [Window][Pixel Inspect]
-Pos=1702,22
-Size=218,736
+Pos=1888,22
+Size=32,736
 Collapsed=0
 DockId=0x00000005,0
 
@@ -165,7 +165,7 @@ Collapsed=0
 DockId=0x0000001E,1
 
 [Window][Variable Manager##pui_shader_variables]
-Pos=126,258
+Pos=266,228
 Size=730,225
 Collapsed=0
 
@@ -180,7 +180,7 @@ Size=400,120
 Collapsed=0
 
 [Window][###SaveProjectDlg]
-Pos=878,441
+Pos=880,441
 Size=600,400
 Collapsed=0
 
@@ -218,8 +218,8 @@ Collapsed=0
 DockId=0x00000009,0
 
 [Window][Analyzer##analyzer]
-Pos=596,203
-Size=813,748
+Pos=38,167
+Size=831,748
 Collapsed=0
 
 [Window][Frame Analysis]
@@ -233,17 +233,17 @@ Size=600,400
 Collapsed=0
 
 [Window][###CreateTextureDlg]
-Pos=579,241
+Pos=51,252
 Size=1077,492
 Collapsed=0
 
 [Window][Create Item##main_create_item]
-Pos=742,354
+Pos=743,354
 Size=530,300
 Collapsed=0
 
 [Window][Create Item##pui_create_item]
-Pos=871,414
+Pos=531,386
 Size=430,175
 Collapsed=0
 
@@ -253,17 +253,17 @@ Size=400,175
 Collapsed=0
 
 [Window][Input layout##pui_input_layout]
-Pos=355,391
+Pos=360,391
 Size=630,225
 Collapsed=0
 
 [Window][Value Edit##pui_shader_value_edit]
-Pos=756,402
+Pos=757,402
 Size=450,200
 Collapsed=0
 
 [Window][Resource manager##pui_res_manager]
-Pos=677,385
+Pos=680,419
 Size=600,240
 Collapsed=0
 
@@ -283,12 +283,12 @@ Size=282,86
 Collapsed=0
 
 [Window][Save Changes##code_save]
-Pos=863,461
+Pos=869,461
 Size=204,86
 Collapsed=0
 
 [Window][Create RT##main_create_rt]
-Pos=770,427
+Pos=775,427
 Size=430,155
 Collapsed=0
 
@@ -333,7 +333,7 @@ Size=600,400
 Collapsed=0
 
 [Window][###CreateMeshDlg]
-Pos=673,304
+Pos=292,300
 Size=600,400
 Collapsed=0
 
@@ -350,10 +350,10 @@ Collapsed=0
 DockId=0x0000000A,4
 
 [Window][###objprev3]
-Pos=1467,22
-Size=453,736
+Pos=1184,22
+Size=736,736
 Collapsed=0
-DockId=0x00000005,4
+DockId=0x00000005,3
 
 [Window][Value Edit##pui_shader_ivalue_edit]
 Pos=740,417
@@ -371,10 +371,20 @@ Size=400,300
 Collapsed=0
 
 [Window][###objprev4]
-Pos=1366,22
-Size=554,736
+Pos=1184,22
+Size=736,736
 Collapsed=0
-DockId=0x00000005,5
+DockId=0x00000005,4
+
+[Window][###objprev6]
+Pos=60,60
+Size=230,32
+Collapsed=0
+
+[Window][###objprev5]
+Pos=60,60
+Size=253,32
+Collapsed=0
 
 [Table][0x7F96C4D9,3]
 RefScale=19.05
@@ -384,11 +394,11 @@ Column 2
 
 [Docking][Data]
 DockSpace             ID=0x160B189F Window=0x912BA114 Pos=0,22 Size=1920,987 Split=X
-  DockNode            ID=0x00000019 Parent=0x160B189F SizeRef=1700,990 Split=X
+  DockNode            ID=0x00000019 Parent=0x160B189F SizeRef=1886,990 Split=X
     DockNode          ID=0x00000001 Parent=0x00000019 SizeRef=274,997 Split=Y
       DockNode        ID=0x00000003 Parent=0x00000001 SizeRef=239,445 Selected=0x848ABB8F
       DockNode        ID=0x00000004 Parent=0x00000001 SizeRef=239,546 Selected=0xC89E3217
-    DockNode          ID=0x00000002 Parent=0x00000019 SizeRef=1424,997 Split=X
+    DockNode          ID=0x00000002 Parent=0x00000019 SizeRef=1610,997 Split=X
       DockNode        ID=0x0000000B Parent=0x00000002 SizeRef=729,826
       DockNode        ID=0x0000000C Parent=0x00000002 SizeRef=848,826 Split=X
         DockNode      ID=0x0000000D Parent=0x0000000C SizeRef=388,826 Split=Y
@@ -397,9 +407,9 @@ DockSpace             ID=0x160B189F Window=0x912BA114 Pos=0,22 Size=1920,987 Spl
             DockNode  ID=0x00000012 Parent=0x0000000F SizeRef=391,410
           DockNode    ID=0x00000010 Parent=0x0000000D SizeRef=786,414
         DockNode      ID=0x0000000E Parent=0x0000000C SizeRef=1189,826 Split=X
-          DockNode    ID=0x0000000A Parent=0x0000000E SizeRef=721,686 Selected=0xF34EBBA5
-          DockNode    ID=0x00000007 Parent=0x0000000E SizeRef=701,686 CentralNode=1 Selected=0x763816AC
-  DockNode            ID=0x0000001A Parent=0x160B189F SizeRef=218,990 Split=Y Selected=0xE28FAB87
+          DockNode    ID=0x0000000A Parent=0x0000000E SizeRef=410,686 Selected=0xF34EBBA5
+          DockNode    ID=0x00000007 Parent=0x0000000E SizeRef=1198,686 CentralNode=1 Selected=0x763816AC
+  DockNode            ID=0x0000001A Parent=0x160B189F SizeRef=32,990 Split=Y Selected=0xE28FAB87
     DockNode          ID=0x0000001B Parent=0x0000001A SizeRef=305,547 Split=Y Selected=0xE28FAB87
       DockNode        ID=0x0000001D Parent=0x0000001B SizeRef=305,261 Split=Y Selected=0x8921C231
         DockNode      ID=0x00000005 Parent=0x0000001D SizeRef=582,736 Selected=0xE28FAB87

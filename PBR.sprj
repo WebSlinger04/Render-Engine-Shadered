@@ -21,36 +21,11 @@
 			</items>
 			<itemvalues />
 			<variables>
-				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
-				<variable type="float2" name="screenSize" system="ViewportSize" />
 				<variable type="float4x4" name="ortho" system="Orthographic" />
-				<variable type="float4x4" name="matProject">
-					<row>
-						<value>0</value>
-						<value>0</value>
-						<value>0</value>
-						<value>0</value>
-					</row>
-					<row>
-						<value>0</value>
-						<value>0</value>
-						<value>0</value>
-						<value>0</value>
-					</row>
-					<row>
-						<value>0</value>
-						<value>0</value>
-						<value>0</value>
-						<value>0</value>
-					</row>
-					<row>
-						<value>0</value>
-						<value>0</value>
-						<value>0</value>
-						<value>0</value>
-					</row>
-				</variable>
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float2" name="screenSize" system="ViewportSize" />
+				<variable type="float4x4" name="matView" system="View" />
 			</variables>
 			<macros />
 		</pass>
@@ -141,36 +116,19 @@
 			<rendertexture name="Color Pass" />
 			<rendertexture name="Position Pass" />
 			<rendertexture name="Normal Pass" />
+			<rendertexture name="Tangent" />
 			<items>
-				<item name="Ground Plane" type="geometry">
-					<type>Cube</type>
-					<width>20</width>
-					<height>0.25</height>
-					<depth>20</depth>
-					<y>-6.66613531</y>
-					<topology>TriangleList</topology>
+				<item name="ground2" type="model">
+					<filepath>..\..\..\Downloads\ground2.obj</filepath>
+					<grouponly>false</grouponly>
 				</item>
-				<item name="cube" type="geometry">
-					<type>Cube</type>
-					<width>1</width>
-					<height>1</height>
-					<depth>1</depth>
-					<scaleY>3</scaleY>
-					<yaw>0.785398185</yaw>
-					<x>-2.38215733</x>
-					<y>-5.28740931</y>
-					<topology>TriangleList</topology>
-				</item>
-				<item name="Monkey" type="model">
+				<item name="monkey" type="model">
 					<filepath>..\..\..\Downloads\Untitled.obj</filepath>
 					<grouponly>false</grouponly>
-					<y>-2.97857332</y>
-				</item>
-				<item name="pot" type="model">
-					<filepath>..\..\..\Downloads\Pot.obj</filepath>
-					<grouponly>false</grouponly>
-					<y>-6.61148739</y>
-					<z>-5.26113653</z>
+					<yaw>0.785398185</yaw>
+					<x>-0.867538929</x>
+					<y>0.74971962</y>
+					<z>1.47890067</z>
 				</item>
 			</items>
 			<itemvalues />
@@ -188,7 +146,7 @@
 						<value>0</value>
 					</row>
 				</variable>
-				<variable type="float4x4" name="invMatGeo" system="GeometryTransform" />
+				<variable type="float4x4" name="matView" system="View" />
 			</variables>
 			<macros />
 		</pass>
@@ -216,28 +174,28 @@
 			<itemvalues>
 				<value variable="matVP" for="instLight">
 					<row>
-						<value>3.16492271</value>
-						<value>-0.0553082451</value>
-						<value>-0.21441415</value>
-						<value>-0.214371294</value>
+						<value>1.32446182</value>
+						<value>-0.633082926</value>
+						<value>-0.660778046</value>
+						<value>-0.660645962</value>
 					</row>
 					<row>
 						<value>0</value>
-						<value>2.4005444</value>
-						<value>-0.106284149</value>
-						<value>-0.106262907</value>
+						<value>2.24390697</value>
+						<value>-0.369004935</value>
+						<value>-0.368931174</value>
 					</row>
 					<row>
-						<value>-0.698764324</value>
-						<value>-0.250508368</value>
-						<value>-0.971148908</value>
-						<value>-0.970954776</value>
+						<value>-1.33835816</value>
+						<value>-0.626509607</value>
+						<value>-0.653917134</value>
+						<value>-0.653786421</value>
 					</row>
 					<row>
-						<value>0.0890710726</value>
-						<value>7.92683411</value>
-						<value>4.00196552</value>
-						<value>4.20114565</value>
+						<value>1.00653517</value>
+						<value>-0.525636435</value>
+						<value>5.49428415</value>
+						<value>5.69316578</value>
 					</row>
 				</value>
 			</itemvalues>
@@ -247,7 +205,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="ShadowMap" type="shader" active="true" patchverts="1">
+		<pass name="ShadowMap" type="shader" active="false" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
 			<inputlayout>
@@ -273,7 +231,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="UpdateBuffers" type="compute" active="false">
+		<pass name="UpdateBuffers" type="compute" active="true">
 			<shader type="cs" path="shaders\updateBufferCS.hlsl" entry="main" />
 			<groupsize x="8" y="1" z="1" />
 			<macros />
@@ -312,26 +270,23 @@
 		<object type="rendertexture" name="Translucent Depth Pass" format="R16" rsize="1.000000,1.000000" clear="true">
 			<bind slot="5" name="Post Process" />
 		</object>
-		<object type="texture" path="..\..\..\Downloads\0.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+		<object type="texture" path="..\..\..\Downloads\Substance_graph_output.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
 			<bind slot="6" name="Post Process" />
 		</object>
-		<object type="texture" path="..\..\..\Downloads\1.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
-			<bind slot="7" name="Post Process" />
-		</object>
+		<object type="rendertexture" name="Tangent" format="R32G32B32_FLOAT" rsize="1.000000,1.000000" clear="true" />
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="VBuffer" item="pipe" />
+		<entry type="property" name="Post Process" item="pipe" />
 		<entry type="file" name="Post Process" shader="vs" />
 		<entry type="file" name="Post Process" shader="ps" />
 		<entry type="pinned" name="TextureTile" owner="Main" />
-		<entry type="pinned" name="matProject" owner="Post Process" />
 		<entry type="camera" fp="true">
-			<positionX>0.948990762</positionX>
-			<positionY>-2.81838584</positionY>
-			<positionZ>4.42574596</positionZ>
-			<yaw>12.4502602</yaw>
-			<pitch>-6.09993696</pitch>
+			<positionX>3.3280592</positionX>
+			<positionY>2.30275273</positionY>
+			<positionZ>4.04557085</positionZ>
+			<yaw>45.2990074</yaw>
+			<pitch>-21.6497135</pitch>
 		</entry>
 		<entry type="clearcolor" r="0" g="0" b="0" a="1" />
 		<entry type="usealpha" val="false" />

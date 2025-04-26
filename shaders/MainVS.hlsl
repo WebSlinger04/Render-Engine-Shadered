@@ -4,6 +4,7 @@ cbuffer cbPerFrame : register(b0)
 {
 	float4x4 matVP;
 	float4x4 matGeo;
+	float4x4 matView;
 };
 
 struct VSInput
@@ -25,8 +26,6 @@ struct VSOutput
 	float3 wBitangent;
 	float2 UV;
 	
-
-	float3 camVec;
 };
 
 VSOutput main(VSInput vin)
@@ -35,7 +34,7 @@ VSOutput main(VSInput vin)
 
 	vout.wPosition = mul(float4(vin.Position,1),matGeo);
 	vout.Position = mul(mul(float4(vin.Position, 1.0f), matGeo), matVP);
-	vout.wNormal = mul(vin.Normal,matGeo);
+	vout.wNormal = mul(mul(vin.Normal,matGeo),matView);
 	vout.wTangent = mul(vin.Tangent,matGeo);
 	vout.wBitangent = mul(vin.Bitangent,matGeo);
 	vout.UV = vin.UV;
