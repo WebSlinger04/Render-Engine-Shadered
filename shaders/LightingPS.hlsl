@@ -54,7 +54,7 @@ float4 main(PSInput pin) : SV_TARGET
 		float diffuseLight = saturate(NdotL);
 		Diffuse = diffuseLight * lightBuffer[i].Color;
 		//BRDF
-		float Roughness = 0.4;
+		float Roughness = .5;
 		float3 V = normalize(camPos-Position);
 		float3 H = normalize(lightVec+V);
 		float NdotH = dot(Normal,H);
@@ -65,7 +65,7 @@ float4 main(PSInput pin) : SV_TARGET
 		float G = (NdotV / (NdotV*(1-k) + k));
 		
 		float ior = 1.3;
-		float metallic = 1;
+		float metallic = 0;
 		float3 F0 = abs ((1.0 - ior) / (1.0 + ior));
 		F0 = F0 * F0;
 		F0 = lerp(F0, Color.rgb, metallic);
@@ -84,7 +84,7 @@ float4 main(PSInput pin) : SV_TARGET
 		DiffuseResult += saturate(Diffuse * lightFalloff * SpotCone);
 		SpecularResult += saturate(Specular * lightFalloff * SpotCone);
 		
-				/*shadowmap
+		/*shadowmap
 		 float3 lgtNormal = -normalize(lightBuffer[i].Direction.xyz * float3(-1,1,1));
 		 float3 lgtTangent = -normalize(cross(lgtNormal,float3(1,0,0)));
 		 float3 lgtBitangent = -normalize(cross(lgtNormal,lgtTangent));

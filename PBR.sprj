@@ -21,9 +21,11 @@
 			</items>
 			<itemvalues />
 			<variables>
-				<variable type="float4x4" name="matVP" system="Orthographic" />
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float4x4" name="ortho" system="Orthographic" />
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float2" name="screenSize" system="ViewportSize" />
+				<variable type="float4x4" name="matView" system="View" />
 			</variables>
 			<macros />
 		</pass>
@@ -114,44 +116,30 @@
 			<rendertexture name="Color Pass" />
 			<rendertexture name="Position Pass" />
 			<rendertexture name="Normal Pass" />
+			<rendertexture name="Tangent" />
 			<items>
-				<item name="Ground Plane" type="geometry">
-					<type>Cube</type>
-					<width>20</width>
-					<height>0.25</height>
-					<depth>20</depth>
-					<y>-6.66613531</y>
-					<topology>TriangleList</topology>
+				<item name="ground2" type="model">
+					<filepath>..\..\..\Downloads\ground2.obj</filepath>
+					<grouponly>false</grouponly>
+					<y>-0.196868896</y>
 				</item>
-				<item name="cube" type="geometry">
-					<type>Cube</type>
-					<width>1</width>
-					<height>1</height>
-					<depth>1</depth>
-					<scaleY>3</scaleY>
-					<yaw>0.785398185</yaw>
-					<x>-2.38215733</x>
-					<y>-5.14785147</y>
-					<topology>TriangleList</topology>
-				</item>
-				<item name="sphere" type="geometry">
-					<type>Sphere</type>
-					<width>1</width>
-					<height>1</height>
-					<depth>1</depth>
-					<x>2.18175888</x>
-					<y>-6.18806648</y>
-					<z>1.42546558</z>
-					<topology>TriangleList</topology>
-				</item>
-				<item name="Monkey" type="model">
+				<item name="monkey" type="model">
 					<filepath>..\..\..\Downloads\Untitled.obj</filepath>
 					<grouponly>false</grouponly>
-					<roll>0.024085544</roll>
-					<pitch>-0.52359879</pitch>
-					<yaw>1.57079637</yaw>
-					<y>-4.86623478</y>
-					<z>-0.831798077</z>
+					<yaw>0.785398185</yaw>
+					<x>-0.867538929</x>
+					<y>0.752624154</y>
+					<z>1.61159456</z>
+				</item>
+				<item name="cube3" type="geometry">
+					<type>Cube</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<x>1.02300525</x>
+					<y>1.0316453</y>
+					<z>-5.09848404</z>
+					<topology>TriangleList</topology>
 				</item>
 			</items>
 			<itemvalues />
@@ -169,7 +157,7 @@
 						<value>0</value>
 					</row>
 				</variable>
-				<variable type="float4x4" name="invMatGeo" system="GeometryTransform" />
+				<variable type="float4x4" name="matView" system="View" />
 			</variables>
 			<macros />
 		</pass>
@@ -187,6 +175,7 @@
 					<width>1</width>
 					<height>2</height>
 					<depth>1</depth>
+					<y>-1.43533337</y>
 					<instanced>true</instanced>
 					<instancecount>3</instancecount>
 					<instancebuffer>Buffer</instancebuffer>
@@ -196,28 +185,28 @@
 			<itemvalues>
 				<value variable="matVP" for="instLight">
 					<row>
-						<value>1.64355373</value>
-						<value>-0.967938542</value>
-						<value>-0.773634076</value>
-						<value>-0.773479462</value>
+						<value>2.87607336</value>
+						<value>-0.273913413</value>
+						<value>-0.232671544</value>
+						<value>-0.232625037</value>
 					</row>
 					<row>
+						<value>-5.10239545e-07</value>
+						<value>2.16988087</value>
+						<value>-0.4384588</value>
+						<value>-0.438371152</value>
+					</row>
+					<row>
+						<value>-0.770641446</value>
+						<value>-1.02226019</value>
+						<value>-0.868341923</value>
+						<value>-0.868168354</value>
+					</row>
+					<row>
+						<value>7.09898472e-07</value>
 						<value>0</value>
-						<value>2.14337611</value>
-						<value>-0.460291475</value>
-						<value>-0.460199475</value>
-					</row>
-					<row>
-						<value>-2.91687346</value>
-						<value>-0.545398712</value>
-						<value>-0.435915112</value>
-						<value>-0.435827971</value>
-					</row>
-					<row>
-						<value>-4.03125811</value>
-						<value>10.0346031</value>
-						<value>3.51071787</value>
-						<value>3.70999622</value>
+						<value>9.80197906</value>
+						<value>10</value>
 					</row>
 				</value>
 			</itemvalues>
@@ -227,7 +216,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="ShadowMap" type="shader" active="true" patchverts="1" collapsed="true">
+		<pass name="ShadowMap" type="shader" active="false" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
 			<inputlayout>
@@ -253,18 +242,18 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="UpdateBuffers" type="compute" active="false">
+		<pass name="UpdateBuffers" type="compute" active="true">
 			<shader type="cs" path="shaders\updateBufferCS.hlsl" entry="main" />
 			<groupsize x="8" y="1" z="1" />
 			<macros />
 		</pass>
 	</pipeline>
 	<objects>
-		<object type="buffer" name="Buffer" size="96" format="float4;float3;float;float3;float" pausedpreview="false">
+		<object type="buffer" name="Buffer" size="48" format="float4;float3;float;float3;float" pausedpreview="false">
 			<bind slot="0" name="Translucent" />
 			<bind slot="0" name="Lighting" />
 		</object>
-		<object type="buffer" name="wPositionBuffer" size="672" format="float4" pausedpreview="false">
+		<object type="buffer" name="wPositionBuffer" size="1152" format="float4" pausedpreview="false">
 			<bind slot="0" name="Main" />
 			<bind slot="0" name="UpdateBuffers" />
 		</object>
@@ -292,27 +281,23 @@
 		<object type="rendertexture" name="Translucent Depth Pass" format="R16" rsize="1.000000,1.000000" clear="true">
 			<bind slot="5" name="Post Process" />
 		</object>
-		<object type="texture" path="..\..\..\Downloads\0.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+		<object type="texture" path="..\..\..\Downloads\Substance_graph_output.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
 			<bind slot="6" name="Post Process" />
 		</object>
-		<object type="texture" path="..\..\..\Downloads\1.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
-			<bind slot="7" name="Post Process" />
-		</object>
+		<object type="rendertexture" name="Tangent" format="R32G32B32_FLOAT" rsize="1.000000,1.000000" clear="true" />
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Lighting" item="pipe" />
 		<entry type="file" name="Post Process" shader="vs" />
 		<entry type="file" name="Post Process" shader="ps" />
 		<entry type="pinned" name="TextureTile" owner="Main" />
-		<entry type="camera" fp="true">
-			<positionX>5.12714577</positionX>
-			<positionY>-1.98283947</positionY>
-			<positionZ>1.50691533</positionZ>
-			<yaw>60.6002998</yaw>
-			<pitch>-27.3999748</pitch>
+		<entry type="camera" fp="false">
+			<distance>10</distance>
+			<pitch>26</pitch>
+			<yaw>195</yaw>
+			<roll>360</roll>
 		</entry>
-		<entry type="clearcolor" r="0" g="0" b="0" a="1" />
+		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />
 	</settings>
 	<plugindata />

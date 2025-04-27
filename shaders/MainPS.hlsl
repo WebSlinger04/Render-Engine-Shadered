@@ -5,12 +5,6 @@ Texture2D texORM : register(t2);
 SamplerState smp : register(s0);
 float2 TextureTile;
 
-cbuffer cbPerFrame : register(b0)
-{
-	float4x4 invMatGeo;
-};
-
-
 struct PSInput
 {
 	float4 Position : SV_POSITION;
@@ -56,6 +50,6 @@ PSOut main(PSInput pin)
 	pout.Color = cMap;
 	pout.Position = pin.wPosition;
 	pout.Position.a = pin.Position.a;
-	pout.Normal = N;
+	pout.Normal  =N;
 	return pout;
 }
