@@ -39,7 +39,7 @@ float4 main(PSInput pin) : SV_TARGET
 	float4 Lighting = LightingPass.Sample(smp, pin.UV);
 	float4 Translucent = TranslucentPass.Sample(smp, pin.UV);
 	float4 TDepth = TranslucentDepth.Sample(smp, pin.UV);
-	float4 Noise = randomNoise.Sample(smp,pin.UV*5);
+	float4 Noise = randomNoise.Sample(smp,pin.UV*3);
 	float4 Color = Lighting;
 	
 	if (Position.a < TDepth.x)
@@ -91,13 +91,15 @@ float4 main(PSInput pin) : SV_TARGET
 	vignette = saturate((1-vignette)+.1);
 	
 	 //SSAO
-	float4 viewPos = mul(Position.xyz,matVP);
 	float ao = 0;
-	float bias = 0;
-	float sphereSize = 0.1;
+	float radius = .2;
 	float aoSamples = 512;
+	float depth = mul(Position,matVP).z;
 		
 	//random numbers
+	float3 randomperKernel = Noise* 2 -1;
+	randomperKernel = normalize(randomperKernel);
+
 	for (int i = 0; i < aoSamples ; i ++)
 	{
 		float3 random = float3(randomNumber(i) * 2 - 1,
@@ -106,22 +108,24 @@ float4 main(PSInput pin) : SV_TARGET
 						
 	//distribute points closer to center
 		random = normalize(random);
+		//random = reflect(random,randomperKernel);
 		random *= randomNumber(i + 123.3434231);
 		float scale = float(i)/aoSamples;
 		random *= lerp(0.1,1, scale * scale);	
 		random *= scale;
 		
-		float3 samplePos = random;
-		samplePos = samplePos * sphereSize + float3(pin.UV.xy,Position.a);
+		float3 samplePos = random * radius;
+		samplePos = samplePos + float3(pin.UV.xy,depth);
 
-		float textureOffset =  PositionPass.Sample(smp, samplePos.xy).a;
-		float radiusCheck = (distance(textureOffset,samplePos.z + bias)/sphereSize >= 0.5) ? 1 : 0;
-		ao += ((textureOffset >= samplePos.z + bias) ? 1 :0);
+		float textureOffset =  mul(PositionPass.Sample(smp, samplePos.xy),matVP).z;
+		float radiusCheck = smoothstep(0,1,radius/abs(depth-textureOffset));
+		ao += ((textureOffset <= samplePos.z) ? 1 :0) * radiusCheck;
+
 	}
-	
-	ao =  saturate(1 - (ao/aoSamples));
-	ao = saturate(ao+.5);
+	ao = 1-saturate(ao/aoSamples);
+	ao = ao +.5;
 	ao = saturate( pow(ao,3) );
-	return ao;
-	return (Color*ao) + Emissive * vignette;
+
+	
+	return ((Color*ao) + Emissive * vignette);
 }

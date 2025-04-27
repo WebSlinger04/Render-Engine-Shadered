@@ -121,14 +121,25 @@
 				<item name="ground2" type="model">
 					<filepath>..\..\..\Downloads\ground2.obj</filepath>
 					<grouponly>false</grouponly>
+					<y>-0.196868896</y>
 				</item>
 				<item name="monkey" type="model">
 					<filepath>..\..\..\Downloads\Untitled.obj</filepath>
 					<grouponly>false</grouponly>
 					<yaw>0.785398185</yaw>
 					<x>-0.867538929</x>
-					<y>0.74971962</y>
-					<z>1.47890067</z>
+					<y>0.752624154</y>
+					<z>1.61159456</z>
+				</item>
+				<item name="cube3" type="geometry">
+					<type>Cube</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<x>1.02300525</x>
+					<y>1.0316453</y>
+					<z>-5.09848404</z>
+					<topology>TriangleList</topology>
 				</item>
 			</items>
 			<itemvalues />
@@ -174,28 +185,28 @@
 			<itemvalues>
 				<value variable="matVP" for="instLight">
 					<row>
-						<value>1.32446182</value>
-						<value>-0.633082926</value>
-						<value>-0.660778046</value>
-						<value>-0.660645962</value>
+						<value>2.87607336</value>
+						<value>-0.273913413</value>
+						<value>-0.232671544</value>
+						<value>-0.232625037</value>
 					</row>
 					<row>
+						<value>-5.10239545e-07</value>
+						<value>2.16988087</value>
+						<value>-0.4384588</value>
+						<value>-0.438371152</value>
+					</row>
+					<row>
+						<value>-0.770641446</value>
+						<value>-1.02226019</value>
+						<value>-0.868341923</value>
+						<value>-0.868168354</value>
+					</row>
+					<row>
+						<value>7.09898472e-07</value>
 						<value>0</value>
-						<value>2.24390697</value>
-						<value>-0.369004935</value>
-						<value>-0.368931174</value>
-					</row>
-					<row>
-						<value>-1.33835816</value>
-						<value>-0.626509607</value>
-						<value>-0.653917134</value>
-						<value>-0.653786421</value>
-					</row>
-					<row>
-						<value>1.00653517</value>
-						<value>-0.525636435</value>
-						<value>5.49428415</value>
-						<value>5.69316578</value>
+						<value>9.80197906</value>
+						<value>10</value>
 					</row>
 				</value>
 			</itemvalues>
@@ -277,18 +288,16 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Post Process" item="pipe" />
 		<entry type="file" name="Post Process" shader="vs" />
 		<entry type="file" name="Post Process" shader="ps" />
 		<entry type="pinned" name="TextureTile" owner="Main" />
-		<entry type="camera" fp="true">
-			<positionX>3.3280592</positionX>
-			<positionY>2.30275273</positionY>
-			<positionZ>4.04557085</positionZ>
-			<yaw>45.2990074</yaw>
-			<pitch>-21.6497135</pitch>
+		<entry type="camera" fp="false">
+			<distance>10</distance>
+			<pitch>26</pitch>
+			<yaw>195</yaw>
+			<roll>360</roll>
 		</entry>
-		<entry type="clearcolor" r="0" g="0" b="0" a="1" />
+		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />
 	</settings>
 	<plugindata />

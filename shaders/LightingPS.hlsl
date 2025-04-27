@@ -54,7 +54,7 @@ float4 main(PSInput pin) : SV_TARGET
 		float diffuseLight = saturate(NdotL);
 		Diffuse = diffuseLight * lightBuffer[i].Color;
 		//BRDF
-		float Roughness = 0.8;
+		float Roughness = .5;
 		float3 V = normalize(camPos-Position);
 		float3 H = normalize(lightVec+V);
 		float NdotH = dot(Normal,H);
