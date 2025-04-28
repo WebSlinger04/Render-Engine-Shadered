@@ -90,9 +90,16 @@ float4 main(PSInput pin) : SV_TARGET
 	vignette = saturate(pow(vignette,2));
 	vignette = saturate((1-vignette)+.1);
 	
+	//fog
+	float4 fogColor = float4(0,150,200,255);
+	float fogStrength = .004;
+	float4 fog = saturate ( (1-Position.a) -.9);
+	fog = fog * fogColor * fogStrength;
+	
 	 //SSAO
+	 /*
 	float ao = 0;
-	float radius = .2;
+	float radius = .1;
 	float aoSamples = 512;
 	float depth = mul(Position,matVP).z;
 		
@@ -108,7 +115,7 @@ float4 main(PSInput pin) : SV_TARGET
 						
 	//distribute points closer to center
 		random = normalize(random);
-		//random = reflect(random,randomperKernel);
+		//random *= randomperKernel;
 		random *= randomNumber(i + 123.3434231);
 		float scale = float(i)/aoSamples;
 		random *= lerp(0.1,1, scale * scale);	
@@ -118,14 +125,13 @@ float4 main(PSInput pin) : SV_TARGET
 		samplePos = samplePos + float3(pin.UV.xy,depth);
 
 		float textureOffset =  mul(PositionPass.Sample(smp, samplePos.xy),matVP).z;
-		float radiusCheck = smoothstep(0,1,radius/abs(depth-textureOffset));
+		float radiusCheck = smoothstep(0,1,2*radius/abs(depth-textureOffset));
 		ao += ((textureOffset <= samplePos.z) ? 1 :0) * radiusCheck;
 
 	}
 	ao = 1-saturate(ao/aoSamples);
 	ao = ao +.5;
 	ao = saturate( pow(ao,3) );
-
-	
-	return ((Color*ao) + Emissive * vignette);
+	*/
+	return (Color + Emissive + fog) * vignette;
 }

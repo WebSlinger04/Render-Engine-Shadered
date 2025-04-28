@@ -185,28 +185,28 @@
 			<itemvalues>
 				<value variable="matVP" for="instLight">
 					<row>
-						<value>2.87607336</value>
-						<value>-0.273913413</value>
-						<value>-0.232671544</value>
-						<value>-0.232625037</value>
+						<value>2.01523614</value>
+						<value>-1.14664054</value>
+						<value>-0.586636722</value>
+						<value>-0.58651948</value>
 					</row>
 					<row>
-						<value>-5.10239545e-07</value>
-						<value>2.16988087</value>
-						<value>-0.4384588</value>
-						<value>-0.438371152</value>
+						<value>-4.11951106e-07</value>
+						<value>1.87619627</value>
+						<value>-0.629446208</value>
+						<value>-0.629320383</value>
 					</row>
 					<row>
-						<value>-0.770641446</value>
-						<value>-1.02226019</value>
-						<value>-0.868341923</value>
-						<value>-0.868168354</value>
+						<value>-2.31826377</value>
+						<value>-0.996759772</value>
+						<value>-0.509955525</value>
+						<value>-0.509853601</value>
 					</row>
 					<row>
-						<value>7.09898472e-07</value>
+						<value>2.92942968e-06</value>
 						<value>0</value>
-						<value>9.80197906</value>
-						<value>10</value>
+						<value>12.802578</value>
+						<value>12.999999</value>
 					</row>
 				</value>
 			</itemvalues>
@@ -292,9 +292,9 @@
 		<entry type="file" name="Post Process" shader="ps" />
 		<entry type="pinned" name="TextureTile" owner="Main" />
 		<entry type="camera" fp="false">
-			<distance>10</distance>
-			<pitch>26</pitch>
-			<yaw>195</yaw>
+			<distance>13</distance>
+			<pitch>39</pitch>
+			<yaw>229</yaw>
 			<roll>360</roll>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
