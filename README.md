@@ -20,7 +20,7 @@ Using the Shadered program as a visualization tool, I wrote multiple shaders in 
   - Bloom
   - Color Grading
   - Vignette
-  - SSAO (NOt Implemented)
+  - SSAO
 # Deployment
 Run the Shadered program and open the file
 
