@@ -34,7 +34,7 @@ VSOutput main(VSInput vin)
 
 	vout.wPosition = mul(float4(vin.Position,1),matGeo);
 	vout.Position = mul(mul(float4(vin.Position, 1.0f), matGeo), matVP);
-	vout.wNormal = mul(mul(vin.Normal,matGeo),matView);
+	vout.wNormal = mul(vin.Normal,matGeo);
 	vout.wTangent = mul(vin.Tangent,matGeo);
 	vout.wBitangent = mul(vin.Bitangent,matGeo);
 	vout.UV = vin.UV;

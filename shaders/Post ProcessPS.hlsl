@@ -17,7 +17,6 @@ Texture2D LightingPass : register(t2);
 Texture2D EmissivePass : register(t3);
 Texture2D TranslucentPass : register(t4);
 Texture2D TranslucentDepth : register(t5);
-Texture2D randomNoise : register(t6);
 SamplerState smp : register(s0);
 
 float gaussian(float x, float sigma)
@@ -39,7 +38,6 @@ float4 main(PSInput pin) : SV_TARGET
 	float4 Lighting = LightingPass.Sample(smp, pin.UV);
 	float4 Translucent = TranslucentPass.Sample(smp, pin.UV);
 	float4 TDepth = TranslucentDepth.Sample(smp, pin.UV);
-	float4 Noise = randomNoise.Sample(smp,pin.UV*3);
 	float4 Color = Lighting;
 	
 	if (Position.a < TDepth.x)
@@ -52,8 +50,8 @@ float4 main(PSInput pin) : SV_TARGET
 	//Bloom
 	float4 Emissive;
 	float weightsum;
-	int size = 15;
-	float blur = 5;
+	int size = 5;
+	float blur = 4;
 	float2 texelSize = 1/screenSize;
 	for (int y = -size ; y < size; y++)
 	{
@@ -73,7 +71,7 @@ float4 main(PSInput pin) : SV_TARGET
 	float exposure = 0;
 	float contrast = 1;
 	float saturation = 1;
-	float3 lift = float3(0.03,0,0.05); 
+	float3 lift = float3(0.03,0.0,0.07); 
 	float3 gain = float3(1,1,1);
 	float3 gamma = float3(1,1,1);
 	
@@ -90,15 +88,19 @@ float4 main(PSInput pin) : SV_TARGET
 	vignette = saturate(pow(vignette,2));
 	vignette = saturate((1-vignette)+.1);
 	
+	//fog
+	float4 fogColor = float4(0,150,200,255);
+	float fogStrength = .004;
+	float4 fog = saturate ( (1-Position.a) -.9);
+	fog = fog * fogColor * fogStrength;
+	
 	 //SSAO
 	float ao = 0;
-	float radius = .2;
-	float aoSamples = 512;
+	float radius = .1;
+	float aoSamples = 256;
 	float depth = mul(Position,matVP).z;
 		
 	//random numbers
-	float3 randomperKernel = Noise* 2 -1;
-	randomperKernel = normalize(randomperKernel);
 
 	for (int i = 0; i < aoSamples ; i ++)
 	{
@@ -106,9 +108,8 @@ float4 main(PSInput pin) : SV_TARGET
 						randomNumber(i + 12.3243463643) * 2 - 1,
 						randomNumber(i + 34.1123352) * 2 - 1);
 						
-	//distribute points closer to center
+		//distribute points closer to center
 		random = normalize(random);
-		//random = reflect(random,randomperKernel);
 		random *= randomNumber(i + 123.3434231);
 		float scale = float(i)/aoSamples;
 		random *= lerp(0.1,1, scale * scale);	
@@ -118,14 +119,14 @@ float4 main(PSInput pin) : SV_TARGET
 		samplePos = samplePos + float3(pin.UV.xy,depth);
 
 		float textureOffset =  mul(PositionPass.Sample(smp, samplePos.xy),matVP).z;
-		float radiusCheck = smoothstep(0,1,radius/abs(depth-textureOffset));
+		float radiusCheck = smoothstep(0,1,2*radius/abs(depth-textureOffset));
 		ao += ((textureOffset <= samplePos.z) ? 1 :0) * radiusCheck;
 
 	}
 	ao = 1-saturate(ao/aoSamples);
 	ao = ao +.5;
 	ao = saturate( pow(ao,3) );
-
+	Color *= ao;
 	
-	return ((Color*ao) + Emissive * vignette);
+	return (Color + Emissive + fog) * vignette;
 }
