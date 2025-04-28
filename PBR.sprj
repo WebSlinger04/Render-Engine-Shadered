@@ -103,7 +103,6 @@
 			<rendertexture name="Color Pass" />
 			<rendertexture name="Position Pass" />
 			<rendertexture name="Normal Pass" />
-			<rendertexture name="Tangent" />
 			<items>
 				<item name="cube3" type="geometry">
 					<type>Cube</type>
@@ -171,28 +170,28 @@
 			<itemvalues>
 				<value variable="matVP" for="instLight">
 					<row>
-						<value>1.45024562</value>
-						<value>-0.463937134</value>
-						<value>-0.394084066</value>
-						<value>-0.394005299</value>
+						<value>2.63584089</value>
+						<value>-0.123677082</value>
+						<value>-0.0705246329</value>
+						<value>-0.0705105364</value>
 					</row>
 					<row>
-						<value>-2.64480775e-07</value>
-						<value>2.16988087</value>
-						<value>-0.4384588</value>
-						<value>-0.438371152</value>
+						<value>-3.84414392e-07</value>
+						<value>1.9531399</value>
+						<value>-0.587902784</value>
+						<value>-0.587785304</value>
 					</row>
 					<row>
-						<value>-0.707331717</value>
-						<value>-0.95121336</value>
-						<value>-0.80799228</value>
-						<value>-0.807830811</value>
+						<value>-0.230606094</value>
+						<value>-1.41363943</value>
+						<value>-0.806099594</value>
+						<value>-0.805938482</value>
 					</row>
 					<row>
 						<value>0</value>
-						<value>5.75593333e-07</value>
-						<value>9.80197906</value>
-						<value>10</value>
+						<value>2.30237333e-06</value>
+						<value>16.803381</value>
+						<value>17.0000019</value>
 					</row>
 				</value>
 			</itemvalues>
@@ -267,18 +266,17 @@
 		<object type="rendertexture" name="Translucent Depth Pass" format="R16" rsize="1.000000,1.000000" clear="true">
 			<bind slot="5" name="Post Process" />
 		</object>
-		<object type="texture" path="..\..\..\Downloads\Substance_graph_output.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
-			<bind slot="6" name="Post Process" />
-		</object>
-		<object type="rendertexture" name="Tangent" format="R32G32B32_FLOAT" rsize="1.000000,1.000000" clear="true" />
 	</objects>
 	<cameras />
 	<settings>
+		<entry type="property" name="Post Process" item="pipe" />
+		<entry type="file" name="Post Process" shader="vs" />
+		<entry type="file" name="Post Process" shader="ps" />
 		<entry type="pinned" name="TextureTile" owner="Main" />
 		<entry type="camera" fp="false">
-			<distance>10</distance>
-			<pitch>26</pitch>
-			<yaw>206</yaw>
+			<distance>17</distance>
+			<pitch>36</pitch>
+			<yaw>185</yaw>
 			<roll>360</roll>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />

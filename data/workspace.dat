@@ -15,8 +15,8 @@ Collapsed=0
 DockId=0x00000004,1
 
 [Window][Preview]
-Pos=276,22
-Size=1396,987
+Pos=816,22
+Size=856,987
 Collapsed=0
 DockId=0x00000007,0
 
@@ -396,7 +396,7 @@ Column 2
 DockSpace             ID=0x160B189F Window=0x912BA114 Pos=0,22 Size=1920,987 Split=X
   DockNode            ID=0x00000019 Parent=0x160B189F SizeRef=1672,990 Split=X
     DockNode          ID=0x00000001 Parent=0x00000019 SizeRef=274,997 Split=Y
-      DockNode        ID=0x00000003 Parent=0x00000001 SizeRef=239,445 Selected=0x848ABB8F
+      DockNode        ID=0x00000003 Parent=0x00000001 SizeRef=239,445 Selected=0x7DA7F56F
       DockNode        ID=0x00000004 Parent=0x00000001 SizeRef=239,546 Selected=0xC89E3217
     DockNode          ID=0x00000002 Parent=0x00000019 SizeRef=1396,997 Split=X
       DockNode        ID=0x0000000B Parent=0x00000002 SizeRef=729,826

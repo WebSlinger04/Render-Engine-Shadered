@@ -17,7 +17,6 @@ Texture2D LightingPass : register(t2);
 Texture2D EmissivePass : register(t3);
 Texture2D TranslucentPass : register(t4);
 Texture2D TranslucentDepth : register(t5);
-Texture2D randomNoise : register(t6);
 SamplerState smp : register(s0);
 
 float gaussian(float x, float sigma)
@@ -39,7 +38,6 @@ float4 main(PSInput pin) : SV_TARGET
 	float4 Lighting = LightingPass.Sample(smp, pin.UV);
 	float4 Translucent = TranslucentPass.Sample(smp, pin.UV);
 	float4 TDepth = TranslucentDepth.Sample(smp, pin.UV);
-	float4 Noise = randomNoise.Sample(smp,pin.UV*3);
 	float4 Color = Lighting;
 	
 	if (Position.a < TDepth.x)
@@ -103,8 +101,6 @@ float4 main(PSInput pin) : SV_TARGET
 	float depth = mul(Position,matVP).z;
 		
 	//random numbers
-	float3 randomperKernel = Noise* 2 -1;
-	randomperKernel = normalize(randomperKernel);
 
 	for (int i = 0; i < aoSamples ; i ++)
 	{
@@ -114,7 +110,6 @@ float4 main(PSInput pin) : SV_TARGET
 						
 		//distribute points closer to center
 		random = normalize(random);
-		//random *= randomperKernel;
 		random *= randomNumber(i + 123.3434231);
 		float scale = float(i)/aoSamples;
 		random *= lerp(0.1,1, scale * scale);	
