@@ -29,7 +29,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="Translucent" type="shader" active="true" patchverts="1" collapsed="true">
+		<pass name="Translucent" type="shader" active="true" patchverts="1">
 			<shader type="vs" path="shaders\TranslucentVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\TranslucentPS.hlsl" entry="main" />
 			<inputlayout>
@@ -45,22 +45,9 @@
 					<width>1</width>
 					<height>1</height>
 					<depth>1</depth>
-					<scaleX>5</scaleX>
-					<scaleY>5</scaleY>
-					<x>-1.49189186</x>
-					<y>-4.79778385</y>
-					<z>-3.53938532</z>
-					<topology>TriangleList</topology>
-				</item>
-				<item name="CubeTra" type="geometry">
-					<type>Cube</type>
-					<width>1</width>
-					<height>1</height>
-					<depth>1</depth>
-					<scaleY>1.01999998</scaleY>
-					<x>-6.56320333</x>
-					<y>-4.34018898</y>
-					<z>5.08081484</z>
+					<x>2.69606614</x>
+					<y>0.663198709</y>
+					<z>1.79737806</z>
 					<topology>TriangleList</topology>
 				</item>
 			</items>
@@ -77,7 +64,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="Lighting" type="shader" active="true" patchverts="1" collapsed="true">
+		<pass name="Lighting" type="shader" active="true" patchverts="1">
 			<shader type="vs" path="shaders\LightingVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\LightingPS.hlsl" entry="main" />
 			<inputlayout>
@@ -118,19 +105,6 @@
 			<rendertexture name="Normal Pass" />
 			<rendertexture name="Tangent" />
 			<items>
-				<item name="ground2" type="model">
-					<filepath>..\..\..\Downloads\ground2.obj</filepath>
-					<grouponly>false</grouponly>
-					<y>-0.196868896</y>
-				</item>
-				<item name="monkey" type="model">
-					<filepath>..\..\..\Downloads\Untitled.obj</filepath>
-					<grouponly>false</grouponly>
-					<yaw>0.785398185</yaw>
-					<x>-0.867538929</x>
-					<y>0.752624154</y>
-					<z>1.61159456</z>
-				</item>
 				<item name="cube3" type="geometry">
 					<type>Cube</type>
 					<width>1</width>
@@ -140,6 +114,18 @@
 					<y>1.0316453</y>
 					<z>-5.09848404</z>
 					<topology>TriangleList</topology>
+				</item>
+				<item name="Ground3" type="model">
+					<filepath>importedAssets\ground2.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+				<item name="Monkeytest" type="model">
+					<filepath>importedAssets\Untitled.obj</filepath>
+					<grouponly>false</grouponly>
+					<yaw>0.389208406</yaw>
+					<x>-1.02135086</x>
+					<y>0.815516472</y>
+					<z>1.38995409</z>
 				</item>
 			</items>
 			<itemvalues />
@@ -185,28 +171,28 @@
 			<itemvalues>
 				<value variable="matVP" for="instLight">
 					<row>
-						<value>2.01523614</value>
-						<value>-1.14664054</value>
-						<value>-0.586636722</value>
-						<value>-0.58651948</value>
+						<value>1.45024562</value>
+						<value>-0.463937134</value>
+						<value>-0.394084066</value>
+						<value>-0.394005299</value>
 					</row>
 					<row>
-						<value>-4.11951106e-07</value>
-						<value>1.87619627</value>
-						<value>-0.629446208</value>
-						<value>-0.629320383</value>
+						<value>-2.64480775e-07</value>
+						<value>2.16988087</value>
+						<value>-0.4384588</value>
+						<value>-0.438371152</value>
 					</row>
 					<row>
-						<value>-2.31826377</value>
-						<value>-0.996759772</value>
-						<value>-0.509955525</value>
-						<value>-0.509853601</value>
+						<value>-0.707331717</value>
+						<value>-0.95121336</value>
+						<value>-0.80799228</value>
+						<value>-0.807830811</value>
 					</row>
 					<row>
-						<value>2.92942968e-06</value>
 						<value>0</value>
-						<value>12.802578</value>
-						<value>12.999999</value>
+						<value>5.75593333e-07</value>
+						<value>9.80197906</value>
+						<value>10</value>
 					</row>
 				</value>
 			</itemvalues>
@@ -249,7 +235,7 @@
 		</pass>
 	</pipeline>
 	<objects>
-		<object type="buffer" name="Buffer" size="48" format="float4;float3;float;float3;float" pausedpreview="false">
+		<object type="buffer" name="Buffer" size="96" format="float4;float3;float;float3;float" pausedpreview="false">
 			<bind slot="0" name="Translucent" />
 			<bind slot="0" name="Lighting" />
 		</object>
@@ -288,13 +274,11 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="file" name="Post Process" shader="vs" />
-		<entry type="file" name="Post Process" shader="ps" />
 		<entry type="pinned" name="TextureTile" owner="Main" />
 		<entry type="camera" fp="false">
-			<distance>13</distance>
-			<pitch>39</pitch>
-			<yaw>229</yaw>
+			<distance>10</distance>
+			<pitch>26</pitch>
+			<yaw>206</yaw>
 			<roll>360</roll>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />

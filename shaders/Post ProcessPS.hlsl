@@ -52,8 +52,8 @@ float4 main(PSInput pin) : SV_TARGET
 	//Bloom
 	float4 Emissive;
 	float weightsum;
-	int size = 15;
-	float blur = 5;
+	int size = 5;
+	float blur = 4;
 	float2 texelSize = 1/screenSize;
 	for (int y = -size ; y < size; y++)
 	{
@@ -73,7 +73,7 @@ float4 main(PSInput pin) : SV_TARGET
 	float exposure = 0;
 	float contrast = 1;
 	float saturation = 1;
-	float3 lift = float3(0.03,0,0.05); 
+	float3 lift = float3(0.03,0.0,0.07); 
 	float3 gain = float3(1,1,1);
 	float3 gamma = float3(1,1,1);
 	
@@ -97,10 +97,9 @@ float4 main(PSInput pin) : SV_TARGET
 	fog = fog * fogColor * fogStrength;
 	
 	 //SSAO
-	 /*
 	float ao = 0;
 	float radius = .1;
-	float aoSamples = 512;
+	float aoSamples = 256;
 	float depth = mul(Position,matVP).z;
 		
 	//random numbers
@@ -113,7 +112,7 @@ float4 main(PSInput pin) : SV_TARGET
 						randomNumber(i + 12.3243463643) * 2 - 1,
 						randomNumber(i + 34.1123352) * 2 - 1);
 						
-	//distribute points closer to center
+		//distribute points closer to center
 		random = normalize(random);
 		//random *= randomperKernel;
 		random *= randomNumber(i + 123.3434231);
@@ -132,6 +131,7 @@ float4 main(PSInput pin) : SV_TARGET
 	ao = 1-saturate(ao/aoSamples);
 	ao = ao +.5;
 	ao = saturate( pow(ao,3) );
-	*/
+	Color *= ao;
+	
 	return (Color + Emissive + fog) * vignette;
 }
