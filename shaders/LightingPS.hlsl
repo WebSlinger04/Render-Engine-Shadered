@@ -23,6 +23,7 @@ struct PSInput
 Texture2D ColorPass : register(t0);
 Texture2D PositionPass : register(t1);
 Texture2D NormalPass : register(t2);
+Texture2D ShadowMap : register(t3);
 SamplerState smp : register(s0);
 
 float4 main(PSInput pin) : SV_TARGET
@@ -37,8 +38,9 @@ float4 main(PSInput pin) : SV_TARGET
 	float4 Color = ColorPass.Sample(smp,pin.UV);
 	float4 Position = PositionPass.Sample(smp,pin.UV);
 	float3 Normal = NormalPass.Sample(smp,pin.UV);
+	float SM = ShadowMap.Sample(smp,pin.UV).x;
 	
-		for(int i = 0; i < 10; i++)
+		for(int i = 0; i < 1; i++)
 	{
 		//stop after loop through all lights
 		if (lightBuffer[i].Color.a == 0){
@@ -84,30 +86,20 @@ float4 main(PSInput pin) : SV_TARGET
 		DiffuseResult += saturate(Diffuse * lightFalloff * SpotCone);
 		SpecularResult += saturate(Specular * lightFalloff * SpotCone);
 		
-		/*shadowmap
-		 float3 lgtNormal = -normalize(lightBuffer[i].Direction.xyz * float3(-1,1,1));
-		 float3 lgtTangent = -normalize(cross(lgtNormal,float3(1,0,0)));
-		 float3 lgtBitangent = -normalize(cross(lgtNormal,lgtTangent));
-		 float4x4 newView = 
-		{
-			lgtBitangent.x,lgtBitangent.y,lgtBitangent.z,0,
-			lgtTangent.x,lgtTangent.y,lgtTangent.z,0,
-			lgtNormal.x,lgtNormal.y,lgtNormal.z,0,
-			0,0,0,1
-		};
-			newView = mul(newView,matProject);
-			float4 shadowUV = mul(pin.wPosition-float4(lightBuffer[i].Position.x,lightBuffer[i].Position.y,lightBuffer[i].Position.z,0),newView);
-			float shadowMap;
-			if (abs(shadowUV).x *.05+.65 < 1 && abs(shadowUV).y *.05+.5 < 1)
-			{
-				shadowMap = saturate(ShadowMap.Sample(smp,shadowUV*.05-float2(0.5,0.65)).x*2);
-				shadowMap = 1-saturate(shadowUV.z * .1 - (1-shadowMap));
-			} else
-			{
-				shadowMap = 1;
-			}*/
-	}
+		//shadowmap
+		float3 N = normalize(lightBuffer[i].Direction);
+		float3 T = normalize(cross(N,float3(0,1,0)));
+		float3 B = normalize(cross(N,T));
+		float4x4 matLookAt = float4x4 (
+		float4(T.x,B.x,N.x,0),
+		-float4(T.y,B.y,N.y,0),
+		-float4(T.z,B.z,N.z,0),
+		-dot(lightBuffer[i].Position,T),dot(lightBuffer[i].Position,B),dot(lightBuffer[i].Position,N),1
 	
+	);
+		float4 shadowProject = -mul(Position,matLookAt);
+		return  ShadowMap.Sample(smp,shadowProject.xy).x;
+	}
 	DiffuseResult.a = 1;
 	return Color * (DiffuseResult + SpecularResult + Ambient);
 }

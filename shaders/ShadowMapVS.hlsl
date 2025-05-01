@@ -2,6 +2,7 @@ cbuffer cbPerFrame : register(b0)
 {
 	float4x4 matVP;
 	float4x4 matGeo;
+	float4x4 matView;
 	float4x4 matProject;
 };
 
@@ -24,23 +25,36 @@ struct VSOutput
 
 VSOutput main(VSInput vin)
 {
-	float3 Normal = normalize(vin.lgtVector);
-	float3 Tangent = normalize( cross(float3(0,1,0),Normal) );
-	float3 Bitangent = normalize( cross(Normal,Tangent) );
-
-	float4x4 TBN = float4x4(
+	//lookat matrix
+	float3 N = normalize(vin.lgtVector);
+	float3 T = normalize(cross(N,float3(0,1,0)));
+	float3 B = normalize(cross(N,T));
+	float4x4 matLookAt = float4x4 (
+		float4(T.x,B.x,N.x,0),
+		-float4(T.y,B.y,N.y,0),
+		-float4(T.z,B.z,N.z,0),
+		-dot(vin.lgtPosition,T),dot(vin.lgtPosition,B),dot(vin.lgtPosition,N),1
 	
-	    float4(Tangent, 0),
-	    float4(Bitangent, 0),
-	    float4(Normal, 0),
-	    float4(0, 0, 0, 1)
-	
-	); 
+	);
 
+
+	//ortho projection matrix
+	float width = 5;
+	float height = 5;
+	float nearPlane = 0;
+	float farPlane = 100;
+	float4x4 matCustomOrtho = 
+	{
+		1/width,0,0,0,
+		0,1/height,0,0,
+		0,0,-2/(farPlane-nearPlane),0,
+		0,0,-(farPlane+nearPlane)/(farPlane-nearPlane),1
+	
+	};
 	
 	VSOutput vout = (VSOutput)0;
-	TBN = mul(TBN,matProject);
-	vout.Position = mul(vin.Position - float4(vin.lgtPosition.xyz,0),TBN);
+	vout.Position = mul( mul( vin.Position,matLookAt ) , matCustomOrtho);
+	vout.Position = mul(mul(vin.Position,matLookAt),matProject);
 
 	return vout;
 }
