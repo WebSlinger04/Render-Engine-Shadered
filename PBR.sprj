@@ -87,6 +87,7 @@
 				<variable type="float4x4" name="matVP" system="Orthographic" />
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float4" name="camPos" system="CameraPosition" />
+				<variable type="float4x4" name="matProject" system="Projection" />
 			</variables>
 			<macros />
 		</pass>
@@ -110,7 +111,7 @@
 					<height>1</height>
 					<depth>1</depth>
 					<x>0.136977673</x>
-					<y>0.848515749</y>
+					<y>0.583259583</y>
 					<z>-0.125761986</z>
 					<topology>TriangleList</topology>
 				</item>
@@ -168,28 +169,28 @@
 			<itemvalues>
 				<value variable="matVP" for="instLight">
 					<row>
-						<value>0.2405826</value>
-						<value>2.38709998</value>
-						<value>0.121429846</value>
-						<value>0.121405572</value>
+						<value>4.81848335</value>
+						<value>-0.2380272</value>
+						<value>-0.0716472492</value>
+						<value>-0.0716329291</value>
 					</row>
 					<row>
-						<value>-6.16993105e-08</value>
-						<value>0.29421857</value>
-						<value>-0.992744625</value>
-						<value>-0.992546201</value>
+						<value>-4.88296394e-07</value>
+						<value>1.41903913</value>
+						<value>-0.80917865</value>
+						<value>-0.809016943</value>
 					</row>
 					<row>
-						<value>2.74987626</value>
-						<value>-0.208843857</value>
-						<value>-0.0106237382</value>
-						<value>-0.0106216148</value>
+						<value>-0.591634035</value>
+						<value>-1.93858135</value>
+						<value>-0.583520651</value>
+						<value>-0.583404005</value>
 					</row>
 					<row>
-						<value>8.22657427e-08</value>
-						<value>-1.70879275e-07</value>
-						<value>16.803381</value>
-						<value>17.0000019</value>
+						<value>5.78721597e-07</value>
+						<value>0</value>
+						<value>19.803978</value>
+						<value>20</value>
 					</row>
 				</value>
 			</itemvalues>
@@ -211,6 +212,7 @@
 					<buffer>wPositionBuffer</buffer>
 					<instanced>true</instanced>
 					<instancecount>1</instancecount>
+					<instancebuffer>Buffer</instancebuffer>
 					<topology>TriangleList</topology>
 				</item>
 			</items>
@@ -267,16 +269,13 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="ShadowMap" item="pipe" />
 		<entry type="file" name="Lighting" shader="vs" />
 		<entry type="file" name="Lighting" shader="ps" />
-		<entry type="file" name="ShadowMap" shader="vs" />
-		<entry type="file" name="ShadowMap" shader="ps" />
 		<entry type="pinned" name="TextureTile" owner="Main" />
 		<entry type="camera" fp="false">
-			<distance>17</distance>
-			<pitch>83</pitch>
-			<yaw>95</yaw>
+			<distance>20</distance>
+			<pitch>54</pitch>
+			<yaw>187</yaw>
 			<roll>360</roll>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />

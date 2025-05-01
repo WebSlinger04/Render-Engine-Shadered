@@ -12,6 +12,7 @@ StructuredBuffer<InputData> lightBuffer : register(u0);
 cbuffer cbPerFrame : register(b0)
 {
 	float4 camPos;
+	float4x4 matProject;
 };
 
 struct PSInput
@@ -26,6 +27,7 @@ Texture2D NormalPass : register(t2);
 Texture2D ShadowMap : register(t3);
 SamplerState smp : register(s0);
 
+
 float4 main(PSInput pin) : SV_TARGET
 {
 	pin.UV.y = 1-pin.UV.y;
@@ -35,6 +37,7 @@ float4 main(PSInput pin) : SV_TARGET
 	float4 Specular;
 	float4 SpecularResult;
 	float4 Ambient;
+	float shadow;
 	float4 Color = ColorPass.Sample(smp,pin.UV);
 	float4 Position = PositionPass.Sample(smp,pin.UV);
 	float3 Normal = NormalPass.Sample(smp,pin.UV);
@@ -97,9 +100,11 @@ float4 main(PSInput pin) : SV_TARGET
 		-dot(lightBuffer[i].Position,T),dot(lightBuffer[i].Position,B),dot(lightBuffer[i].Position,N),1
 	
 	);
-		float4 shadowProject = -mul(Position,matLookAt);
-		return  ShadowMap.Sample(smp,shadowProject.xy).x;
+		float4 shadowProject = mul(mul(float4(Position.xyz,1),matLookAt),matProject);
+		float3 coords = shadowProject.xyz / shadowProject.w;
+		float shadowMap = ShadowMap.Sample(smp,saturate(coords.xy*.5+.5)).x;
+		shadow = 1/shadowProject.w + .005 >  shadowMap;
 	}
 	DiffuseResult.a = 1;
-	return Color * (DiffuseResult + SpecularResult + Ambient);
+	return Color * (DiffuseResult + SpecularResult + Ambient) * shadow;
 }
