@@ -90,14 +90,14 @@ float4 main(PSInput pin) : SV_TARGET
 		SpecularResult += saturate(Specular * lightFalloff * SpotCone);
 		
 		//shadowmap
-		float3 N = normalize(lightBuffer[i].Direction);
-		float3 T = normalize(cross(N,float3(0,1,0)));
+		float3 N = normalize(lightBuffer[i].Direction * -1);
+		float3 T = normalize(cross(float3(0,1,0),N));
 		float3 B = normalize(cross(N,T));
 		float4x4 matLookAt = float4x4 (
 		float4(T.x,B.x,N.x,0),
-		-float4(T.y,B.y,N.y,0),
-		-float4(T.z,B.z,N.z,0),
-		-dot(lightBuffer[i].Position,T),dot(lightBuffer[i].Position,B),dot(lightBuffer[i].Position,N),1
+		float4(T.y,B.y,N.y,0),
+		float4(T.z,B.z,N.z,0),
+		dot(-lightBuffer[i].Position,T),dot(-lightBuffer[i].Position,B),dot(-lightBuffer[i].Position,N),1
 	
 	);
 		float4 shadowProject = mul(mul(float4(Position.xyz,1),matLookAt),matProject);
