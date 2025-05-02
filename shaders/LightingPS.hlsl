@@ -36,14 +36,13 @@ float4 main(PSInput pin) : SV_TARGET
 	float4 DiffuseResult;
 	float4 Specular;
 	float4 SpecularResult;
-	float4 Ambient;
-	float shadow;
+	float4 Ambient = float4(.05,.05,.05,1);
+	float shadow = 1;
 	float4 Color = ColorPass.Sample(smp,pin.UV);
 	float4 Position = PositionPass.Sample(smp,pin.UV);
 	float3 Normal = NormalPass.Sample(smp,pin.UV);
-	float SM = ShadowMap.Sample(smp,pin.UV).x;
 	
-		for(int i = 0; i < 1; i++)
+		for(int i = 0; i < 10; i++)
 	{
 		//stop after loop through all lights
 		if (lightBuffer[i].Color.a == 0){
@@ -90,9 +89,10 @@ float4 main(PSInput pin) : SV_TARGET
 		SpecularResult += saturate(Specular * lightFalloff * SpotCone);
 		
 		//shadowmap
+		float texels = 3;
 		float3 N = normalize(lightBuffer[i].Direction * -1);
-		float3 T = normalize(cross(float3(0,1,0),N));
-		float3 B = normalize(cross(N,T));
+		float3 T = 0.5*normalize(cross(float3(0,1,0),N));
+		float3 B = 0.5*normalize(cross(N,T));
 		float4x4 matLookAt = float4x4 (
 		float4(T.x,B.x,N.x,0),
 		float4(T.y,B.y,N.y,0),
@@ -103,8 +103,9 @@ float4 main(PSInput pin) : SV_TARGET
 		float4 shadowProject = mul(mul(float4(Position.xyz,1),matLookAt),matProject);
 		float3 coords = shadowProject.xyz / shadowProject.w;
 		float shadowMap = ShadowMap.Sample(smp,saturate(coords.xy*.5+.5)).x;
-		shadow = 1/shadowProject.w + .005 >  shadowMap;
+		shadow *= ( 1/shadowProject.w + .003 >  shadowMap );
+		shadow = saturate(shadow);
 	}
 	DiffuseResult.a = 1;
-	return Color * (DiffuseResult + SpecularResult + Ambient) * shadow;
+	return ((Color * DiffuseResult) + SpecularResult) * shadow + Ambient;
 }

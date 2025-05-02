@@ -11,6 +11,6 @@ struct PSOut
 PSOut main(PSInput pin)
 {
 	PSOut pout;
-	pout.SM = pin.Position.a;
+	pout.SM = pin.Position.w;
 	return pout;
 }
