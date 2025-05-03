@@ -36,8 +36,8 @@ VSOutput main(VSInput vin)
 	
 	//lookat matrix
 	float3 N = normalize(lgtVector * -1);
-	float3 T = 0.5*normalize(cross(float3(0,1,0),N));
-	float3 B = 0.5*normalize(cross(N,T));
+	float3 T = normalize(cross(float3(0,1,0),N));
+	float3 B = normalize(cross(N,T));
 	float4x4 matLookAt = float4x4 (
 		float4(T.x,B.x,N.x,0),
 		float4(T.y,B.y,N.y,0),

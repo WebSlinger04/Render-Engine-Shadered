@@ -38,8 +38,6 @@ float4 main(PSInput pin) : SV_TARGET
 	float4 Specular;
 	float4 SpecularResult;
 	float4 Ambient = float4(.05,.05,.05,1);
-	float shadow = 1;
-	float count = 0;
 	float4 Color = ColorPass.Sample(smp,pin.UV);
 	float4 Position = PositionPass.Sample(smp,pin.UV);
 	float3 Normal = NormalPass.Sample(smp,pin.UV);
@@ -86,15 +84,12 @@ float4 main(PSInput pin) : SV_TARGET
 		float lightFalloff = 1/(pow(length(lightVec),2)) * falloff;
 		float ConeAngle = lightBuffer[i].Falloff;
 		float SpotCone = saturate(pow(dot(lightVec,normalize(-lightBuffer[i].Direction.xyz)),ConeAngle));
-		//combine
-		DiffuseResult += saturate(Diffuse * lightFalloff * SpotCone);
-		SpecularResult += saturate(Specular * lightFalloff * SpotCone);
 		
 		//shadowmap
 		float texels = 2;
 		float3 N = normalize(lightBuffer[i].Direction * -1);
-		float3 T = 0.5*normalize(cross(float3(0,1,0),N));
-		float3 B = 0.5*normalize(cross(N,T));
+		float3 T = normalize(cross(float3(0,1,0),N));
+		float3 B = normalize(cross(N,T));
 		float4x4 matLookAt = float4x4 (
 		float4(T.x,B.x,N.x,0),
 		float4(T.y,B.y,N.y,0),
@@ -103,7 +98,6 @@ float4 main(PSInput pin) : SV_TARGET
 	
 	);
 		float4 shadowProject = mul(mul(float4(Position.xyz,1),matLookAt),matProject);
-		shadowProject.xy = shadowProject.xy * (viewSize/1024);
 		float3 coords = shadowProject.xyz / shadowProject.w;
 		coords = coords * .5+.5;
 		
@@ -123,11 +117,12 @@ float4 main(PSInput pin) : SV_TARGET
 		}
 		
 		shadowProject.w = (shadowProject.w < 0) ? 1 : shadowProject.w; 
-		shadowMap = ( 1/shadowProject.w + .01 >  shadowMap );
-		shadow += shadowMap;
-		count += 1;
+		shadowMap = ( 1/shadowProject.w + .0105 >  shadowMap );
+		
+		//combine
+		DiffuseResult += saturate(Diffuse * lightFalloff * SpotCone * shadowMap);
+		SpecularResult += saturate(Specular * lightFalloff * SpotCone * shadowMap);
 	}
-	shadow = saturate(shadow/count);
 	DiffuseResult.a = 1;
-	return ((Color * DiffuseResult) + SpecularResult) * shadow + Ambient;
+	return ((Color * DiffuseResult) + SpecularResult) + Ambient;
 }
