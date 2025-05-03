@@ -1,5 +1,5 @@
 // Texture to write to
-RWTexture2D<float2> outputTexture : register(u0);
+RWTexture2D<float> outputTexture : register(u0);
 Texture2D shadowMap1 : register(t0);
 Texture2D shadowMap2 : register(t1);
 Texture2D shadowMap3 : register(t2);
@@ -15,7 +15,7 @@ cbuffer cbPerFrame : register(b0)
 [numthreads(32, 32, 1)]
 void main(uint3 dispatchThreadID : SV_DispatchThreadID)
 {
-	int texels = 3;
+	int texels = 2;
 	for (int i = 0; i < pow(texels,2) ; i++)
 	{
 		float2 texSize = float2(1024,1024);

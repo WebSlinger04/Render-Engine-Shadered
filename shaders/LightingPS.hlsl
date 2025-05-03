@@ -13,6 +13,7 @@ cbuffer cbPerFrame : register(b0)
 {
 	float4 camPos;
 	float4x4 matProject;
+	float2 viewSize;
 };
 
 struct PSInput
@@ -38,11 +39,12 @@ float4 main(PSInput pin) : SV_TARGET
 	float4 SpecularResult;
 	float4 Ambient = float4(.05,.05,.05,1);
 	float shadow = 1;
+	float count = 0;
 	float4 Color = ColorPass.Sample(smp,pin.UV);
 	float4 Position = PositionPass.Sample(smp,pin.UV);
 	float3 Normal = NormalPass.Sample(smp,pin.UV);
 	
-		for(int i = 0; i < 10; i++)
+		for(int i = 0; i < 3; i++)
 	{
 		//stop after loop through all lights
 		if (lightBuffer[i].Color.a == 0){
@@ -89,7 +91,7 @@ float4 main(PSInput pin) : SV_TARGET
 		SpecularResult += saturate(Specular * lightFalloff * SpotCone);
 		
 		//shadowmap
-		float texels = 3;
+		float texels = 2;
 		float3 N = normalize(lightBuffer[i].Direction * -1);
 		float3 T = 0.5*normalize(cross(float3(0,1,0),N));
 		float3 B = 0.5*normalize(cross(N,T));
@@ -101,11 +103,31 @@ float4 main(PSInput pin) : SV_TARGET
 	
 	);
 		float4 shadowProject = mul(mul(float4(Position.xyz,1),matLookAt),matProject);
+		shadowProject.xy = shadowProject.xy * (viewSize/1024);
 		float3 coords = shadowProject.xyz / shadowProject.w;
-		float shadowMap = ShadowMap.Sample(smp,saturate(coords.xy*.5+.5)).x;
-		shadow *= ( 1/shadowProject.w + .003 >  shadowMap );
-		shadow = saturate(shadow);
+		coords = coords * .5+.5;
+		
+		float2 uvMap = coords;
+		float offset = i;
+		float x = offset%texels * 1/texels;
+		float y = -floor(offset/texels) * 1/texels + + 1-1/texels;
+		float2 clipUv = (uvMap / texels) + float2(x,y);
+		
+		float shadowMap;
+		if ((clipUv.x < x) || (clipUv.x > x + 1/texels) || (clipUv.y < y) ||  (clipUv.y > y + 1/texels))
+		{
+			shadowMap = 0;
+		} else
+		{
+		 	shadowMap = ShadowMap.Sample(smp,saturate((clipUv.xy))).x;
+		}
+		
+		shadowProject.w = (shadowProject.w < 0) ? 1 : shadowProject.w; 
+		shadowMap = ( 1/shadowProject.w + .01 >  shadowMap );
+		shadow += shadowMap;
+		count += 1;
 	}
+	shadow = saturate(shadow/count);
 	DiffuseResult.a = 1;
 	return ((Color * DiffuseResult) + SpecularResult) * shadow + Ambient;
 }

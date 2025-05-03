@@ -1,6 +1,42 @@
 <?xml version="1.0"?>
 <project version="2">
 	<pipeline>
+		<pass name="testing" type="shader" active="false" patchverts="1">
+			<shader type="vs" path="shaders\testingVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\testingPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture />
+			<items>
+				<item name="cubetest" type="geometry">
+					<type>Cube</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<scaleX>2</scaleX>
+					<scaleY>2</scaleY>
+					<scaleZ>2</scaleZ>
+					<x>0.605000019</x>
+					<z>0.5</z>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float4x4" name="matView" system="View" />
+				<variable type="float2" name="TextureTile">
+					<row>
+						<value>0</value>
+						<value>0</value>
+					</row>
+				</variable>
+			</variables>
+			<macros />
+		</pass>
 		<pass name="Post Process" type="shader" active="true" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\Post ProcessVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\Post ProcessPS.hlsl" entry="main" />
@@ -88,6 +124,7 @@
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float4" name="camPos" system="CameraPosition" />
 				<variable type="float4x4" name="matProject" system="Projection" />
+				<variable type="float2" name="viewSize" system="ViewportSize" />
 			</variables>
 			<macros />
 		</pass>
@@ -110,7 +147,7 @@
 					<width>1</width>
 					<height>1</height>
 					<depth>1</depth>
-					<x>-0.952921867</x>
+					<x>-1.10132384</x>
 					<y>0.265906572</y>
 					<z>-0.893266916</z>
 					<topology>TriangleList</topology>
@@ -123,6 +160,8 @@
 					<scaleX>10</scaleX>
 					<scaleY>0.100000001</scaleY>
 					<scaleZ>10</scaleZ>
+					<x>0.5</x>
+					<z>0.5</z>
 					<topology>TriangleList</topology>
 				</item>
 			</items>
@@ -169,28 +208,28 @@
 			<itemvalues>
 				<value variable="matVP" for="instLight">
 					<row>
-						<value>0.601275504</value>
-						<value>1.29868674</value>
-						<value>0.828510702</value>
-						<value>0.82834512</value>
+						<value>-2.59305024</value>
+						<value>1.29013491</value>
+						<value>0.40277338</value>
+						<value>0.402692884</value>
 					</row>
 					<row>
-						<value>-5.44107934e-07</value>
-						<value>2.02472973</value>
-						<value>-0.544747949</value>
-						<value>-0.544639051</value>
+						<value>-3.11967057e-07</value>
+						<value>1.45291007</value>
+						<value>-0.798795223</value>
+						<value>-0.798635542</value>
 					</row>
 					<row>
-						<value>3.79630661</value>
-						<value>-0.205691338</value>
-						<value>-0.131223187</value>
-						<value>-0.131196961</value>
+						<value>2.33479261</value>
+						<value>1.43284047</value>
+						<value>0.44732514</value>
+						<value>0.447235733</value>
 					</row>
 					<row>
-						<value>0</value>
-						<value>4.67669594e-07</value>
-						<value>16.8033791</value>
-						<value>17</value>
+						<value>-1.66382449e-06</value>
+						<value>-1.15118667e-06</value>
+						<value>15.8031807</value>
+						<value>16.0000019</value>
 					</row>
 				</value>
 			</itemvalues>
@@ -321,7 +360,7 @@
 			<bind slot="0" name="Main" />
 			<bind slot="0" name="UpdateBuffers" />
 		</object>
-		<object type="rendertexture" name="ShadowMap01" format="R" fsize="512,512" clear="true">
+		<object type="rendertexture" name="ShadowMap01" format="R" fsize="1024,1024" clear="true">
 			<bind slot="0" name="ShadowMapAtlas" />
 		</object>
 		<object type="rendertexture" name="Emissive Pass" format="R32G32B32A32_FLOAT" rsize="1.000000,1.000000" clear="true">
@@ -347,26 +386,29 @@
 		<object type="rendertexture" name="Translucent Depth Pass" format="R16" rsize="1.000000,1.000000" clear="true">
 			<bind slot="5" name="Post Process" />
 		</object>
-		<object type="rendertexture" name="ShadowMap02" format="R" fsize="512,512" clear="true">
+		<object type="rendertexture" name="ShadowMap02" format="R" fsize="1024,1024" clear="true">
 			<bind slot="1" name="ShadowMapAtlas" />
 		</object>
-		<object type="image" name="ShadowMapAtlas" width="1024" height="1024" format="R8G8">
+		<object type="image" name="ShadowMapAtlas" width="1024" height="1024" format="R8">
 			<bind slot="3" name="Lighting" uav="0" />
 			<bind slot="0" name="ShadowMapAtlas" uav="1" />
 		</object>
-		<object type="rendertexture" name="ShadowMap03" format="R" fsize="512,512" clear="true">
+		<object type="rendertexture" name="ShadowMap03" format="R" fsize="1024,1024" clear="true">
 			<bind slot="2" name="ShadowMapAtlas" />
+		</object>
+		<object type="texture" path="..\..\..\Downloads\testing.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="0" name="testing" />
 		</object>
 	</objects>
 	<cameras />
 	<settings>
 		<entry type="property" name="ShadowMapAtlas" item="pipe" />
-		<entry type="file" name="Lighting" shader="vs" />
-		<entry type="file" name="Lighting" shader="ps" />
+		<entry type="file" name="ShadowMapAtlas" shader="cs" />
+		<entry type="pinned" name="TextureTile" owner="testing" />
 		<entry type="camera" fp="false">
-			<distance>17</distance>
-			<pitch>33</pitch>
-			<yaw>99</yaw>
+			<distance>16</distance>
+			<pitch>53</pitch>
+			<yaw>42</yaw>
 			<roll>360</roll>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
