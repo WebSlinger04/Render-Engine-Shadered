@@ -58,7 +58,7 @@ float4 main(PSInput pin) : SV_TARGET
 		float diffuseLight = saturate(NdotL);
 		Diffuse = diffuseLight * lightBuffer[i].Color;
 		//BRDF
-		float Roughness = .4;
+		float Roughness = .8;
 		float3 V = normalize(camPos-Position);
 		float3 H = normalize(lightVec+V);
 		float NdotH = dot(Normal,H);
@@ -98,6 +98,8 @@ float4 main(PSInput pin) : SV_TARGET
 	
 	);
 		float4 shadowProject = mul(mul(float4(Position.xyz,1),matLookAt),matProject);
+		float screenRatio = viewSize.x /viewSize.y;
+		shadowProject.xy = shadowProject * float2(screenRatio,1);
 		float3 coords = shadowProject.xyz / shadowProject.w;
 		coords = coords * .5+.5;
 		
@@ -105,7 +107,7 @@ float4 main(PSInput pin) : SV_TARGET
 		float offset = i;
 		float x = offset%texels * 1/texels;
 		float y = -floor(offset/texels) * 1/texels + + 1-1/texels;
-		float2 clipUv = (uvMap / texels) + float2(x,y);
+		float2 clipUv = (uvMap / texels) + float2(x,y);;
 		
 		float shadowMap;
 		if ((clipUv.x < x) || (clipUv.x > x + 1/texels) || (clipUv.y < y) ||  (clipUv.y > y + 1/texels))
