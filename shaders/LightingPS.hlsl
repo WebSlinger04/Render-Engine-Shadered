@@ -13,6 +13,7 @@ cbuffer cbPerFrame : register(b0)
 {
 	float4 camPos;
 	float4x4 matProject;
+	float2 viewSize;
 };
 
 struct PSInput
@@ -27,6 +28,11 @@ Texture2D NormalPass : register(t2);
 Texture2D ShadowMap : register(t3);
 SamplerState smp : register(s0);
 
+float randomNumber(float maxNumber)
+{
+	return 	frac(sin(maxNumber) * 43758.5453123);
+
+}
 
 float4 main(PSInput pin) : SV_TARGET
 {
@@ -36,14 +42,12 @@ float4 main(PSInput pin) : SV_TARGET
 	float4 DiffuseResult;
 	float4 Specular;
 	float4 SpecularResult;
-	float4 Ambient;
-	float shadow;
+	float4 Ambient = float4(.05,.05,.05,1);
 	float4 Color = ColorPass.Sample(smp,pin.UV);
 	float4 Position = PositionPass.Sample(smp,pin.UV);
 	float3 Normal = NormalPass.Sample(smp,pin.UV);
-	float SM = ShadowMap.Sample(smp,pin.UV).x;
 	
-		for(int i = 0; i < 1; i++)
+		for(int i = 0; i < 3; i++)
 	{
 		//stop after loop through all lights
 		if (lightBuffer[i].Color.a == 0){
@@ -59,7 +63,7 @@ float4 main(PSInput pin) : SV_TARGET
 		float diffuseLight = saturate(NdotL);
 		Diffuse = diffuseLight * lightBuffer[i].Color;
 		//BRDF
-		float Roughness = .4;
+		float Roughness = .8;
 		float3 V = normalize(camPos-Position);
 		float3 H = normalize(lightVec+V);
 		float NdotH = dot(Normal,H);
@@ -82,15 +86,13 @@ float4 main(PSInput pin) : SV_TARGET
 		Specular = (D*F*G) / (4);
 		//Light attenuation
 		float falloff = lightBuffer[i].Strength;
-		float lightFalloff = 1/(pow(length(lightVec),2)) * falloff;
+		float lightFalloff = 1/(pow(length(lightPos - Position),2)) * falloff;
 		float ConeAngle = lightBuffer[i].Falloff;
 		float SpotCone = saturate(pow(dot(lightVec,normalize(-lightBuffer[i].Direction.xyz)),ConeAngle));
-		//combine
-		DiffuseResult += saturate(Diffuse * lightFalloff * SpotCone);
-		SpecularResult += saturate(Specular * lightFalloff * SpotCone);
 		
 		//shadowmap
-		float3 N = normalize(lightBuffer[i].Direction * -1);
+		float texels = 3;
+		float3 N = 2*normalize(lightBuffer[i].Direction * -1);
 		float3 T = normalize(cross(float3(0,1,0),N));
 		float3 B = normalize(cross(N,T));
 		float4x4 matLookAt = float4x4 (
@@ -101,10 +103,42 @@ float4 main(PSInput pin) : SV_TARGET
 	
 	);
 		float4 shadowProject = mul(mul(float4(Position.xyz,1),matLookAt),matProject);
+		float screenRatio = viewSize.x /viewSize.y;
+		shadowProject.xy = shadowProject * float2(screenRatio,1);
 		float3 coords = shadowProject.xyz / shadowProject.w;
-		float shadowMap = ShadowMap.Sample(smp,saturate(coords.xy*.5+.5)).x;
-		shadow = 1/shadowProject.w + .005 >  shadowMap;
+		coords = coords * .5+.5;
+		
+		float2 uvMap = coords;
+		float offset = i;
+		float x = offset%texels * 1/texels;
+		float y = -floor(offset/texels) * 1/texels + + 1-1/texels;
+		float2 clipUv = (uvMap / texels) + float2(x,y);;
+		
+		float shadowMap;
+		if ((clipUv.x < x) || (clipUv.x > x + 1/texels) || (clipUv.y < y) ||  (clipUv.y > y + 1/texels))
+		{
+			shadowMap = 1;
+		} else
+		{
+			float size = 64;
+			float d = 0.005;
+			for (int i = 0 ; i < size ; i++)
+			{
+				float2 offset = float2(randomNumber(i*3.1232)*2-1,randomNumber(i*1.63434)*2-1);
+				offset *= d;
+				float shadowTex = ShadowMap.Sample(smp,clipUv.xy + offset).x;
+				 shadowMap += ( 1/shadowProject.w >  shadowTex - .001 );
+			}
+			shadowMap /= size;
+			shadowMap = saturate(shadowMap*2);
+		}
+		
+		
+		
+		//combine
+		DiffuseResult += saturate(Diffuse * lightFalloff * SpotCone * shadowMap);
+		SpecularResult += saturate(Specular * lightFalloff * SpotCone * shadowMap);
 	}
 	DiffuseResult.a = 1;
-	return Color * (DiffuseResult + SpecularResult + Ambient) * shadow;
+	return ((Color * DiffuseResult) + SpecularResult) + Ambient;
 }
