@@ -8,7 +8,7 @@ Using the Shadered program as a visualization tool, I wrote multiple shaders in 
   - Diffuse Lighting
   - Specular Lighting (BRDF)
   - Shadow Mapping
-  - Multiple Light support
+  - Multiple Light/shadow support
   - Volumetrics (Not Implemented)
 - Material
   - Albedo Map
