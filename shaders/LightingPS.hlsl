@@ -28,6 +28,11 @@ Texture2D NormalPass : register(t2);
 Texture2D ShadowMap : register(t3);
 SamplerState smp : register(s0);
 
+float randomNumber(float maxNumber)
+{
+	return 	frac(sin(maxNumber) * 43758.5453123);
+
+}
 
 float4 main(PSInput pin) : SV_TARGET
 {
@@ -81,13 +86,13 @@ float4 main(PSInput pin) : SV_TARGET
 		Specular = (D*F*G) / (4);
 		//Light attenuation
 		float falloff = lightBuffer[i].Strength;
-		float lightFalloff = 1/(pow(length(lightVec),2)) * falloff;
+		float lightFalloff = 1/(pow(length(lightPos - Position),2)) * falloff;
 		float ConeAngle = lightBuffer[i].Falloff;
 		float SpotCone = saturate(pow(dot(lightVec,normalize(-lightBuffer[i].Direction.xyz)),ConeAngle));
 		
 		//shadowmap
-		float texels = 2;
-		float3 N = normalize(lightBuffer[i].Direction * -1);
+		float texels = 3;
+		float3 N = 2*normalize(lightBuffer[i].Direction * -1);
 		float3 T = normalize(cross(float3(0,1,0),N));
 		float3 B = normalize(cross(N,T));
 		float4x4 matLookAt = float4x4 (
@@ -112,14 +117,23 @@ float4 main(PSInput pin) : SV_TARGET
 		float shadowMap;
 		if ((clipUv.x < x) || (clipUv.x > x + 1/texels) || (clipUv.y < y) ||  (clipUv.y > y + 1/texels))
 		{
-			shadowMap = 0;
+			shadowMap = 1;
 		} else
 		{
-		 	shadowMap = ShadowMap.Sample(smp,saturate((clipUv.xy))).x;
+			float size = 64;
+			float d = 0.005;
+			for (int i = 0 ; i < size ; i++)
+			{
+				float2 offset = float2(randomNumber(i*3.1232)*2-1,randomNumber(i*1.63434)*2-1);
+				offset *= d;
+				float shadowTex = ShadowMap.Sample(smp,clipUv.xy + offset).x;
+				 shadowMap += ( 1/shadowProject.w >  shadowTex - .001 );
+			}
+			shadowMap /= size;
+			shadowMap = saturate(shadowMap*2);
 		}
 		
-		shadowProject.w = (shadowProject.w < 0) ? 1 : shadowProject.w; 
-		shadowMap = ( 1/shadowProject.w + .0105 >  shadowMap );
+		
 		
 		//combine
 		DiffuseResult += saturate(Diffuse * lightFalloff * SpotCone * shadowMap);
