@@ -1,5 +1,6 @@
 // Texture to write to
 RWTexture2D<float> outputTexture : register(u0);
+RWStructuredBuffer<float4> data : register(u1);
 Texture2D shadowMap1 : register(t0);
 Texture2D shadowMap2 : register(t1);
 Texture2D shadowMap3 : register(t2);
@@ -40,5 +41,10 @@ void main(uint3 dispatchThreadID : SV_DispatchThreadID)
 		outputTexture[selector] =  Texture(i,UV);
 
 	}
+	
+	for (uint i = 0; i < 72; i++)
+    {
+        data[i] = 0;
+    }
 
 }

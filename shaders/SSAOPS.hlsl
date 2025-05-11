@@ -2,7 +2,6 @@ cbuffer cbPerFrame : register(b0)
 {
 	float2 screenSize;
 	float4x4 matVP;
-	float4x4 matView;
 };
 
 struct PSInput
@@ -12,8 +11,10 @@ struct PSInput
 };
 
 Texture2D PositionPass : register(t0);
-Texture2D randomNoise : register(t6);
+Texture2D NormalPass : register(t1);
+Texture2D NoisePass : register(t2);
 SamplerState smp : register(s0);
+
 
 float randomNumber(float maxNumber)
 {
@@ -21,45 +22,57 @@ float randomNumber(float maxNumber)
 
 }
 
-float4 main(PSInput pin) : SV_TARGET
+float main(PSInput pin) : SV_TARGET
 {
 	pin.UV.y = 1-pin.UV.y;
 	float4 Position = PositionPass.Sample(smp, pin.UV);
-	float4 Noise = randomNoise.Sample(smp,pin.UV*3);
-
+	float3 Normal = NormalPass.Sample(smp, pin.UV);
+	float3 Noise = (NoisePass.Sample(smp,pin.UV*10));
+	Normal = mul(Normal,matVP);
+	Noise = Noise * 2 - 1;
+	Noise.z = 0;
+	float3 N = normalize(Normal);
+	float3 T = normalize(Noise - N * dot(Noise, N));
+	float3 B = cross(N,T);
+	
+	float3x3 TBN = float3x3(T,B,N);
+	
+	
 	 //SSAO
 	float ao = 0;
-	float radius = 0.5 * Position.a;
-	float aoSamples = 256;
+	float radius = .1;
+	float aoSamples = 32;
+	float bias = -.01;
+	float depth = mul(Position,matVP).z + bias;
 		
 	//random numbers
-	float3 randomperKernel = Noise* 2 -1;
-	randomperKernel = normalize(randomperKernel);
 
 	for (int i = 0; i < aoSamples ; i ++)
 	{
 		float3 random = float3(randomNumber(i) * 2 - 1,
 						randomNumber(i + 12.3243463643) * 2 - 1,
-						randomNumber(i + 34.1123352) * 2 - 1);
+						randomNumber(i + 34.1123352));
 						
-	//distribute points closer to center
+		//distribute points closer to center
+		random = mul(random,TBN);
 		random = normalize(random);
-		//random = reflect(random,randomperKernel);
 		random *= randomNumber(i + 123.3434231);
 		float scale = float(i)/aoSamples;
 		random *= lerp(0.1,1, scale * scale);	
 		random *= scale;
 		
 		float3 samplePos = random * radius;
-		samplePos = samplePos + float3(pin.UV.xy,Position.a);
+		samplePos = samplePos + float3(pin.UV.xy,depth);
 
-		float textureOffset =  PositionPass.Sample(smp, samplePos.xy).a;
-		ao += ((textureOffset >= samplePos.z) ? 1 :0);
-		ao -= (distance(textureOffset, samplePos.z) > radius) ? 1 : 0;
+
+
+		float textureOffset =  mul(PositionPass.Sample(smp, samplePos.xy),matVP).z;
+		float radiusCheck = smoothstep(0,1,radius/abs(depth-textureOffset));
+		ao += ((textureOffset <= samplePos.z) ? 1 :0) * radiusCheck;
 
 	}
-	ao = saturate(1 - (ao/aoSamples));
-	ao = ao +.5;
-	ao = saturate( pow(ao,10) );
+	ao = 1-saturate(ao/aoSamples);
+	ao = saturate( pow(ao,2) );
+	
 	return ao;
 }
