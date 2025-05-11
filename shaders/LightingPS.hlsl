@@ -127,7 +127,7 @@ float4 main(PSInput pin) : SV_TARGET
 				float2 offset = float2(randomNumber(i*3.1232)*2-1,randomNumber(i*1.63434)*2-1);
 				offset *= d;
 				float shadowTex = ShadowMap.Sample(smp,clipUv.xy + offset).x;
-				 shadowMap += ( 1/shadowProject.w >  shadowTex - .001 );
+				 shadowMap += ( 1/shadowProject.w >  shadowTex - .005 );
 			}
 			shadowMap /= size;
 			shadowMap = saturate(shadowMap*2);
