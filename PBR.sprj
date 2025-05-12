@@ -144,7 +144,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="Lighting" type="shader" active="true" patchverts="1">
+		<pass name="Lighting" type="shader" active="true" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\LightingVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\LightingPS.hlsl" entry="main" />
 			<inputlayout>
@@ -192,8 +192,8 @@
 					<width>1</width>
 					<height>1</height>
 					<depth>1</depth>
-					<x>1.42032003</x>
-					<y>1.33929634</y>
+					<x>1.94608068</x>
+					<y>0.476703644</y>
 					<z>-2.12203741</z>
 					<topology>TriangleList</topology>
 				</item>
@@ -216,34 +216,35 @@
 					<depth>1</depth>
 					<x>-0.217092514</x>
 					<y>0.458189726</y>
+					<z>0.031047821</z>
 					<topology>TriangleList</topology>
 				</item>
 			</items>
 			<itemvalues>
 				<value variable="matVP" for="cube2">
 					<row>
-						<value>-2.43779182</value>
-						<value>-0.179992273</value>
-						<value>-0.175675854</value>
-						<value>-0.175640747</value>
+						<value>-3.55690455</value>
+						<value>0.885686457</value>
+						<value>0.422112614</value>
+						<value>0.422028244</value>
 					</row>
 					<row>
-						<value>-4.07064164e-07</value>
-						<value>2.22229528</value>
-						<value>-0.390809178</value>
-						<value>-0.390731066</value>
+						<value>-6.39319637e-07</value>
+						<value>1.82203007</value>
+						<value>-0.656190157</value>
+						<value>-0.656059027</value>
 					</row>
 					<row>
-						<value>-0.47385934</value>
-						<value>0.925976932</value>
-						<value>0.903773189</value>
-						<value>0.903592527</value>
+						<value>2.39916182</value>
+						<value>1.31308508</value>
+						<value>0.625807762</value>
+						<value>0.625682652</value>
 					</row>
 					<row>
+						<value>6.13746943e-06</value>
 						<value>0</value>
-						<value>-2.30237333e-06</value>
-						<value>28.8057785</value>
-						<value>29</value>
+						<value>21.8043785</value>
+						<value>22</value>
 					</row>
 				</value>
 			</itemvalues>
@@ -265,7 +266,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="DebugLights" type="shader" active="true" patchverts="1">
+		<pass name="DebugLights" type="shader" active="true" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\DebugLightVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\DebugLightPS.hlsl" entry="main" />
 			<inputlayout>
@@ -288,28 +289,28 @@
 			<itemvalues>
 				<value variable="matVP" for="instLight">
 					<row>
-						<value>-2.43779182</value>
-						<value>-0.179992273</value>
-						<value>-0.175675854</value>
-						<value>-0.175640747</value>
+						<value>-3.55690455</value>
+						<value>0.885686457</value>
+						<value>0.422112614</value>
+						<value>0.422028244</value>
 					</row>
 					<row>
-						<value>-4.07064164e-07</value>
-						<value>2.22229528</value>
-						<value>-0.390809178</value>
-						<value>-0.390731066</value>
+						<value>-6.39319637e-07</value>
+						<value>1.82203007</value>
+						<value>-0.656190157</value>
+						<value>-0.656059027</value>
 					</row>
 					<row>
-						<value>-0.47385934</value>
-						<value>0.925976932</value>
-						<value>0.903773189</value>
-						<value>0.903592527</value>
+						<value>2.39916182</value>
+						<value>1.31308508</value>
+						<value>0.625807762</value>
+						<value>0.625682652</value>
 					</row>
 					<row>
+						<value>6.13746943e-06</value>
 						<value>0</value>
-						<value>-2.30237333e-06</value>
-						<value>28.8057785</value>
-						<value>29</value>
+						<value>21.8043785</value>
+						<value>22</value>
 					</row>
 				</value>
 			</itemvalues>
@@ -492,14 +493,14 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="DebugLights" item="pipe" />
 		<entry type="file" name="Lighting" shader="vs" />
 		<entry type="file" name="Lighting" shader="ps" />
+		<entry type="file" name="SSAO" shader="ps" />
 		<entry type="pinned" name="DebugLights" owner="DebugLights" />
 		<entry type="camera" fp="false">
-			<distance>29</distance>
-			<pitch>23</pitch>
-			<yaw>349</yaw>
+			<distance>22</distance>
+			<pitch>41</pitch>
+			<yaw>34</yaw>
 			<roll>360</roll>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />

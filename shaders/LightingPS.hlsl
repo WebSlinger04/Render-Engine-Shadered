@@ -141,21 +141,29 @@ PSOut main(PSInput pin) : SV_TARGET
 		}
 
 		//volumetric scattering
+		
 		float2 ndcPosition = pin.UV;
 		float4 viewLight = mul(float4(lightBuffer[i].Position.xyz,1),matVP);
 		viewLight.xyz /= viewLight.w;
 		float2 ndcLight = viewLight.xy * 0.5 + 0.5;
-		float2 ndcDirection = mul(lightBuffer[i].Direction,matVP);
+		float4 ndcDirection = mul(float4(lightBuffer[i].Direction,0),matVP);
+		ndcDirection.xyz = normalize(ndcDirection.xyz);
+
+		
 		float2 pixelVector = normalize(ndcPosition-ndcLight);
-		float4 lgtVolume = dot(pixelVector,lightBuffer[i].Direction);
-		lgtVolume = saturate(pow(lgtVolume,ConeAngle/2));
-		lgtVolume *= lightBuffer[i].Color * .1;
+		float4 lgtVolume = dot(pixelVector,ndcDirection);
+		float vecDist = distance(float3(ndcPosition,0),float3(ndcLight,0));
+		vecDist = saturate((-vecDist*(5000/pow(falloff,2)))+1);
+		lgtVolume = saturate(pow(lgtVolume,ConeAngle));
+		lgtVolume *= lightBuffer[i].Color * .005 * falloff * vecDist;
 		
 		//combine
 		DiffuseResult += saturate(Diffuse * lightFalloff * SpotCone * shadowMap);
 		SpecularResult += saturate(Specular * lightFalloff * SpotCone * shadowMap);
 		VolumeResult += lgtVolume;
-
+		Position = (Position.a <= 0) ? float4(0,0,1000,1) : Position;
+ 		float volumeDepthCheck = distance(camPos.xyz,lightBuffer[i].Position.xyz) -  distance(camPos.xyz,Position.xyz);
+ 		VolumeResult *= abs(1-saturate(volumeDepthCheck));
 	}
 	DiffuseResult.a = 1;
 	pout.Main =  ((Color * DiffuseResult) + SpecularResult) + Ambient + VolumeResult;
