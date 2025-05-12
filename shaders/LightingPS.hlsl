@@ -14,12 +14,18 @@ cbuffer cbPerFrame : register(b0)
 	float4 camPos;
 	float4x4 matProject;
 	float2 viewSize;
+	float4x4 matVP;
 };
 
 struct PSInput
 {
 	float4 Position : SV_POSITION;
 	float2 UV : TEXCOORD;
+};
+
+struct PSOut
+{
+	float4 Main : SV_Target1;
 };
 
 Texture2D ColorPass : register(t0);
@@ -34,20 +40,22 @@ float randomNumber(float maxNumber)
 
 }
 
-float4 main(PSInput pin) : SV_TARGET
+PSOut main(PSInput pin) : SV_TARGET
 {
+	PSOut pout = (PSOut)0;
 	pin.UV.y = 1-pin.UV.y;
 	float3 lightPos;
 	float4 Diffuse;
 	float4 DiffuseResult;
 	float4 Specular;
 	float4 SpecularResult;
+	float4 VolumeResult;
 	float4 Ambient = float4(.05,.05,.05,1);
 	float4 Color = ColorPass.Sample(smp,pin.UV);
 	float4 Position = PositionPass.Sample(smp,pin.UV);
 	float3 Normal = NormalPass.Sample(smp,pin.UV);
 	
-		for(int i = 0; i < 3; i++)
+		for(int i = 0; i < 10; i++)
 	{
 		//stop after loop through all lights
 		if (lightBuffer[i].Color.a == 0){
@@ -86,7 +94,7 @@ float4 main(PSInput pin) : SV_TARGET
 		Specular = (D*F*G) / (4);
 		//Light attenuation
 		float falloff = lightBuffer[i].Strength;
-		float lightFalloff = 1/(pow(length(lightPos - Position),2)) * falloff;
+		float lightFalloff = falloff/(pow(length(lightPos - Position),2));
 		float ConeAngle = lightBuffer[i].Falloff;
 		float SpotCone = saturate(pow(dot(lightVec,normalize(-lightBuffer[i].Direction.xyz)),ConeAngle));
 		
@@ -99,9 +107,8 @@ float4 main(PSInput pin) : SV_TARGET
 		float4(T.x,B.x,N.x,0),
 		float4(T.y,B.y,N.y,0),
 		float4(T.z,B.z,N.z,0),
-		dot(-lightBuffer[i].Position,T),dot(-lightBuffer[i].Position,B),dot(-lightBuffer[i].Position,N),1
-	
-	);
+		dot(-lightBuffer[i].Position,T),dot(-lightBuffer[i].Position,B),dot(-lightBuffer[i].Position,N),1);
+		
 		float4 shadowProject = mul(mul(float4(Position.xyz,1),matLookAt),matProject);
 		float screenRatio = viewSize.x /viewSize.y;
 		shadowProject.xy = shadowProject * float2(screenRatio,1);
@@ -132,13 +139,25 @@ float4 main(PSInput pin) : SV_TARGET
 			shadowMap /= size;
 			shadowMap = saturate(shadowMap*2);
 		}
-		
-		
+
+		//volumetric scattering
+		float2 ndcPosition = pin.UV;
+		float4 viewLight = mul(float4(lightBuffer[i].Position.xyz,1),matVP);
+		viewLight.xyz /= viewLight.w;
+		float2 ndcLight = viewLight.xy * 0.5 + 0.5;
+		float2 ndcDirection = mul(lightBuffer[i].Direction,matVP);
+		float2 pixelVector = normalize(ndcPosition-ndcLight);
+		float4 lgtVolume = dot(pixelVector,lightBuffer[i].Direction);
+		lgtVolume = saturate(pow(lgtVolume,ConeAngle/2));
+		lgtVolume *= lightBuffer[i].Color * .1;
 		
 		//combine
 		DiffuseResult += saturate(Diffuse * lightFalloff * SpotCone * shadowMap);
 		SpecularResult += saturate(Specular * lightFalloff * SpotCone * shadowMap);
+		VolumeResult += lgtVolume;
+
 	}
 	DiffuseResult.a = 1;
-	return ((Color * DiffuseResult) + SpecularResult) + Ambient;
+	pout.Main =  ((Color * DiffuseResult) + SpecularResult) + Ambient + VolumeResult;
+	return pout;
 }

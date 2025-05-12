@@ -57,7 +57,7 @@ PSOut main(PSInput pin)
 		Diffuse = diffuseLight * lightBuffer[i].Color;
 		//Light attenuation
 		float falloff = lightBuffer[i].Strength;
-		float lightFalloff = 1/(pow(length(lightVec),2)) * falloff;
+		float lightFalloff = 1/(pow(length(lightPos - pin.Position),2)) * falloff;
 		float ConeAngle = lightBuffer[i].Falloff;
 		float SpotCone = saturate(pow(dot(lightVec,normalize(-lightBuffer[i].Direction.xyz)),ConeAngle));
 		DiffuseResult += saturate(Diffuse * lightFalloff * SpotCone);

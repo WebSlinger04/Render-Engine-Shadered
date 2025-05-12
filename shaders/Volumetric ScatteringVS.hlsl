@@ -1,6 +1,6 @@
 cbuffer cbPerFrame : register(b0)
 {
-	float4x4 matOrtho;
+	float4x4 ortho;
 	float4x4 matGeo;
 };
 
@@ -21,7 +21,7 @@ VSOutput main(VSInput vin)
 {
 	VSOutput vout = (VSOutput)0;
 
-	vout.Position = mul(mul(float4(vin.Position, 1.0f), matGeo), matOrtho);
+	vout.Position = mul(mul(float4(vin.Position, 1.0f), matGeo), ortho);
 	vout.UV = vin.UV;
 	
 	return vout;

@@ -24,7 +24,7 @@ float main(PSInput pin) : SV_TARGET
 	pin.UV.y = 1-pin.UV.y;
 	//Bloom
 	float4 AO;
-	int size = 3;
+	int size = 2;
 	float2 texelSize = 1/screenSize;
 	for (int y = -size ; y < size; y++)
 	{
