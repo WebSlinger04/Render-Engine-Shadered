@@ -32,8 +32,8 @@ Texture2D ColorPass : register(t0);
 Texture2D PositionPass : register(t1);
 Texture2D NormalPass : register(t2);
 Texture2D ShadowMap : register(t3);
+Texture2D TestPass : register(t4);
 SamplerState smp : register(s0);
-
 float randomNumber(float maxNumber)
 {
 	return 	frac(sin(maxNumber) * 43758.5453123);
@@ -134,14 +134,13 @@ PSOut main(PSInput pin) : SV_TARGET
 				float2 offset = float2(randomNumber(i*3.1232)*2-1,randomNumber(i*1.63434)*2-1);
 				offset *= d;
 				float shadowTex = ShadowMap.Sample(smp,clipUv.xy + offset).x;
-				 shadowMap += ( 1/shadowProject.w >  shadowTex - .005 );
+				 shadowMap += ( 1/shadowProject.w >  shadowTex - .001 );
 			}
 			shadowMap /= size;
 			shadowMap = saturate(shadowMap*2);
 		}
 
 		//volumetric scattering
-		
 		float2 ndcPosition = pin.UV;
 		float4 viewLight = mul(float4(lightBuffer[i].Position.xyz,1),matVP);
 		viewLight.xyz /= viewLight.w;
@@ -152,19 +151,20 @@ PSOut main(PSInput pin) : SV_TARGET
 		
 		float2 pixelVector = normalize(ndcPosition-ndcLight);
 		float4 lgtVolume = dot(pixelVector,ndcDirection);
+		
+		//volume falloff
 		float vecDist = distance(float3(ndcPosition,0),float3(ndcLight,0));
-		vecDist = saturate((-vecDist*(5000/pow(falloff,2)))+1);
-		lgtVolume = saturate(pow(lgtVolume,ConeAngle));
-		lgtVolume *= lightBuffer[i].Color * .005 * falloff * vecDist;
+		lgtVolume = saturate(pow(lgtVolume,ConeAngle*0.5));
+		lgtVolume *= lightBuffer[i].Color * .0002 * falloff/length(ndcPosition-ndcLight);
+		lgtVolume = saturate(lgtVolume);
 		
 		//combine
 		DiffuseResult += saturate(Diffuse * lightFalloff * SpotCone * shadowMap);
 		SpecularResult += saturate(Specular * lightFalloff * SpotCone * shadowMap);
 		VolumeResult += lgtVolume;
-		Position = (Position.a <= 0) ? float4(0,0,1000,1) : Position;
- 		float volumeDepthCheck = distance(camPos.xyz,lightBuffer[i].Position.xyz) -  distance(camPos.xyz,Position.xyz);
- 		VolumeResult *= abs(1-saturate(volumeDepthCheck));
+
 	}
+	
 	DiffuseResult.a = 1;
 	pout.Main =  ((Color * DiffuseResult) + SpecularResult) + Ambient + VolumeResult;
 	return pout;

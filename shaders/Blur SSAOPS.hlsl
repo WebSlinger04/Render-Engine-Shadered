@@ -24,7 +24,8 @@ float main(PSInput pin) : SV_TARGET
 	pin.UV.y = 1-pin.UV.y;
 	//Bloom
 	float4 AO;
-	int size = 2;
+	return AOPass.Sample(smp,pin.UV);
+	int size = 1;
 	float2 texelSize = 1/screenSize;
 	for (int y = -size ; y < size; y++)
 	{
