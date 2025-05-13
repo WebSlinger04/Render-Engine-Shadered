@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project version="2">
 	<pipeline>
-		<pass name="Color Grade" type="shader" active="true" patchverts="1">
+		<pass name="Color Grade" type="shader" active="true" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\Post ProcessVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\Post ProcessPS.hlsl" entry="main" />
 			<inputlayout>
@@ -44,7 +44,34 @@
 					<topology>TriangleList</topology>
 				</item>
 			</items>
-			<itemvalues />
+			<itemvalues>
+				<value variable="matVP" for="Bloom Quad">
+					<row>
+						<value>1</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+				</value>
+			</itemvalues>
 			<variables>
 				<variable type="float4x4" name="ortho" system="Orthographic" />
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
@@ -72,7 +99,34 @@
 					<topology>TriangleList</topology>
 				</item>
 			</items>
-			<itemvalues />
+			<itemvalues>
+				<value variable="lightIndex" for="Blur SSAO Quad">
+					<row>
+						<value>-0.532255232</value>
+						<value>0.257539421</value>
+						<value>0.936489999</value>
+						<value>0.936302841</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>2.39869475</value>
+						<value>-0.113223851</value>
+						<value>-0.113201223</value>
+					</row>
+					<row>
+						<value>1.49903226</value>
+						<value>0.0914434716</value>
+						<value>0.332515657</value>
+						<value>0.332449198</value>
+					</row>
+					<row>
+						<value>-0.6576249</value>
+						<value>-8.8262167</value>
+						<value>24.3367634</value>
+						<value>24.5318794</value>
+					</row>
+				</value>
+			</itemvalues>
 			<variables>
 				<variable type="float2" name="screenSize" system="ViewportSize" />
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
@@ -109,7 +163,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="Translucent" type="shader" active="true" patchverts="1" collapsed="true">
+		<pass name="Translucent" type="shader" active="true" patchverts="1">
 			<shader type="vs" path="shaders\TranslucentVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\TranslucentPS.hlsl" entry="main" />
 			<inputlayout>
@@ -120,14 +174,12 @@
 			<rendertexture name="Translucent Color Pass" />
 			<rendertexture name="Translucent Depth Pass" />
 			<items>
-				<item name="translucent2" type="geometry">
+				<item name="cube" type="geometry">
 					<type>Cube</type>
 					<width>1</width>
 					<height>1</height>
 					<depth>1</depth>
-					<x>2.69606614</x>
-					<y>0.663198709</y>
-					<z>1.79737806</z>
+					<z>-4.82458115</z>
 					<topology>TriangleList</topology>
 				</item>
 			</items>
@@ -164,11 +216,12 @@
 			</items>
 			<itemvalues />
 			<variables>
-				<variable type="float4x4" name="matVP" system="Orthographic" />
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float4" name="camPos" system="CameraPosition" />
 				<variable type="float4x4" name="matProject" system="Projection" />
 				<variable type="float2" name="viewSize" system="ViewportSize" />
+				<variable type="float4x4" name="matOrtho" system="Orthographic" />
 			</variables>
 			<macros />
 		</pass>
@@ -186,36 +239,9 @@
 			<rendertexture name="Position Pass" />
 			<rendertexture name="Normal Pass" />
 			<items>
-				<item name="cube3" type="geometry">
-					<type>Cube</type>
-					<width>1</width>
-					<height>1</height>
-					<depth>1</depth>
-					<x>-2.20936036</x>
-					<y>0.523516893</y>
-					<z>-0.927142859</z>
-					<topology>TriangleList</topology>
-				</item>
-				<item name="cube2" type="geometry">
-					<type>Cube</type>
-					<width>1</width>
-					<height>1</height>
-					<depth>1</depth>
-					<scaleX>10</scaleX>
-					<scaleY>0.100000001</scaleY>
-					<scaleZ>10</scaleZ>
-					<x>0.5</x>
-					<z>0.5</z>
-					<topology>TriangleList</topology>
-				</item>
-				<item name="cube4" type="geometry">
-					<type>Cube</type>
-					<width>1</width>
-					<height>1</height>
-					<depth>1</depth>
-					<x>-0.217092514</x>
-					<y>0.458189726</y>
-					<topology>TriangleList</topology>
+				<item name="mecha" type="model">
+					<filepath>importedAssets\mechanical.obj</filepath>
+					<grouponly>false</grouponly>
 				</item>
 			</items>
 			<itemvalues />
@@ -237,7 +263,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="DebugLights" type="shader" active="true" patchverts="1" collapsed="true">
+		<pass name="DebugLights" type="shader" active="true" patchverts="1">
 			<shader type="vs" path="shaders\DebugLightVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\DebugLightPS.hlsl" entry="main" />
 			<inputlayout>
@@ -251,53 +277,45 @@
 					<width>1</width>
 					<height>2</height>
 					<depth>1</depth>
-					<y>-1.43533337</y>
 					<instanced>true</instanced>
-					<instancecount>3</instancecount>
-					<instancebuffer>Buffer</instancebuffer>
 					<topology>TriangleList</topology>
 				</item>
 			</items>
 			<itemvalues>
 				<value variable="matVP" for="instLight">
 					<row>
-						<value>-0.326792955</value>
-						<value>0.780132294</value>
-						<value>0.938658476</value>
-						<value>0.93847084</value>
-					</row>
-					<row>
-						<value>-4.39532329e-07</value>
-						<value>2.28268361</value>
-						<value>-0.325633258</value>
-						<value>-0.325568169</value>
-					</row>
-					<row>
-						<value>2.66151381</value>
-						<value>0.0957886204</value>
-						<value>0.115252763</value>
-						<value>0.115229726</value>
+						<value>-0.532255232</value>
+						<value>0.257539421</value>
+						<value>0.936489999</value>
+						<value>0.936302841</value>
 					</row>
 					<row>
 						<value>0</value>
-						<value>-1.09722475e-06</value>
-						<value>19.8039761</value>
-						<value>19.9999981</value>
+						<value>2.39869475</value>
+						<value>-0.113223851</value>
+						<value>-0.113201223</value>
+					</row>
+					<row>
+						<value>1.49903226</value>
+						<value>0.0914434716</value>
+						<value>0.332515657</value>
+						<value>0.332449198</value>
+					</row>
+					<row>
+						<value>-0.657623351</value>
+						<value>-8.82621861</value>
+						<value>24.2796078</value>
+						<value>24.4747353</value>
 					</row>
 				</value>
 			</itemvalues>
 			<variables>
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
-				<variable type="bool" name="DebugLights">
-					<row>
-						<value>false</value>
-					</row>
-				</variable>
 			</variables>
 			<macros />
 		</pass>
-		<pass name="ShadowMap1" type="shader" active="true" patchverts="1" collapsed="true">
+		<pass name="ShadowMap1" type="shader" active="false" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
 			<inputlayout>
@@ -311,6 +329,11 @@
 				</item>
 			</items>
 			<itemvalues>
+				<value variable="matProject" for="VBuffer">
+					<row>
+						<value>2</value>
+					</row>
+				</value>
 				<value variable="lightIndex" for="VBuffer">
 					<row>
 						<value>0</value>
@@ -328,7 +351,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="ShadowMap2" type="shader" active="true" patchverts="1" collapsed="true">
+		<pass name="ShadowMap2" type="shader" active="false" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
 			<inputlayout>
@@ -361,7 +384,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="ShadowMap3" type="shader" active="true" patchverts="1" collapsed="true">
+		<pass name="ShadowMap3" type="shader" active="false" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
 			<inputlayout>
@@ -394,14 +417,14 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="ShadowMapAtlas" type="compute" active="true">
+		<pass name="ShadowMapAtlas" type="compute" active="false">
 			<shader type="cs" path="shaders\shadowMapAtlasCS.hlsl" entry="main" />
 			<groupsize x="64" y="64" z="1" />
 			<macros />
 		</pass>
 	</pipeline>
 	<objects>
-		<object type="buffer" name="Buffer" size="96" format="float4;float3;float;float3;float" pausedpreview="true">
+		<object type="buffer" name="Buffer" size="144" format="float4;float3;float;float3;float" pausedpreview="true">
 			<bind slot="0" name="Translucent" />
 			<bind slot="0" name="Lighting" />
 			<bind slot="0" name="ShadowMap1" />
@@ -453,27 +476,24 @@
 		<object type="rendertexture" name="Lights Pass" format="R5G5B5" rsize="1.000000,1.000000" clear="true">
 			<bind slot="0" name="Bloom" />
 		</object>
-		<object type="rendertexture" name="AO Pass" format="R" rsize="0.500000,0.500000" clear="true">
+		<object type="rendertexture" name="AO Pass" format="R" rsize="1.000000,1.000000" clear="true">
 			<bind slot="0" name="Blur SSAO" />
 		</object>
 		<object type="texture" path="importedAssets\VectorNoise.png" vflip="false" min_filter="Linear" mag_filter="Linear" wrap_s="Repeat" wrap_t="Repeat">
 			<bind slot="2" name="SSAO" />
 		</object>
-		<object type="rendertexture" name="Blur AO Pass" format="R" rsize="0.500000,0.500000" clear="true">
+		<object type="rendertexture" name="Blur AO Pass" format="R" rsize="1.000000,1.000000" clear="true">
 			<bind slot="6" name="Color Grade" />
 		</object>
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Color Grade" item="pipe" />
-		<entry type="file" name="Bloom" shader="vs" />
-		<entry type="file" name="Bloom" shader="ps" />
-		<entry type="pinned" name="DebugLights" owner="DebugLights" />
-		<entry type="camera" fp="false">
-			<distance>20</distance>
-			<pitch>19</pitch>
-			<yaw>83</yaw>
-			<roll>360</roll>
+		<entry type="camera" fp="true">
+			<positionX>-22.6640892</positionX>
+			<positionY>6.40301037</positionY>
+			<positionZ>-7.60854626</positionZ>
+			<yaw>250.451813</yaw>
+			<pitch>-6.49988794</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />

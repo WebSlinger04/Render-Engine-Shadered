@@ -33,6 +33,7 @@ float main(PSInput pin) : SV_TARGET
 	Noise.z = 0;
 	float3 N = normalize(Normal);
 	float3 T = normalize(Noise - N * dot(Noise, N));
+	//T = cross(N,float3(0,1,0));
 	float3 B = cross(N,T);
 	
 	float3x3 TBN = float3x3(T,B,N);
@@ -41,7 +42,7 @@ float main(PSInput pin) : SV_TARGET
 	 //SSAO
 	float ao = 0;
 	float radius = .1;
-	float aoSamples = 32;
+	float aoSamples = 124;
 	float bias = -.01;
 	float depth = mul(Position,matVP).z + bias;
 		
@@ -72,7 +73,6 @@ float main(PSInput pin) : SV_TARGET
 
 	}
 	ao = 1-saturate(ao/aoSamples);
-	ao = saturate( pow(ao,2) );
-	
+	ao = saturate( pow(ao,1.3) );
 	return ao;
 }

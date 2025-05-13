@@ -22,7 +22,7 @@ struct VSOutput
 VSOutput main(VSInput vin)
 {
 	VSOutput vout = (VSOutput)0;
-	vout.Color = vin.ActualColor * vin.Strength;
+	vout.Color = vin.ActualColor;
 	vout.Position = mul(mul(float4(vin.Position*.2 + vin.ActualPosition.xyz,1),matGeo),matVP);
 	return vout;
 }
