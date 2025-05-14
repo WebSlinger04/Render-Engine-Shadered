@@ -19,7 +19,34 @@
 					<topology>TriangleList</topology>
 				</item>
 			</items>
-			<itemvalues />
+			<itemvalues>
+				<value variable="matGeo" for="Color Grade Quad">
+					<row>
+						<value>1466</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>933</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>1</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>733</value>
+						<value>466.5</value>
+						<value>-1000</value>
+						<value>1</value>
+					</row>
+				</value>
+			</itemvalues>
 			<variables>
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float4x4" name="ortho" system="Orthographic" />
@@ -45,6 +72,115 @@
 				</item>
 			</items>
 			<itemvalues>
+				<value variable="ortho" for="Bloom Quad">
+					<row>
+						<value>2</value>
+					</row>
+				</value>
+				<value variable="matVP" for="Bloom Quad">
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+				</value>
+				<value variable="matView" for="Bloom Quad">
+					<row>
+						<value>2</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+				</value>
+				<value variable="matView" for="Bloom Quad">
+					<row>
+						<value>1</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+				</value>
+				<value variable="matVP" for="Bloom Quad">
+					<row>
+						<value>2</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+				</value>
 				<value variable="matVP" for="Bloom Quad">
 					<row>
 						<value>1</value>
@@ -99,34 +235,7 @@
 					<topology>TriangleList</topology>
 				</item>
 			</items>
-			<itemvalues>
-				<value variable="lightIndex" for="Blur SSAO Quad">
-					<row>
-						<value>-0.532255232</value>
-						<value>0.257539421</value>
-						<value>0.936489999</value>
-						<value>0.936302841</value>
-					</row>
-					<row>
-						<value>0</value>
-						<value>2.39869475</value>
-						<value>-0.113223851</value>
-						<value>-0.113201223</value>
-					</row>
-					<row>
-						<value>1.49903226</value>
-						<value>0.0914434716</value>
-						<value>0.332515657</value>
-						<value>0.332449198</value>
-					</row>
-					<row>
-						<value>-0.6576249</value>
-						<value>-8.8262167</value>
-						<value>24.3367634</value>
-						<value>24.5318794</value>
-					</row>
-				</value>
-			</itemvalues>
+			<itemvalues />
 			<variables>
 				<variable type="float2" name="screenSize" system="ViewportSize" />
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
@@ -179,6 +288,7 @@
 					<width>1</width>
 					<height>1</height>
 					<depth>1</depth>
+					<y>-2.52977872</y>
 					<z>-4.82458115</z>
 					<topology>TriangleList</topology>
 				</item>
@@ -214,7 +324,86 @@
 					<topology>TriangleList</topology>
 				</item>
 			</items>
-			<itemvalues />
+			<itemvalues>
+				<value variable="matProject" for="Lighting Quad">
+					<row>
+						<value>2</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+				</value>
+				<value variable="matProject" for="Lighting Quad">
+					<row>
+						<value>2</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+				</value>
+				<value variable="matProject" for="Lighting Quad">
+					<row>
+						<value>1.53646743</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>2.41421342</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>-1.00019991</value>
+						<value>-1</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>-0.20002</value>
+						<value>0</value>
+					</row>
+				</value>
+			</itemvalues>
 			<variables>
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
@@ -284,70 +473,34 @@
 			<itemvalues>
 				<value variable="matVP" for="instLight">
 					<row>
-						<value>-0.532255232</value>
-						<value>0.257539421</value>
-						<value>0.936489999</value>
-						<value>0.936302841</value>
+						<value>-0.635905325</value>
+						<value>0.101616822</value>
+						<value>0.909542024</value>
+						<value>0.90936023</value>
 					</row>
 					<row>
 						<value>0</value>
-						<value>2.39869475</value>
-						<value>-0.113223851</value>
-						<value>-0.113201223</value>
+						<value>2.41163182</value>
+						<value>-0.0462462008</value>
+						<value>-0.0462369584</value>
 					</row>
 					<row>
-						<value>1.49903226</value>
-						<value>0.0914434716</value>
-						<value>0.332515657</value>
-						<value>0.332449198</value>
+						<value>1.39869821</value>
+						<value>0.0461991541</value>
+						<value>0.413514942</value>
+						<value>0.4134323</value>
 					</row>
 					<row>
-						<value>-0.657623351</value>
-						<value>-8.82621861</value>
-						<value>24.2796078</value>
-						<value>24.4747353</value>
+						<value>-3.28598714</value>
+						<value>-12.0074377</value>
+						<value>23.0502033</value>
+						<value>23.2455769</value>
 					</row>
 				</value>
 			</itemvalues>
 			<variables>
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
-			</variables>
-			<macros />
-		</pass>
-		<pass name="ShadowMap1" type="shader" active="false" patchverts="1" collapsed="true">
-			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
-			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
-			<inputlayout>
-				<item value="Position" semantic="POSITION" />
-			</inputlayout>
-			<rendertexture name="ShadowMap01" />
-			<items>
-				<item name="VBuffer" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
-					<topology>TriangleList</topology>
-				</item>
-			</items>
-			<itemvalues>
-				<value variable="matProject" for="VBuffer">
-					<row>
-						<value>2</value>
-					</row>
-				</value>
-				<value variable="lightIndex" for="VBuffer">
-					<row>
-						<value>0</value>
-					</row>
-				</value>
-			</itemvalues>
-			<variables>
-				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
-				<variable type="float4x4" name="matProject" system="Projection" />
-				<variable type="int" name="lightIndex">
-					<row>
-						<value>0</value>
-					</row>
-				</variable>
 			</variables>
 			<macros />
 		</pass>
@@ -370,6 +523,63 @@
 				<value variable="lightIndex" for="VBuffer2">
 					<row>
 						<value>1</value>
+					</row>
+				</value>
+			</itemvalues>
+			<variables>
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float4x4" name="matProject" system="Projection" />
+				<variable type="int" name="lightIndex">
+					<row>
+						<value>-1088238927</value>
+					</row>
+				</variable>
+			</variables>
+			<macros />
+		</pass>
+		<pass name="ShadowMap1" type="shader" active="false" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+			</inputlayout>
+			<rendertexture name="ShadowMap01" />
+			<items>
+				<item name="VBuffer" type="vertexbuffer">
+					<buffer>wPositionBuffer</buffer>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues>
+				<value variable="matProject" for="VBuffer">
+					<row>
+						<value>2.80259693e-45</value>
+						<value>2.66246708e-44</value>
+						<value>3.73172657e-33</value>
+						<value>-3.85867913e-34</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>1.40129846e-45</value>
+						<value>5.60519386e-45</value>
+						<value>4.59290986e-40</value>
+					</row>
+					<row>
+						<value>7.65108962e-43</value>
+						<value>5.60519386e-45</value>
+						<value>6.85429345e-32</value>
+						<value>1.07843832e-38</value>
+					</row>
+					<row>
+						<value>-1.72532272e+16</value>
+						<value>7.45490783e-43</value>
+						<value>-3.54930488e+22</value>
+						<value>7.45490783e-43</value>
+					</row>
+				</value>
+				<value variable="lightIndex" for="VBuffer">
+					<row>
+						<value>0</value>
 					</row>
 				</value>
 			</itemvalues>
@@ -488,12 +698,13 @@
 	</objects>
 	<cameras />
 	<settings>
+		<entry type="property" name="mecha" item="pipe" />
 		<entry type="camera" fp="true">
-			<positionX>-22.6640892</positionX>
-			<positionY>6.40301037</positionY>
-			<positionZ>-7.60854626</positionZ>
-			<yaw>250.451813</yaw>
-			<pitch>-6.49988794</pitch>
+			<positionX>-21.814394</positionX>
+			<positionY>6.04312801</positionY>
+			<positionZ>-7.56839657</positionZ>
+			<yaw>245.551498</yaw>
+			<pitch>-2.65011621</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />
