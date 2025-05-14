@@ -50,7 +50,7 @@ PSOut main(PSInput pin) : SV_TARGET
 	float4 Specular;
 	float4 SpecularResult;
 	float4 VolumeResult;
-	float4 Ambient = float4(.05,.05,.05,1);
+	float4 Ambient = float4(.01,.01,.01,1);
 	float4 Color = ColorPass.Sample(smp,pin.UV);
 	float4 Position = PositionPass.Sample(smp,pin.UV);
 	float3 Normal = NormalPass.Sample(smp,pin.UV);
