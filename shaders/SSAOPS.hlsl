@@ -73,6 +73,6 @@ float main(PSInput pin) : SV_TARGET
 
 	}
 	ao = 1-saturate(ao/aoSamples);
-	ao = saturate( pow(ao,1.3) );
+	ao = saturate( pow(ao,1) );
 	return ao;
 }

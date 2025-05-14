@@ -31,7 +31,7 @@ struct VSOutput
 VSOutput main(VSInput vin)
 {
 	VSOutput vout = (VSOutput)0;
-
+	
 	vout.wPosition = mul(float4(vin.Position,1),matGeo);
 	vout.Position = mul(mul(float4(vin.Position, 1.0f), matGeo), matVP);
 	vout.wNormal = mul(vin.Normal,matGeo);

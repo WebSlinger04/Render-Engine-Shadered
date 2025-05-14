@@ -22,7 +22,7 @@
 			<itemvalues>
 				<value variable="matGeo" for="Color Grade Quad">
 					<row>
-						<value>1466</value>
+						<value>1455</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -40,7 +40,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>733</value>
+						<value>727.5</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -74,7 +74,28 @@
 			<itemvalues>
 				<value variable="ortho" for="Bloom Quad">
 					<row>
-						<value>2</value>
+						<value>0.00137457042</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>-0.00214362261</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>-0.00200019986</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>-1</value>
+						<value>1</value>
+						<value>-1.00019991</value>
+						<value>1</value>
 					</row>
 				</value>
 				<value variable="matVP" for="Bloom Quad">
@@ -325,6 +346,32 @@
 				</item>
 			</items>
 			<itemvalues>
+				<value variable="matGeo" for="Lighting Quad">
+					<row>
+						<value>1455</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>933</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>1</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>727.5</value>
+						<value>466.5</value>
+						<value>-1000</value>
+						<value>1</value>
+					</row>
+				</value>
 				<value variable="matProject" for="Lighting Quad">
 					<row>
 						<value>2</value>
@@ -379,7 +426,7 @@
 				</value>
 				<value variable="matProject" for="Lighting Quad">
 					<row>
-						<value>1.53646743</value>
+						<value>1.54808331</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -433,7 +480,34 @@
 					<grouponly>false</grouponly>
 				</item>
 			</items>
-			<itemvalues />
+			<itemvalues>
+				<value variable="matVP" for="mecha">
+					<row>
+						<value>-0.640712857</value>
+						<value>0.101616822</value>
+						<value>0.909542024</value>
+						<value>0.90936023</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>2.41163182</value>
+						<value>-0.0462462008</value>
+						<value>-0.0462369584</value>
+					</row>
+					<row>
+						<value>1.40927255</value>
+						<value>0.0461991541</value>
+						<value>0.413514942</value>
+						<value>0.4134323</value>
+					</row>
+					<row>
+						<value>-3.31082964</value>
+						<value>-12.0074348</value>
+						<value>23.093071</value>
+						<value>23.288435</value>
+					</row>
+				</value>
+			</itemvalues>
 			<variables>
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
@@ -473,7 +547,7 @@
 			<itemvalues>
 				<value variable="matVP" for="instLight">
 					<row>
-						<value>-0.635905325</value>
+						<value>-0.640712857</value>
 						<value>0.101616822</value>
 						<value>0.909542024</value>
 						<value>0.90936023</value>
@@ -485,16 +559,16 @@
 						<value>-0.0462369584</value>
 					</row>
 					<row>
-						<value>1.39869821</value>
+						<value>1.40927255</value>
 						<value>0.0461991541</value>
 						<value>0.413514942</value>
 						<value>0.4134323</value>
 					</row>
 					<row>
-						<value>-3.28598714</value>
-						<value>-12.0074377</value>
-						<value>23.0502033</value>
-						<value>23.2455769</value>
+						<value>-3.31082964</value>
+						<value>-12.0074348</value>
+						<value>23.093071</value>
+						<value>23.288435</value>
 					</row>
 				</value>
 			</itemvalues>
@@ -579,7 +653,7 @@
 				</value>
 				<value variable="lightIndex" for="VBuffer">
 					<row>
-						<value>0</value>
+						<value>1</value>
 					</row>
 				</value>
 			</itemvalues>
@@ -634,7 +708,7 @@
 		</pass>
 	</pipeline>
 	<objects>
-		<object type="buffer" name="Buffer" size="144" format="float4;float3;float;float3;float" pausedpreview="true">
+		<object type="buffer" name="Buffer" size="96" format="float4;float3;float;float3;float" pausedpreview="true">
 			<bind slot="0" name="Translucent" />
 			<bind slot="0" name="Lighting" />
 			<bind slot="0" name="ShadowMap1" />
@@ -698,11 +772,11 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="mecha" item="pipe" />
+		<entry type="property" name="SSAO" item="pipe" />
 		<entry type="camera" fp="true">
-			<positionX>-21.814394</positionX>
-			<positionY>6.04312801</positionY>
-			<positionZ>-7.56839657</positionZ>
+			<positionX>-21.8533669</positionX>
+			<positionY>6.04510927</positionY>
+			<positionZ>-7.58611488</positionZ>
 			<yaw>245.551498</yaw>
 			<pitch>-2.65011621</pitch>
 		</entry>
