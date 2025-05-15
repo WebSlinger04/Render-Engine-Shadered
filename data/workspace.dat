@@ -10,37 +10,37 @@ Collapsed=0
 
 [Window][Pinned]
 Pos=0,522
-Size=451,495
+Size=417,495
 Collapsed=0
 DockId=0x00000004,1
 
 [Window][Preview]
-Pos=453,22
-Size=1467,995
+Pos=419,22
+Size=1501,995
 Collapsed=0
 DockId=0x00000006,0
 
 [Window][Output]
 Pos=0,522
-Size=451,495
+Size=417,495
 Collapsed=0
 DockId=0x00000004,2
 
 [Window][Objects]
 Pos=0,22
-Size=451,498
+Size=417,498
 Collapsed=0
 DockId=0x00000003,1
 
 [Window][Pipeline]
 Pos=0,22
-Size=451,498
+Size=417,498
 Collapsed=0
 DockId=0x00000003,0
 
 [Window][Properties]
 Pos=0,522
-Size=451,495
+Size=417,495
 Collapsed=0
 DockId=0x00000004,0
 
@@ -59,7 +59,7 @@ DockId=0x00000005,0
 Pos=453,22
 Size=641,995
 Collapsed=0
-DockId=0x00000005,0
+DockId=0x00000005,1
 
 [Window][###code_viewGS0]
 Pos=276,22
@@ -85,8 +85,8 @@ Size=1920,48
 Collapsed=0
 
 [Window][###objprev0]
-Pos=1389,22
-Size=531,995
+Pos=1888,22
+Size=32,995
 Collapsed=0
 DockId=0x0000001B,0
 
@@ -171,7 +171,7 @@ Size=730,225
 Collapsed=0
 
 [Window][###OpenProjectDlg]
-Pos=613,275
+Pos=614,275
 Size=700,410
 Collapsed=0
 
@@ -196,7 +196,7 @@ Size=476,158
 Collapsed=0
 
 [Window][Browse online##browse_online]
-Pos=485,217
+Pos=486,217
 Size=878,582
 Collapsed=0
 
@@ -213,10 +213,10 @@ Collapsed=0
 DockId=0x0000001B,2
 
 [Window][Profiler]
-Pos=1721,22
-Size=199,995
+Pos=1389,22
+Size=531,995
 Collapsed=0
-DockId=0x0000001B,1
+DockId=0x0000001B,0
 
 [Window][Analyzer##analyzer]
 Pos=38,167
@@ -402,23 +402,38 @@ Size=600,400
 Collapsed=0
 
 [Window][Camera snapshot name##main_camsnap_name]
-Pos=745,431
+Pos=746,431
 Size=430,155
 Collapsed=0
 
 [Window][###SavePreviewDlg]
-Pos=660,308
+Pos=662,308
 Size=600,400
 Collapsed=0
 
 [Window][Save Preview##main_save_preview]
-Pos=736,383
+Pos=739,383
 Size=450,250
 Collapsed=0
 
 [Window][Export as C++ project##main_export_as_cpp]
 Pos=736,358
 Size=450,300
+Collapsed=0
+
+[Window][###code_viewVS6]
+Pos=60,62
+Size=400,300
+Collapsed=0
+
+[Window][###code_viewVS5]
+Pos=60,60
+Size=400,300
+Collapsed=0
+
+[Window][###code_viewVS4]
+Pos=60,60
+Size=400,300
 Collapsed=0
 
 [Table][0x7F96C4D9,3]
@@ -430,11 +445,11 @@ Column 2
 [Docking][Data]
 DockNode              ID=0x00000007 Pos=276,22 Size=522,995 Selected=0x84498B33
 DockSpace             ID=0x160B189F Window=0x912BA114 Pos=0,22 Size=1920,995 Split=X
-  DockNode            ID=0x00000019 Parent=0x160B189F SizeRef=1387,990 Split=X
-    DockNode          ID=0x00000001 Parent=0x00000019 SizeRef=451,997 Split=Y
+  DockNode            ID=0x00000019 Parent=0x160B189F SizeRef=1886,990 Split=X
+    DockNode          ID=0x00000001 Parent=0x00000019 SizeRef=417,997 Split=Y
       DockNode        ID=0x00000003 Parent=0x00000001 SizeRef=239,494 Selected=0x848ABB8F
       DockNode        ID=0x00000004 Parent=0x00000001 SizeRef=239,491 Selected=0xC89E3217
-    DockNode          ID=0x00000002 Parent=0x00000019 SizeRef=1467,997 Split=X
+    DockNode          ID=0x00000002 Parent=0x00000019 SizeRef=1501,997 Split=X
       DockNode        ID=0x0000000B Parent=0x00000002 SizeRef=729,826
       DockNode        ID=0x0000000C Parent=0x00000002 SizeRef=848,826 Split=X
         DockNode      ID=0x0000000D Parent=0x0000000C SizeRef=388,826 Split=Y
@@ -443,9 +458,9 @@ DockSpace             ID=0x160B189F Window=0x912BA114 Pos=0,22 Size=1920,995 Spl
             DockNode  ID=0x00000012 Parent=0x0000000F SizeRef=391,410
           DockNode    ID=0x00000010 Parent=0x0000000D SizeRef=786,414
         DockNode      ID=0x0000000E Parent=0x0000000C SizeRef=1189,826 Split=X Selected=0x763816AC
-          DockNode    ID=0x00000005 Parent=0x0000000E SizeRef=641,995 Selected=0xF34EBBA5
+          DockNode    ID=0x00000005 Parent=0x0000000E SizeRef=641,995 Selected=0xF7C3C717
           DockNode    ID=0x00000006 Parent=0x0000000E SizeRef=835,995 CentralNode=1 Selected=0x763816AC
-  DockNode            ID=0x0000001A Parent=0x160B189F SizeRef=531,990 Split=Y Selected=0xE28FAB87
+  DockNode            ID=0x0000001A Parent=0x160B189F SizeRef=32,990 Split=Y Selected=0xE28FAB87
     DockNode          ID=0x0000001B Parent=0x0000001A SizeRef=305,547 Selected=0xFE26F2A7
     DockNode          ID=0x0000001C Parent=0x0000001A SizeRef=305,265 Selected=0x91CA6522
 

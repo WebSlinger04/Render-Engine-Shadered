@@ -22,7 +22,33 @@
 			<itemvalues>
 				<value variable="matGeo" for="Color Grade Quad">
 					<row>
-						<value>1455</value>
+						<value>2.80259693e-45</value>
+						<value>2.66246708e-44</value>
+						<value>3.73172657e-33</value>
+						<value>-3.85867913e-34</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>1.40129846e-45</value>
+						<value>5.60519386e-45</value>
+						<value>4.59290986e-40</value>
+					</row>
+					<row>
+						<value>7.65108962e-43</value>
+						<value>5.60519386e-45</value>
+						<value>6.85429345e-32</value>
+						<value>1.07843832e-38</value>
+					</row>
+					<row>
+						<value>-1.72532272e+16</value>
+						<value>7.45490783e-43</value>
+						<value>-3.54930488e+22</value>
+						<value>7.45490783e-43</value>
+					</row>
+				</value>
+				<value variable="matGeo" for="Color Grade Quad">
+					<row>
+						<value>1489</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -40,7 +66,59 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>727.5</value>
+						<value>744.5</value>
+						<value>466.5</value>
+						<value>-1000</value>
+						<value>1</value>
+					</row>
+				</value>
+				<value variable="matGeo" for="Color Grade Quad">
+					<row>
+						<value>2.80259693e-45</value>
+						<value>2.66246708e-44</value>
+						<value>3.73172657e-33</value>
+						<value>-3.85867913e-34</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>1.40129846e-45</value>
+						<value>5.60519386e-45</value>
+						<value>4.59290986e-40</value>
+					</row>
+					<row>
+						<value>7.65108962e-43</value>
+						<value>5.60519386e-45</value>
+						<value>6.85429345e-32</value>
+						<value>1.07843832e-38</value>
+					</row>
+					<row>
+						<value>-1.72532272e+16</value>
+						<value>7.45490783e-43</value>
+						<value>-3.54930488e+22</value>
+						<value>7.45490783e-43</value>
+					</row>
+				</value>
+				<value variable="matGeo" for="Color Grade Quad">
+					<row>
+						<value>1489</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>933</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>1</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>744.5</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -74,7 +152,7 @@
 			<itemvalues>
 				<value variable="ortho" for="Bloom Quad">
 					<row>
-						<value>0.00137457042</value>
+						<value>0.00134318334</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -256,7 +334,60 @@
 					<topology>TriangleList</topology>
 				</item>
 			</items>
-			<itemvalues />
+			<itemvalues>
+				<value variable="matGeo" for="Blur SSAO Quad">
+					<row>
+						<value>1489</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>933</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>1</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>744.5</value>
+						<value>466.5</value>
+						<value>-1000</value>
+						<value>1</value>
+					</row>
+				</value>
+				<value variable="matView" for="Blur SSAO Quad">
+					<row>
+						<value>1</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+				</value>
+			</itemvalues>
 			<variables>
 				<variable type="float2" name="screenSize" system="ViewportSize" />
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
@@ -284,7 +415,34 @@
 					<topology>TriangleList</topology>
 				</item>
 			</items>
-			<itemvalues />
+			<itemvalues>
+				<value variable="ortho" for="SSAO Quad">
+					<row>
+						<value>0.00134318334</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>-0.00214362261</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>-0.00200019986</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>-1</value>
+						<value>1</value>
+						<value>-1.00019991</value>
+						<value>1</value>
+					</row>
+				</value>
+			</itemvalues>
 			<variables>
 				<variable type="float4x4" name="ortho" system="Orthographic" />
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
@@ -320,7 +478,7 @@
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float2" name="TextureTile">
 					<row>
-						<value>0</value>
+						<value>1.17037309e+18</value>
 						<value>0</value>
 					</row>
 				</variable>
@@ -348,7 +506,7 @@
 			<itemvalues>
 				<value variable="matGeo" for="Lighting Quad">
 					<row>
-						<value>1455</value>
+						<value>1489</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -366,7 +524,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>727.5</value>
+						<value>744.5</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -400,33 +558,33 @@
 				</value>
 				<value variable="matProject" for="Lighting Quad">
 					<row>
-						<value>2</value>
-						<value>0</value>
-						<value>0</value>
-						<value>0</value>
+						<value>-3.55286276e-16</value>
+						<value>9.44475165e-43</value>
+						<value>-1.25373605e-12</value>
+						<value>-3.85240447e-34</value>
 					</row>
 					<row>
 						<value>0</value>
-						<value>0</value>
-						<value>0</value>
-						<value>0</value>
+						<value>1.40129846e-45</value>
+						<value>-1.26084158e-12</value>
+						<value>-6.31197208e-30</value>
 					</row>
 					<row>
-						<value>0</value>
-						<value>0</value>
-						<value>0</value>
-						<value>0</value>
+						<value>7.58795347e+31</value>
+						<value>7.17464814e-43</value>
+						<value>-1.26794669e-12</value>
+						<value>-3.85263957e-34</value>
 					</row>
 					<row>
+						<value>1.23314265e-42</value>
 						<value>0</value>
-						<value>0</value>
-						<value>0</value>
-						<value>0</value>
+						<value>-1.27505222e-12</value>
+						<value>-3.85275712e-34</value>
 					</row>
 				</value>
 				<value variable="matProject" for="Lighting Quad">
 					<row>
-						<value>1.54808331</value>
+						<value>1.51273417</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -481,9 +639,35 @@
 				</item>
 			</items>
 			<itemvalues>
+				<value variable="matGeo" for="mecha">
+					<row>
+						<value>1</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>1</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>1</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>1</value>
+					</row>
+				</value>
 				<value variable="matVP" for="mecha">
 					<row>
-						<value>-0.640712857</value>
+						<value>-0.626082718</value>
 						<value>0.101616822</value>
 						<value>0.909542024</value>
 						<value>0.90936023</value>
@@ -495,13 +679,13 @@
 						<value>-0.0462369584</value>
 					</row>
 					<row>
-						<value>1.40927255</value>
+						<value>1.37709308</value>
 						<value>0.0461991541</value>
 						<value>0.413514942</value>
 						<value>0.4134323</value>
 					</row>
 					<row>
-						<value>-3.31082964</value>
+						<value>-3.23522973</value>
 						<value>-12.0074348</value>
 						<value>23.093071</value>
 						<value>23.288435</value>
@@ -547,7 +731,7 @@
 			<itemvalues>
 				<value variable="matVP" for="instLight">
 					<row>
-						<value>-0.640712857</value>
+						<value>-0.626082718</value>
 						<value>0.101616822</value>
 						<value>0.909542024</value>
 						<value>0.90936023</value>
@@ -559,13 +743,39 @@
 						<value>-0.0462369584</value>
 					</row>
 					<row>
-						<value>1.40927255</value>
+						<value>1.37709308</value>
 						<value>0.0461991541</value>
 						<value>0.413514942</value>
 						<value>0.4134323</value>
 					</row>
 					<row>
-						<value>-3.31082964</value>
+						<value>-3.23522973</value>
+						<value>-12.0074348</value>
+						<value>23.093071</value>
+						<value>23.288435</value>
+					</row>
+				</value>
+				<value variable="matVP" for="instLight">
+					<row>
+						<value>-0.626082718</value>
+						<value>0.101616822</value>
+						<value>0.909542024</value>
+						<value>0.90936023</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>2.41163182</value>
+						<value>-0.0462462008</value>
+						<value>-0.0462369584</value>
+					</row>
+					<row>
+						<value>1.37709308</value>
+						<value>0.0461991541</value>
+						<value>0.413514942</value>
+						<value>0.4134323</value>
+					</row>
+					<row>
+						<value>-3.23522973</value>
 						<value>-12.0074348</value>
 						<value>23.093071</value>
 						<value>23.288435</value>

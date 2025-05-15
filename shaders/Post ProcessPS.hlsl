@@ -55,7 +55,7 @@ float4 main(PSInput pin) : SV_TARGET
 	//fog
 	float4 fogColor = float4(0,150,200,255);
 	float fogStrength = .004;
-	float4 fog = saturate ( (1-Position.a) -.9);
+	float4 fog = saturate ( (1-Position.a) -.88);
 	fog = fog * fogColor * fogStrength;
 	
 	Color *= AO;
