@@ -2,10 +2,9 @@
 struct InputData 
 {
 	float4 Color;
-	float3 Position;
-	float Strength;
-	float3 Direction;
-	float Falloff;
+	float4 Position;
+	float4 Direction;
+	float4 extraData;
 };
 StructuredBuffer<InputData> lightBuffer : register(u0);
 
@@ -32,14 +31,20 @@ Texture2D ColorPass : register(t0);
 Texture2D PositionPass : register(t1);
 Texture2D NormalPass : register(t2);
 Texture2D ShadowMap : register(t3);
-Texture2D TestPass : register(t4);
+Texture2D LightLinkPass : register(t4);
+Texture2D ORMPass : register(t5);
+TextureCube CubeMap : register(t6);
 SamplerState smp : register(s0);
+
+
 float randomNumber(float maxNumber)
 {
 	return 	frac(sin(maxNumber) * 43758.5453123);
 
 }
 
+float4 Ambient;
+	
 PSOut main(PSInput pin) : SV_TARGET
 {
 	PSOut pout = (PSOut)0;
@@ -50,10 +55,12 @@ PSOut main(PSInput pin) : SV_TARGET
 	float4 Specular;
 	float4 SpecularResult;
 	float4 VolumeResult;
-	float4 Ambient = float4(.01,.01,.01,1);
 	float4 Color = ColorPass.Sample(smp,pin.UV);
 	float4 Position = PositionPass.Sample(smp,pin.UV);
 	float3 Normal = NormalPass.Sample(smp,pin.UV);
+	float LightLink = LightLinkPass.Sample(smp,pin.UV);
+	float4 Env = CubeMap.Sample(smp, Position.xyz - 5) * .1;
+	float3 ORM = ORMPass.Sample(smp,pin.UV);
 	
 		for(int i = 0; i < 10; i++)
 	{
@@ -61,6 +68,24 @@ PSOut main(PSInput pin) : SV_TARGET
 		if (lightBuffer[i].Color.a == 0){
 			break;
 		}
+		
+		
+		if (sign((lightBuffer[i].extraData.a) >= 0))
+		{
+			if(lightBuffer[i].extraData.a != 0 && lightBuffer[i].extraData.a != round((LightLink)))
+			{
+				continue;
+			}		
+		} else
+		
+		{
+			if( lightBuffer[i].extraData.a == -round(LightLink))
+			{
+				continue;
+			}	
+		}
+
+		
 		
 		//build vector
 		lightPos = lightBuffer[i].Position.xyz;
@@ -71,7 +96,7 @@ PSOut main(PSInput pin) : SV_TARGET
 		float diffuseLight = saturate(NdotL);
 		Diffuse = diffuseLight * lightBuffer[i].Color;
 		//BRDF
-		float Roughness = .8;
+		float Roughness = 0.3;
 		float3 V = normalize(camPos-Position);
 		float3 H = normalize(lightVec+V);
 		float NdotH = dot(Normal,H);
@@ -93,9 +118,9 @@ PSOut main(PSInput pin) : SV_TARGET
 		float D = NdotH2 / (3.14 * pow(NdotH2 * (R2-1) + 1,2));
 		Specular = (D*F*G) / (4);
 		//Light attenuation
-		float falloff = lightBuffer[i].Strength;
+		float falloff = lightBuffer[i].extraData.x;
 		float lightFalloff = falloff/(pow(length(lightPos - Position),2));
-		float ConeAngle = lightBuffer[i].Falloff;
+		float ConeAngle = lightBuffer[i].extraData.y;
 		float SpotCone = saturate(pow(dot(lightVec,normalize(-lightBuffer[i].Direction.xyz)),ConeAngle));
 		
 		//shadowmap
@@ -145,7 +170,7 @@ PSOut main(PSInput pin) : SV_TARGET
 		float4 viewLight = mul(float4(lightBuffer[i].Position.xyz,1),matVP);
 		viewLight.xyz /= viewLight.w;
 		float2 ndcLight = viewLight.xy * 0.5 + 0.5;
-		float4 ndcDirection = mul(float4(lightBuffer[i].Direction,0),matVP);
+		float4 ndcDirection = mul(float4(lightBuffer[i].Direction.xyz,0),matVP);
 		ndcDirection.xyz = normalize(ndcDirection.xyz);
 
 		
@@ -157,11 +182,12 @@ PSOut main(PSInput pin) : SV_TARGET
 		lgtVolume = saturate(pow(lgtVolume,ConeAngle*0.5));
 		lgtVolume *= lightBuffer[i].Color * .0002 * falloff/length(ndcPosition-ndcLight);
 		lgtVolume = saturate(lgtVolume);
+		lgtVolume *= (viewLight.a - 10 > mul(float4(Position.xyz,1),matVP).a) ? 0 : 1;
 		
 		//combine
 		DiffuseResult += saturate(Diffuse * lightFalloff * SpotCone * shadowMap);
 		SpecularResult += saturate(Specular * lightFalloff * SpotCone * shadowMap);
-		VolumeResult += lgtVolume;
+		VolumeResult += lgtVolume * lightBuffer[i].extraData.z;
 
 	}
 	

@@ -1,10 +1,9 @@
 struct InputData 
 {
 	float4 Color;
-	float3 Position;
-	float Strength;
-	float3 Direction;
-	float Falloff;
+	float4 Position;
+	float4 Direction;
+	float4 extraData;
 };
 
 StructuredBuffer<InputData> lightBuffer : register(u0);
@@ -29,10 +28,8 @@ struct VSOutput
 
 VSOutput main(VSInput vin)
 {
-	float4 lgtColor=  lightBuffer[lightIndex].Color;
-	float3 lgtPosition = lightBuffer[lightIndex].Position;
-	float1 fill1;
-	float3 lgtVector = lightBuffer[lightIndex].Direction;
+	float3 lgtPosition = lightBuffer[lightIndex].Position.xyz;
+	float3 lgtVector = lightBuffer[lightIndex].Direction.xyz;
 	
 	//lookat matrix
 	float3 N = 2*normalize(lgtVector * -1);
