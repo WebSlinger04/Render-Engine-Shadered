@@ -1088,15 +1088,8 @@
 		<object type="rendertexture" name="ORM Pass" format="RGB" rsize="1.000000,1.000000" clear="true" r="0.999989986" g="1" b="1" a="1">
 			<bind slot="5" name="Lighting" />
 		</object>
-		<object type="texture" path="..\tex\T_ColorAtlas.png" vflip="false" min_filter="Nearest" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
-			<bind slot="0" name="Translucent" />
-			<bind slot="0" name="Main" />
-		</object>
 		<object type="texture" name="Env Map" cube="true" left="importedAssets\CubeMap\1.png" top="importedAssets\CubeMap\5.png" front="importedAssets\CubeMap\4.png" bottom="importedAssets\CubeMap\6.png" right="importedAssets\CubeMap\3.png" back="importedAssets\CubeMap\2.png">
 			<bind slot="6" name="Lighting" />
-		</object>
-		<object type="texture" path="..\tex\T_EmissiveAtlas.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
-			<bind slot="1" name="Main" />
 		</object>
 		<object type="rendertexture" name="Emissive Pass 1" rsize="1.000000,1.000000" clear="true">
 			<bind slot="0" name="Bloom" />
@@ -1104,10 +1097,16 @@
 		<object type="rendertexture" name="Final Pass" rsize="1.000000,1.000000" clear="true">
 			<bind slot="0" name="Depth of Field" />
 		</object>
+		<object type="texture" path="importedAssets\T_ColorAtlas.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="0" name="Translucent" />
+			<bind slot="0" name="Main" />
+		</object>
+		<object type="texture" path="importedAssets\T_EmissiveAtlas.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="1" name="Main" />
+		</object>
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="../tex/T_EmissiveAtlas.png" item="image3D" />
 		<entry type="pinned" name="Ambient" owner="Lighting" />
 		<entry type="pinned" name="LightLink" owner="Translucent" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />

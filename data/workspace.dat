@@ -232,7 +232,7 @@ Size=600,400
 Collapsed=0
 
 [Window][###CreateTextureDlg]
-Pos=64,253
+Pos=66,253
 Size=1077,492
 Collapsed=0
 
@@ -455,7 +455,7 @@ Column 2
 DockSpace           ID=0x160B189F Window=0x912BA114 Pos=0,22 Size=1920,995 Split=X
   DockNode          ID=0x00000001 Parent=0x160B189F SizeRef=405,997 Split=Y
     DockNode        ID=0x00000003 Parent=0x00000001 SizeRef=239,498 Selected=0x7DA7F56F
-    DockNode        ID=0x00000004 Parent=0x00000001 SizeRef=239,495 Selected=0xC89E3217
+    DockNode        ID=0x00000004 Parent=0x00000001 SizeRef=239,495 Selected=0x0541D7F0
   DockNode          ID=0x00000002 Parent=0x160B189F SizeRef=1513,997 Split=X
     DockNode        ID=0x0000000B Parent=0x00000002 SizeRef=729,826
     DockNode        ID=0x0000000C Parent=0x00000002 SizeRef=848,826 Split=X
