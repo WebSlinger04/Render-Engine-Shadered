@@ -14,10 +14,10 @@ float Texture(int index, float2 UV)
 			 return shadowMap1.Sample(smp,UV).x;
 			 break;
 		case 1:
-			return shadowMap2.Sample(smp,UV).x;
+			//return shadowMap2.Sample(smp,UV).x;
 			break;
 		case 2:
-			return shadowMap3.Sample(smp,UV).x;
+			//return shadowMap3.Sample(smp,UV).x;
 			break;
 				
 	}

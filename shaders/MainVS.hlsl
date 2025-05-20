@@ -10,21 +10,20 @@ cbuffer cbPerFrame : register(b0)
 struct VSInput
 {
 	float3 Position : POSITION;
+	float2 UV : TEXCOORD;
 	float3 Normal : NORMAL;
 	float3 Tangent : TANGENT;
 	float3 Bitangent : BITANGENT;
-	float2 UV : TEXCOORD;
 };
 
 struct VSOutput
 {
 	float4 Position : SV_POSITION;
+	float2 UV;
 	float4 wPosition;
-	float4 Color : COLOR;
 	float3 wNormal;
 	float3 wTangent;
 	float3 wBitangent;
-	float2 UV;
 	
 };
 
@@ -38,7 +37,6 @@ VSOutput main(VSInput vin)
 	vout.wTangent = mul(vin.Tangent,matGeo);
 	vout.wBitangent = mul(vin.Bitangent,matGeo);
 	vout.UV = vin.UV;
-	vout.Color = 1;
 
 	PositionBuffer.Append(vout.wPosition);
 	return vout;

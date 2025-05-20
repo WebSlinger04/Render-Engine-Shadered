@@ -41,9 +41,9 @@ float main(PSInput pin) : SV_TARGET
 	
 	 //SSAO
 	float ao = 0;
-	float radius = .1;
-	float aoSamples = 124;
-	float bias = -.01;
+	float radius = .3;
+	float aoSamples = 32;
+	float bias = -.2;
 	float depth = mul(Position,matVP).z + bias;
 		
 	//random numbers
@@ -73,6 +73,6 @@ float main(PSInput pin) : SV_TARGET
 
 	}
 	ao = 1-saturate(ao/aoSamples);
-	ao = saturate( pow(ao,1) );
+	ao = saturate( pow(ao,2) );
 	return ao;
 }
