@@ -10,6 +10,7 @@ Using the Shadered program as a visualization tool, I wrote multiple shaders in 
   - Shadow Mapping
   - Multiple Light/shadow support
   - Volumetrics
+  - light linking
 - Material
   - Albedo Map
   - Metallic Map
@@ -21,6 +22,7 @@ Using the Shadered program as a visualization tool, I wrote multiple shaders in 
   - Color Grading
   - Vignette
   - SSAO
+  - Depth of Field
 # Deployment
 Run the Shadered program and open the file
 
