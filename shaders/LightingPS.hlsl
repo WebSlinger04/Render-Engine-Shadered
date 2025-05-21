@@ -125,7 +125,7 @@ PSOut main(PSInput pin) : SV_TARGET
 		
 		//shadowmap
 		float texels = 3;
-		float3 N = 2*normalize(lightBuffer[i].Direction * -1);
+		float3 N = 3*normalize(lightBuffer[i].Direction * -1);
 		float3 T = normalize(cross(float3(0,1,0),N));
 		float3 B = normalize(cross(N,T));
 		float4x4 matLookAt = float4x4 (
@@ -153,7 +153,7 @@ PSOut main(PSInput pin) : SV_TARGET
 		} else
 		{
 			float size = 64;
-			float d = 0.005;
+			float d = 0.0075;
 			for (int i = 0 ; i < size ; i++)
 			{
 				float2 offset = float2(randomNumber(i*3.1232)*2-1,randomNumber(i*1.63434)*2-1);

@@ -4,6 +4,11 @@ RWStructuredBuffer<float4> data : register(u1);
 Texture2D shadowMap1 : register(t0);
 Texture2D shadowMap2 : register(t1);
 Texture2D shadowMap3 : register(t2);
+Texture2D shadowMap4 : register(t3);
+Texture2D shadowMap5 : register(t4);
+Texture2D shadowMap6 : register(t5);
+Texture2D shadowMap7 : register(t6);
+Texture2D shadowMap8 : register(t7);
 SamplerState smp : register(s0);
 
 float Texture(int index, float2 UV) 
@@ -14,11 +19,30 @@ float Texture(int index, float2 UV)
 			 return shadowMap1.Sample(smp,UV).x;
 			 break;
 		case 1:
-			//return shadowMap2.Sample(smp,UV).x;
+			return shadowMap2.Sample(smp,UV).x;
 			break;
 		case 2:
-			//return shadowMap3.Sample(smp,UV).x;
+			return shadowMap3.Sample(smp,UV).x;
 			break;
+		case 3:
+			return shadowMap4.Sample(smp,UV).x;
+			break;
+		case 4:
+			return shadowMap5.Sample(smp,UV).x;
+			break;
+		case 5:
+			return shadowMap6.Sample(smp,UV).x;
+			break;
+		case 6:
+			return shadowMap7.Sample(smp,UV).x;
+			break;
+		case 7:
+			return shadowMap8.Sample(smp,UV).x;
+			break;
+		default:
+			return 0;
+			break;
+			
 				
 	}
 }
@@ -44,7 +68,7 @@ void main(uint3 dispatchThreadID : SV_DispatchThreadID)
 	
 	for (uint i = 0; i < 72; i++)
     {
-        data[i] = 0;
+        //data[i] = 0;
     }
 
 }

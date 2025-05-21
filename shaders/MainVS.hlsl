@@ -38,6 +38,6 @@ VSOutput main(VSInput vin)
 	vout.wBitangent = mul(vin.Bitangent,matGeo);
 	vout.UV = vin.UV;
 
-	PositionBuffer.Append(vout.wPosition);
+	//PositionBuffer.Append(vout.wPosition);
 	return vout;
 }
