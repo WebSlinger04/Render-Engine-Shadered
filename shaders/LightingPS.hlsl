@@ -125,7 +125,7 @@ PSOut main(PSInput pin) : SV_TARGET
 		
 		//shadowmap
 		float texels = 3;
-		float3 N = 3*normalize(lightBuffer[i].Direction * -1);
+		float3 N = 4*normalize(lightBuffer[i].Direction * -1);
 		float3 T = normalize(cross(float3(0,1,0),N));
 		float3 B = normalize(cross(N,T));
 		float4x4 matLookAt = float4x4 (
