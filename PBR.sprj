@@ -127,7 +127,7 @@
 				</value>
 				<value variable="matGeo" for="Color Grade Quad">
 					<row>
-						<value>1518</value>
+						<value>1623</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -145,7 +145,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>759</value>
+						<value>811.5</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -211,7 +211,7 @@
 			<itemvalues>
 				<value variable="ortho" for="Bloom Quad">
 					<row>
-						<value>0.00131752307</value>
+						<value>0.00123228587</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -396,7 +396,7 @@
 			<itemvalues>
 				<value variable="matGeo" for="Blur SSAO Quad">
 					<row>
-						<value>1518</value>
+						<value>1623</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -414,7 +414,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>759</value>
+						<value>811.5</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -477,7 +477,7 @@
 			<itemvalues>
 				<value variable="ortho" for="SSAO Quad">
 					<row>
-						<value>0.00131752307</value>
+						<value>0.00123228587</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -566,7 +566,7 @@
 			<itemvalues>
 				<value variable="matGeo" for="Lighting Quad">
 					<row>
-						<value>1518</value>
+						<value>1623</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -584,7 +584,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>759</value>
+						<value>811.5</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -644,7 +644,7 @@
 				</value>
 				<value variable="matProject" for="Lighting Quad">
 					<row>
-						<value>1.48383486</value>
+						<value>1.38783801</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -1173,18 +1173,18 @@
 			<bind slot="1" name="Bloom" />
 		</object>
 		<object type="rendertexture" name="Color Pass" format="RGB" rsize="1.000000,1.000000" clear="true">
-			<bind slot="0" name="Lighting" />
+			<bind slot="2" name="Lighting" />
 		</object>
 		<object type="rendertexture" name="Position Pass" format="R32G32B32A32_FLOAT" rsize="1.000000,1.000000" clear="true">
 			<bind slot="1" name="Depth of Field" />
 			<bind slot="0" name="Color Grade" />
 			<bind slot="0" name="SSAO" />
-			<bind slot="1" name="Lighting" />
+			<bind slot="0" name="Lighting" />
 		</object>
 		<object type="rendertexture" name="Normal Pass" format="R32G32B32_FLOAT" rsize="1.000000,1.000000" clear="true">
 			<bind slot="1" name="Color Grade" />
 			<bind slot="1" name="SSAO" />
-			<bind slot="2" name="Lighting" />
+			<bind slot="1" name="Lighting" />
 		</object>
 		<object type="rendertexture" name="Translucent Color Pass" rsize="1.000000,1.000000" clear="true">
 			<bind slot="4" name="Color Grade" />
@@ -1196,7 +1196,7 @@
 			<bind slot="1" name="ShadowMapAtlas" />
 		</object>
 		<object type="image" name="ShadowMapAtlas" width="2048" height="2048" format="R16">
-			<bind slot="3" name="Lighting" uav="0" />
+			<bind slot="4" name="Lighting" uav="0" />
 			<bind slot="0" name="ShadowMapAtlas" uav="1" />
 		</object>
 		<object type="rendertexture" name="ShadowMap03" format="R16" fsize="1024,1024" clear="true">
@@ -1212,13 +1212,10 @@
 			<bind slot="6" name="Color Grade" />
 		</object>
 		<object type="rendertexture" name="LightLink" format="R16_FLOAT" rsize="1.000000,1.000000" clear="true">
-			<bind slot="4" name="Lighting" />
-		</object>
-		<object type="rendertexture" name="ORM Pass" format="RGB" rsize="1.000000,1.000000" clear="true" r="0.999989986" g="1" b="1" a="1">
 			<bind slot="5" name="Lighting" />
 		</object>
-		<object type="texture" name="Env Map" cube="true" left="importedAssets\CubeMap\1.png" top="importedAssets\CubeMap\5.png" front="importedAssets\CubeMap\4.png" bottom="importedAssets\CubeMap\6.png" right="importedAssets\CubeMap\3.png" back="importedAssets\CubeMap\2.png">
-			<bind slot="6" name="Lighting" />
+		<object type="rendertexture" name="ORM Pass" format="RGB" rsize="1.000000,1.000000" clear="true" r="0.999989986" g="1" b="1" a="1">
+			<bind slot="3" name="Lighting" />
 		</object>
 		<object type="rendertexture" name="Emissive Pass 1" rsize="1.000000,1.000000" clear="true">
 			<bind slot="0" name="Bloom" />
@@ -1251,7 +1248,9 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="ShadowMap4" item="pipe" />
+		<entry type="property" name="Lighting" item="pipe" />
+		<entry type="file" name="Lighting" shader="vs" />
+		<entry type="file" name="Lighting" shader="ps" />
 		<entry type="pinned" name="Ambient" owner="Lighting" />
 		<entry type="pinned" name="LightLink" owner="Translucent" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
@@ -1261,8 +1260,8 @@
 			<positionX>-17.7033634</positionX>
 			<positionY>5.74964142</positionY>
 			<positionZ>-6.22094393</positionZ>
-			<yaw>604.552185</yaw>
-			<pitch>-7.14952612</pitch>
+			<yaw>604.202271</yaw>
+			<pitch>-7.1495266</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />
