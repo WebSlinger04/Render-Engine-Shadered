@@ -1,6 +1,4 @@
-RWStructuredBuffer<float4> PositionBuffer : register(u0);
-
-cbuffer cbPerFrame : register(b0)
+	cbuffer cbPerFrame : register(b0)
 {
 	float4x4 matVP;
 	float4x4 matGeo;
@@ -38,6 +36,5 @@ VSOutput main(VSInput vin)
 	vout.wBitangent = mul(vin.Bitangent,matGeo);
 	vout.UV = vin.UV;
 
-	//PositionBuffer.Append(vout.wPosition);
 	return vout;
 }

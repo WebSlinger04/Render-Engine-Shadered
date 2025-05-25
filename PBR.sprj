@@ -127,7 +127,7 @@
 				</value>
 				<value variable="matGeo" for="Color Grade Quad">
 					<row>
-						<value>757</value>
+						<value>1518</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -145,7 +145,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>378.5</value>
+						<value>759</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -211,7 +211,7 @@
 			<itemvalues>
 				<value variable="ortho" for="Bloom Quad">
 					<row>
-						<value>0.00264200801</value>
+						<value>0.00131752307</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -396,7 +396,7 @@
 			<itemvalues>
 				<value variable="matGeo" for="Blur SSAO Quad">
 					<row>
-						<value>757</value>
+						<value>1518</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -414,7 +414,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>378.5</value>
+						<value>759</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -477,7 +477,7 @@
 			<itemvalues>
 				<value variable="ortho" for="SSAO Quad">
 					<row>
-						<value>0.00264200801</value>
+						<value>0.00131752307</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -566,7 +566,7 @@
 			<itemvalues>
 				<value variable="matGeo" for="Lighting Quad">
 					<row>
-						<value>757</value>
+						<value>1518</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -584,7 +584,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>378.5</value>
+						<value>759</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -644,7 +644,7 @@
 				</value>
 				<value variable="matProject" for="Lighting Quad">
 					<row>
-						<value>2.97551012</value>
+						<value>1.48383486</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -753,6 +753,10 @@
 				</item>
 				<item name="Lights" type="model">
 					<filepath>importedAssets\Lights.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+				<item name="Canisters" type="model">
+					<filepath>importedAssets\Canisters.obj</filepath>
 					<grouponly>false</grouponly>
 				</item>
 			</items>
@@ -1154,7 +1158,7 @@
 			<bind slot="0" name="Lighting" />
 			<bind slot="0" name="ShadowMap1" />
 		</object>
-		<object type="buffer" name="wPositionBuffer" size="2105408" format="float4" pausedpreview="false">
+		<object type="buffer" name="wPositionBuffer" size="1084736" format="float4" pausedpreview="false">
 			<bind slot="0" name="Main" />
 			<bind slot="1" name="ShadowMapAtlas" />
 		</object>
@@ -1247,8 +1251,7 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Lighting" item="pipe" />
-		<entry type="file" name="Lighting" shader="ps" />
+		<entry type="property" name="ShadowMap4" item="pipe" />
 		<entry type="pinned" name="Ambient" owner="Lighting" />
 		<entry type="pinned" name="LightLink" owner="Translucent" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />

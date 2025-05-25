@@ -32,7 +32,7 @@ VSOutput main(VSInput vin)
 	float3 lgtVector = lightBuffer[lightIndex].Direction.xyz;
 	
 	//lookat matrix
-	float3 N = 3*normalize(lgtVector * -1);
+	float3 N = 4*normalize(lgtVector * -1);
 	float3 T = normalize(cross(float3(0,1,0),N));
 	float3 B = normalize(cross(N,T));
 	float4x4 matLookAt = float4x4 (
