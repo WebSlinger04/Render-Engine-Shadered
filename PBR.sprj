@@ -2,7 +2,7 @@
 <project version="2">
 	<pipeline>
 		<pass name="Depth of Field" type="shader" active="true" patchverts="1" collapsed="true">
-			<shader type="vs" path="shaders\Depth of FieldVS.hlsl" entry="main" />
+			<shader type="vs" path="shaders\FullScreenQuadVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\Depth of FieldPS.hlsl" entry="main" />
 			<inputlayout>
 				<item value="Position" semantic="POSITION" />
@@ -29,7 +29,7 @@
 			<macros />
 		</pass>
 		<pass name="Color Grade" type="shader" active="true" patchverts="1" collapsed="true">
-			<shader type="vs" path="shaders\Post ProcessVS.hlsl" entry="main" />
+			<shader type="vs" path="shaders\FullScreenQuadVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\Post ProcessPS.hlsl" entry="main" />
 			<inputlayout>
 				<item value="Position" semantic="POSITION" />
@@ -127,7 +127,7 @@
 				</value>
 				<value variable="matGeo" for="Color Grade Quad">
 					<row>
-						<value>1518</value>
+						<value>1534</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -145,7 +145,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>759</value>
+						<value>767</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -191,7 +191,7 @@
 			<macros />
 		</pass>
 		<pass name="Bloom" type="shader" active="true" patchverts="1" collapsed="true">
-			<shader type="vs" path="shaders\BloomVS.hlsl" entry="main" />
+			<shader type="vs" path="shaders\FullScreenQuadVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\BloomPS.hlsl" entry="main" />
 			<inputlayout>
 				<item value="Position" semantic="POSITION" />
@@ -211,7 +211,7 @@
 			<itemvalues>
 				<value variable="ortho" for="Bloom Quad">
 					<row>
-						<value>0.00131752307</value>
+						<value>0.00130378094</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -376,7 +376,7 @@
 			<macros />
 		</pass>
 		<pass name="Blur SSAO" type="shader" active="true" patchverts="1" collapsed="true">
-			<shader type="vs" path="shaders\Blur SSAOVS.hlsl" entry="main" />
+			<shader type="vs" path="shaders\FullScreenQuadVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\Blur SSAOPS.hlsl" entry="main" />
 			<inputlayout>
 				<item value="Position" semantic="POSITION" />
@@ -396,7 +396,7 @@
 			<itemvalues>
 				<value variable="matGeo" for="Blur SSAO Quad">
 					<row>
-						<value>1518</value>
+						<value>1534</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -414,7 +414,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>759</value>
+						<value>767</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -457,7 +457,7 @@
 			<macros />
 		</pass>
 		<pass name="SSAO" type="shader" active="true" patchverts="1" collapsed="true">
-			<shader type="vs" path="shaders\SSAOVS.hlsl" entry="main" />
+			<shader type="vs" path="shaders\FullScreenQuadVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\SSAOPS.hlsl" entry="main" />
 			<inputlayout>
 				<item value="Position" semantic="POSITION" />
@@ -477,7 +477,7 @@
 			<itemvalues>
 				<value variable="ortho" for="SSAO Quad">
 					<row>
-						<value>0.00131752307</value>
+						<value>0.00130378094</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -542,6 +542,14 @@
 						<value>0</value>
 					</row>
 				</variable>
+				<variable type="float4" name="Ambient">
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+				</variable>
 			</variables>
 			<macros />
 		</pass>
@@ -566,7 +574,7 @@
 			<itemvalues>
 				<value variable="matGeo" for="Lighting Quad">
 					<row>
-						<value>1518</value>
+						<value>1534</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -584,7 +592,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>759</value>
+						<value>767</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -644,7 +652,7 @@
 				</value>
 				<value variable="matProject" for="Lighting Quad">
 					<row>
-						<value>1.48383486</value>
+						<value>1.46835816</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -780,7 +788,6 @@
 			<variables>
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
-				<variable type="float4x4" name="matView" system="View" />
 				<variable type="int" name="LightLinkID">
 					<row>
 						<value>2</value>
@@ -1173,18 +1180,18 @@
 			<bind slot="1" name="Bloom" />
 		</object>
 		<object type="rendertexture" name="Color Pass" format="RGB" rsize="1.000000,1.000000" clear="true">
-			<bind slot="0" name="Lighting" />
+			<bind slot="2" name="Lighting" />
 		</object>
 		<object type="rendertexture" name="Position Pass" format="R32G32B32A32_FLOAT" rsize="1.000000,1.000000" clear="true">
 			<bind slot="1" name="Depth of Field" />
 			<bind slot="0" name="Color Grade" />
 			<bind slot="0" name="SSAO" />
-			<bind slot="1" name="Lighting" />
+			<bind slot="0" name="Lighting" />
 		</object>
 		<object type="rendertexture" name="Normal Pass" format="R32G32B32_FLOAT" rsize="1.000000,1.000000" clear="true">
 			<bind slot="1" name="Color Grade" />
 			<bind slot="1" name="SSAO" />
-			<bind slot="2" name="Lighting" />
+			<bind slot="1" name="Lighting" />
 		</object>
 		<object type="rendertexture" name="Translucent Color Pass" rsize="1.000000,1.000000" clear="true">
 			<bind slot="4" name="Color Grade" />
@@ -1196,7 +1203,7 @@
 			<bind slot="1" name="ShadowMapAtlas" />
 		</object>
 		<object type="image" name="ShadowMapAtlas" width="2048" height="2048" format="R16">
-			<bind slot="3" name="Lighting" uav="0" />
+			<bind slot="4" name="Lighting" uav="0" />
 			<bind slot="0" name="ShadowMapAtlas" uav="1" />
 		</object>
 		<object type="rendertexture" name="ShadowMap03" format="R16" fsize="1024,1024" clear="true">
@@ -1212,13 +1219,10 @@
 			<bind slot="6" name="Color Grade" />
 		</object>
 		<object type="rendertexture" name="LightLink" format="R16_FLOAT" rsize="1.000000,1.000000" clear="true">
-			<bind slot="4" name="Lighting" />
-		</object>
-		<object type="rendertexture" name="ORM Pass" format="RGB" rsize="1.000000,1.000000" clear="true" r="0.999989986" g="1" b="1" a="1">
 			<bind slot="5" name="Lighting" />
 		</object>
-		<object type="texture" name="Env Map" cube="true" left="importedAssets\CubeMap\1.png" top="importedAssets\CubeMap\5.png" front="importedAssets\CubeMap\4.png" bottom="importedAssets\CubeMap\6.png" right="importedAssets\CubeMap\3.png" back="importedAssets\CubeMap\2.png">
-			<bind slot="6" name="Lighting" />
+		<object type="rendertexture" name="ORM Pass" format="RGB" rsize="1.000000,1.000000" clear="true" r="0.999989986" g="1" b="1" a="1">
+			<bind slot="3" name="Lighting" />
 		</object>
 		<object type="rendertexture" name="Emissive Pass 1" rsize="1.000000,1.000000" clear="true">
 			<bind slot="0" name="Bloom" />
@@ -1251,7 +1255,7 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="ShadowMap4" item="pipe" />
+		<entry type="property" name="Lighting" item="pipe" />
 		<entry type="pinned" name="Ambient" owner="Lighting" />
 		<entry type="pinned" name="LightLink" owner="Translucent" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
@@ -1261,8 +1265,8 @@
 			<positionX>-17.7033634</positionX>
 			<positionY>5.74964142</positionY>
 			<positionZ>-6.22094393</positionZ>
-			<yaw>604.552185</yaw>
-			<pitch>-7.14952612</pitch>
+			<yaw>604.202271</yaw>
+			<pitch>-7.1495266</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />

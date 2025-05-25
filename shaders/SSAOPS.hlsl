@@ -27,52 +27,52 @@ float main(PSInput pin) : SV_TARGET
 	pin.UV.y = 1-pin.UV.y;
 	float4 Position = PositionPass.Sample(smp, pin.UV);
 	float3 Normal = NormalPass.Sample(smp, pin.UV);
-	float3 Noise = (NoisePass.Sample(smp,pin.UV*10));
+	float3 Noise = NoisePass.Sample(smp,pin.UV*10);
 	Normal = mul(Normal,matVP);
 	Noise = Noise * 2 - 1;
 	Noise.z = 0;
+
+	//get viewspace tbn
 	float3 N = normalize(Normal);
 	float3 T = normalize(Noise - N * dot(Noise, N));
-	//T = cross(N,float3(0,1,0));
 	float3 B = cross(N,T);
-	
 	float3x3 TBN = float3x3(T,B,N);
 	
 	
-	 //SSAO
+	//SSAO
 	float ao = 0;
 	float radius = .3;
 	float aoSamples = 32;
 	float bias = -.2;
 	float depth = mul(Position,matVP).z + bias;
 		
-	//random numbers
-
+	//hemishpere
 	for (int i = 0; i < aoSamples ; i ++)
 	{
 		float3 random = float3(randomNumber(i) * 2 - 1,
 						randomNumber(i + 12.3243463643) * 2 - 1,
 						randomNumber(i + 34.1123352));
-						
-		//distribute points closer to center
+
+		//orient to TBN				
 		random = mul(random,TBN);
-		random = normalize(random);
+		random = normalize(random);				
+		//distribute points closer to center
 		random *= randomNumber(i + 123.3434231);
 		float scale = float(i)/aoSamples;
 		random *= lerp(0.1,1, scale * scale);	
 		random *= scale;
 		
+		//offset by screen pos
 		float3 samplePos = random * radius;
 		samplePos = samplePos + float3(pin.UV.xy,depth);
 
-
-
+		//sample and depth check
 		float textureOffset =  mul(PositionPass.Sample(smp, samplePos.xy),matVP).z;
 		float radiusCheck = smoothstep(0,1,radius/abs(depth-textureOffset));
 		ao += ((textureOffset <= samplePos.z) ? 1 :0) * radiusCheck;
 
 	}
-	ao = 1-saturate(ao/aoSamples);
-	ao = saturate( pow(ao,2) );
+	ao = 1-(ao/aoSamples);
+	ao = saturate( pow(ao,1.5) );
 	return ao;
 }

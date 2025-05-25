@@ -23,24 +23,32 @@ float gaussian(float x, float sigma)
 float4 main(PSInput pin) : SV_TARGET
 {
 	pin.UV.y = 1-pin.UV.y;
+
 	//Bloom
 	float4 Emissive;
 	float4 EmissiveLighting;
+
 	float weightsum;
-	int size = 2;
-	float blur = .5;
+	int size = 1;
 	float2 texelSize = 1/screenSize;
+	float threshold = 0.8;
+
+	//blur
 	for (int y = -size ; y < size; y++)
 	{
 		for (int x = -size ; x < size; x++)
 		{
 		float2 offset = float2(x,y) * texelSize;
 		float circle = length(float2(x,y));
-		float weight = gaussian(circle,blur);
-		Emissive += (EmissivePass.Sample(smp, pin.UV + offset)) * weight * 2;
+		float weight = gaussian(circle,size);
+
+		//Bloom due to emissive
+		Emissive += (EmissivePass.Sample(smp, pin.UV + offset)) * weight;
+
+		//Bloom due to screen luminosity
 		EmissiveLighting = (LightingPass.Sample(smp,pin.UV + offset)) * weight;
-		float Luminosity = (EmissiveLighting.x + EmissiveLighting.y + EmissiveLighting.z ) /3;
-		Luminosity = Luminosity > 0.3 ? Luminosity : 0;
+		float Luminosity = (EmissiveLighting.x + EmissiveLighting.y + EmissiveLighting.z );
+		Luminosity = Luminosity > threshold ? Luminosity : 0;
 		Emissive += EmissiveLighting * Luminosity * .2; 
 		weightsum += weight;
 		}
