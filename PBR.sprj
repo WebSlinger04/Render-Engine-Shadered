@@ -510,7 +510,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="Translucent" type="shader" active="true" patchverts="1" collapsed="true">
+		<pass name="Translucent" type="shader" active="true" patchverts="1">
 			<shader type="vs" path="shaders\TranslucentVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\TranslucentPS.hlsl" entry="main" />
 			<inputlayout>
@@ -521,6 +521,36 @@
 			<rendertexture name="Translucent Color Pass" />
 			<rendertexture name="Translucent Depth Pass" />
 			<items>
+				<item name="Translucent Render State" type="renderstate">
+					<blend>true</blend>
+					<alpha2coverage>false</alpha2coverage>
+					<colorsrcfactor>One</colorsrcfactor>
+					<colordstfactor>One</colordstfactor>
+					<colorfunc>Add</colorfunc>
+					<alphasrcfactor>One</alphasrcfactor>
+					<alphadstfactor>Zero</alphadstfactor>
+					<alphafunc>Add</alphafunc>
+					<blendfactor_r>1</blendfactor_r>
+					<blendfactor_g>1</blendfactor_g>
+					<blendfactor_b>1</blendfactor_b>
+					<blendfactor_a>1</blendfactor_a>
+					<depthtest>true</depthtest>
+					<depthclamp>true</depthclamp>
+					<depthmask>true</depthmask>
+					<depthfunc>Less</depthfunc>
+					<depthbias>0</depthbias>
+					<stenciltest>false</stenciltest>
+					<stencilmask>0</stencilmask>
+					<stencilref>255</stencilref>
+					<stencilfrontfunc>Equal</stencilfrontfunc>
+					<stencilbackfunc>Equal</stencilbackfunc>
+					<stencilfrontpass>Keep</stencilfrontpass>
+					<stencilbackpass>Keep</stencilbackpass>
+					<stencilfrontfail>Keep</stencilfrontfail>
+					<stencilbackfail>Keep</stencilbackfail>
+					<depthfrontfail>Keep</depthfrontfail>
+					<depthbackfail>Keep</depthbackfail>
+				</item>
 				<item name="Glass1" type="model">
 					<filepath>importedAssets\Glass1.obj</filepath>
 					<grouponly>false</grouponly>
@@ -1255,7 +1285,7 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Lighting" item="pipe" />
+		<entry type="property" name="Translucent Render State" item="pipe" />
 		<entry type="pinned" name="Ambient" owner="Lighting" />
 		<entry type="pinned" name="LightLink" owner="Translucent" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
