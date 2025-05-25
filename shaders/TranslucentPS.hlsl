@@ -1,6 +1,8 @@
 //tweakables
 Texture2D texCA : register(t0);
 SamplerState smp : register(s0);
+int LightLink;
+float4 Ambient;
 
 //Buffer
 struct InputData 
@@ -28,7 +30,39 @@ struct PSOut
 	
 };
 
-int LightLink;
+struct Lighting
+{
+	//init
+	float4 lgtColor;
+	float3 lgtPos;
+	float3 lgtDir;
+	float4 lgtXtra;
+	
+	float3 gPos;
+	float4 gColor;
+	float3 gNormal;
+
+	float4 _Diffuse()
+	{
+		float3 lgtVec = normalize(lgtPos - gPos);
+		float NdotL = dot(lgtVec, gNormal);
+		float4 diffuseLight = saturate(NdotL);
+		diffuseLight = diffuseLight * lgtColor;
+			
+		return diffuseLight * gColor * _attenuation();
+	}
+	
+	float _attenuation()
+	{
+		float3 lgtVec = normalize(lgtPos - gPos);
+		float falloff = lgtXtra.x;
+		float ConeAngle = lgtXtra.y;
+		float lightFalloff = falloff/(pow(length(lgtPos - gPos),2));
+		float SpotCone = pow(saturate(dot(lgtVec,normalize(-lgtDir))),ConeAngle);
+		
+		return 1 * lightFalloff * SpotCone;
+	}
+};
 
 PSOut main(PSInput pin)
 {
@@ -36,51 +70,37 @@ PSOut main(PSInput pin)
 	
 	//sample maps
 	float2 uvMap = (pin.UV + float2(0,1)) * float2(0.1667,-0.5);
-	float4 colorMap = texCA.Sample(smp,uvMap);
-	colorMap.a = 0.3;
+	float4 Color = texCA.Sample(smp,uvMap);
 	
-	float3 lightPos;
-	float4 Diffuse;
-	float4 DiffuseResult;
-	for(int i = 0; i < 10; i++)
+	float4 Result;
+	for(int i = 0; i < 16; i++)
 	{
 		//stop after loop through all lights
 		if (lightBuffer[i].Color.a == 0){
 			break;
 		}
 		
-		if (sign((lightBuffer[i].extraData.a) >= 0))
+		//light linking
+		int objLink = round(LightLink);
+		int lgtLink = lightBuffer[i].extraData.a;
+		if ((lgtLink > 0 && lgtLink != objLink) || (lgtLink < 0 && lgtLink == -objLink))
 		{
-			if(lightBuffer[i].extraData.a != 0 && lightBuffer[i].extraData.a != round((LightLink)))
-			{
-				continue;
-			}		
-		} else
-		
-		{
-			if( lightBuffer[i].extraData.a == -round(LightLink))
-			{
-				continue;
-			}	
+			continue;
 		}
 		
-		//build vector
-		lightPos = lightBuffer[i].Position.xyz;
-		float3 lightVec = normalize(lightPos - pin.wPosition);
-		
-		//Diffuse Light
-		float NdotL = dot(lightVec, pin.wNormal);
-		float diffuseLight = saturate(abs(NdotL));
-		Diffuse = diffuseLight * lightBuffer[i].Color;
-
-		//Light attenuation
-		float falloff = lightBuffer[i].extraData.x;
-		float lightFalloff = 1/(pow(length(lightPos - pin.wPosition),2)) * falloff;
-		float ConeAngle = lightBuffer[i].extraData.y;
-		float SpotCone = saturate(pow(dot(lightVec,normalize(-lightBuffer[i].Direction.xyz)),ConeAngle));
-		DiffuseResult += saturate(Diffuse * lightFalloff * SpotCone);
+		//set data
+		Lighting lighting;
+		lighting.lgtColor = lightBuffer[i].Color;
+		lighting.lgtPos = lightBuffer[i].Position;
+		lighting.lgtDir = lightBuffer[i].Direction;
+		lighting.lgtXtra = lightBuffer[i].extraData;
+		lighting.gPos = pin.wPosition;
+		lighting.gColor = Color;
+		lighting.gNormal = pin.wNormal;
+		Result += lighting._Diffuse();
 	}
-	pout.Color = colorMap * float4(DiffuseResult.xyz,1);
+	pout.Color = Result + Ambient;
+	pout.Color.a = 0.3;
 	pout.Depth = pin.Position.a;
 	return pout;
 }

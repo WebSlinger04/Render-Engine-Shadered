@@ -1,9 +1,9 @@
-//tweakables
 Texture2D texCA : register(t0);
-Texture2D texNormal : register(t2);
-Texture2D texORM : register(t3);
+Texture2D texORM : register(t2);
+Texture2D texNormal : register(t3);
 Texture2D texEmissive : register(t1);
 SamplerState smp : register(s0);
+int LightLinkID;
 
 struct PSInput
 {
@@ -25,7 +25,6 @@ struct PSOut
 	float4 Emissive;
 };
 
-int LightLinkID;
 PSOut main(PSInput pin)
 {
 	PSOut pout = (PSOut)0;

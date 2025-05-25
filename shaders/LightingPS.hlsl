@@ -1,3 +1,11 @@
+Texture2D PositionPass : register(t0);
+Texture2D NormalPass : register(t1);
+Texture2D ColorPass : register(t2);
+Texture2D ORMPass : register(t3);
+Texture2D ShadowMap : register(t4);
+Texture2D LightLinkPass : register(t5);
+SamplerState smp : register(s0);
+
 //Buffer
 struct InputData 
 {
@@ -7,6 +15,7 @@ struct InputData
 	float4 extraData;
 };
 StructuredBuffer<InputData> lightBuffer : register(u0);
+
 
 cbuffer cbPerFrame : register(b0)
 {
@@ -26,15 +35,6 @@ struct PSOut
 {
 	float4 Main : SV_Target1;
 };
-
-Texture2D PositionPass : register(t0);
-Texture2D NormalPass : register(t1);
-Texture2D ColorPass : register(t2);
-Texture2D ORMPass : register(t3);
-Texture2D ShadowMap : register(t4);
-Texture2D LightLinkPass : register(t5);
-SamplerState smp : register(s0);
-
 
 float randomNumber(float maxNumber)
 {
@@ -61,17 +61,22 @@ struct Lighting
 	float Roughness = 1;
 	float ior = 1;
 
-	float4 Diffuse()
+	float4 Calculate()
+	{
+		return (_Diffuse() + _Specular()) * _Shadow() + _Volumetric();
+	}
+
+	float4 _Diffuse()
 	{
 		float3 lgtVec = normalize(lgtPos - gPos);
 		float NdotL = dot(lgtVec, gNormal);
 		float4 diffuseLight = saturate(NdotL);
 		diffuseLight = diffuseLight * lgtColor;
 			
-		return diffuseLight * gColor * _attenuation() * _Shadow();
+		return diffuseLight * gColor * _attenuation();
 	}
 	
-	float4 Specular()
+	float4 _Specular()
 	{
 		float3 lgtVec = normalize(lgtPos - gPos);
 		float3 V = normalize(camPos-gPos);
@@ -98,10 +103,10 @@ struct Lighting
 		
 		//Cook-Torance
 		float3 Specular = (D*F*G) / (4*max(NdotL,.001),max(NdotV,.001));
-		return float4(Specular,1) * _attenuation() * _Shadow();
+		return float4(Specular,1) * _attenuation();
 	}
 	
-	float4 Volumetric()
+	float4 _Volumetric()
 	{
 		//get light values in view space
 		float4 viewLgtPos = mul(float4(lgtPos.xyz,1),matVP);
@@ -113,16 +118,18 @@ struct Lighting
 
 		//volumetric
 		float2 viewVector = normalize(UV-ndcLgtPos);
-		float4 lgtVolume = dot(viewVector,ndcLgtDir);
+		float4 Volumetric = saturate(dot(viewVector,ndcLgtDir));
 		
 		//volume falloff
+		float falloff = lgtXtra.x;
+		float ConeAngle = lgtXtra.y;
 		float vecDist = distance(float3(UV,0),float3(ndcLgtPos,0));
-		float4 Volumetric = saturate(pow(lgtVolume,lgtXtra.y*0.5));
-		Volumetric *= lgtColor * .0002 * lgtXtra.x/length(UV-ndcLgtPos);
-		Volumetric = saturate(Volumetric);
-		Volumetric *= (viewLgtPos.a - 10 > mul(float4(gPos.xyz,1),matVP).a) ? 0 : 1;
+		float VolumeFalloff = .0002 * falloff/length(UV-ndcLgtPos);
+		float VolumeCone = pow(Volumetric,ConeAngle);
+		//depth check
+		Volumetric *= saturate( (mul(float4(gPos.xyz,1),matVP).a - viewLgtPos.a ) / 5);
 		
-		return Volumetric * lgtXtra.z;
+		return Volumetric * lgtColor * VolumeFalloff * VolumeCone * lgtXtra.z;
 	
 	}
 	
@@ -132,14 +139,15 @@ struct Lighting
 		float falloff = lgtXtra.x;
 		float ConeAngle = lgtXtra.y;
 		float lightFalloff = falloff/(pow(length(lgtPos - gPos),2));
-		float SpotCone = saturate(pow(dot(lgtVec,normalize(-lgtDir)),ConeAngle));
+		float SpotCone = pow(saturate(dot(lgtVec,normalize(-lgtDir))),ConeAngle);
 		
 		return 1 * lightFalloff * SpotCone;
 	}
 	
 	float _Shadow()
 	{
-		float texels = 3;
+		//construct lightView
+		float texels = 4;
 		float3 N = 4*normalize(-lgtDir);
 		float3 T = normalize(cross(float3(0,1,0),N));
 		float3 B = normalize(cross(N,T));
@@ -149,35 +157,37 @@ struct Lighting
 		float4(T.z,B.z,N.z,0),
 		dot(-lgtPos,T),dot(-lgtPos,B),dot(-lgtPos,N),1);
 		
+		//create UV from light data
 		float4 shadowProject = mul(mul(float4(gPos,1),matLookAt),matProject);
 		float screenRatio = viewSize.x /viewSize.y;
-		shadowProject.xy = shadowProject * float2(screenRatio,1);
-		float3 coords = shadowProject.xyz / shadowProject.w;
-		coords = coords * .5+.5;
-		
-		float2 uvMap = coords;
+		shadowProject.xy *= float2(screenRatio,1);
+		shadowProject.xy /= shadowProject.w;
+		shadowProject.xy = shadowProject.xy * .5+.5;
+		float2 uvMap = shadowProject.xy;
+
+		//fetch shadowMap from atlas
 		float offset = lgtIndex;
 		float x = offset%texels * 1/texels;
-		float y = -floor(offset/texels) * 1/texels + + 1-1/texels;
+		float y = -floor(offset/texels) * 1/texels + 1-1/texels;
 		float2 clipUv = (uvMap / texels) + float2(x,y);;
 		
 		float shadowMap;
+		//if outside range set to 1 else calculate shadow;
 		if ((clipUv.x < x) || (clipUv.x > x + 1/texels) || (clipUv.y < y) ||  (clipUv.y > y + 1/texels))
 		{
 			shadowMap = 1;
 		} else
 		{
-			float size = 64;
+			int ShadowSamples = 32;
 			float d = 0.0075;
-			for (int i = 0 ; i < size ; i++)
+			for (int i = 0; i < ShadowSamples; i++)
 			{
 				float2 offset = float2(randomNumber(i*3.1232)*2-1,randomNumber(i*1.63434)*2-1);
 				offset *= d;
 				float shadowTex = ShadowMap.Sample(smp,clipUv.xy + offset).x;
-				 shadowMap += ( 1/shadowProject.w >  shadowTex - .001 );
+				shadowMap += ( 1/shadowProject.w >  shadowTex - .001 );
 			}
-			shadowMap /= size;
-			shadowMap = saturate(shadowMap*2);
+			shadowMap /= ShadowSamples;
 		}
 		return shadowMap;
 	}
@@ -191,9 +201,7 @@ PSOut main(PSInput pin) : SV_TARGET
 	PSOut pout;
 	pin.UV.y = 1-pin.UV.y;
 	
-	float4 DiffuseResult;
-	float4 SpecularResult;
-	float4 VolumeResult;
+	float4 Result;
 	
 	float4 Position = PositionPass.Sample(smp,pin.UV);
 	float3 Normal = NormalPass.Sample(smp,pin.UV);
@@ -201,7 +209,7 @@ PSOut main(PSInput pin) : SV_TARGET
 	float3 ORM = ORMPass.Sample(smp,pin.UV);
 	float LightLink = LightLinkPass.Sample(smp,pin.UV);
 
-	for(int i = 0; i < 9; i++)
+	for(int i = 0; i < 16; i++)
 	{
 		//stop after loop through all lights
 		if (lightBuffer[i].Color.a == 0){
@@ -211,7 +219,7 @@ PSOut main(PSInput pin) : SV_TARGET
 		//light linking
 		int objLink = round(LightLink);
 		int lgtLink = lightBuffer[i].extraData.a;
-		if ((lgtLink >= 0 && lgtLink != 0 && lgtLink != objLink) || (lgtLink < 0 && lgtLink == -objLink))
+		if ((lgtLink > 0 && lgtLink != objLink) || (lgtLink < 0 && lgtLink == -objLink))
 		{
 			continue;
 		}
@@ -230,12 +238,10 @@ PSOut main(PSInput pin) : SV_TARGET
 		lighting.camPos = camPos;
 
 
-		DiffuseResult += lighting.Diffuse();
-		VolumeResult += lighting.Volumetric();
-		SpecularResult += lighting.Specular();
+		Result += lighting.Calculate();
 
 	}
 		
-	pout.Main =  DiffuseResult + SpecularResult + Ambient + VolumeResult;
+	pout.Main = Result + Ambient;
 	return pout;
 }

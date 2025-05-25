@@ -1,8 +1,7 @@
-	cbuffer cbPerFrame : register(b0)
+cbuffer cbPerFrame : register(b0)
 {
 	float4x4 matVP;
 	float4x4 matGeo;
-	float4x4 matView;
 };
 
 struct VSInput

@@ -51,7 +51,7 @@ float Texture(int index, float2 UV)
 [numthreads(32, 32, 1)]
 void main(uint3 dispatchThreadID : SV_DispatchThreadID)
 {
-	int texels = 3;
+	int texels = 4;
 	for (int i = 0; i < pow(texels,2); i++)
 	{
 		float2 texSize = float2(2048,2048);
@@ -65,10 +65,4 @@ void main(uint3 dispatchThreadID : SV_DispatchThreadID)
 		outputTexture[selector] =  Texture(i,UV);
 
 	}
-	
-	for (uint i = 0; i < 72; i++)
-    {
-        //data[i] = 0;
-    }
-
 }
