@@ -57,9 +57,9 @@ struct Lighting
 	float3 gNormal;
 	float3 camPos;
 		
-	float metallic = 0;
-	float Roughness = 1;
-	float ior = 1;
+	float metallic;
+	float Roughness;
+	float ior;
 
 	float4 Calculate()
 	{
@@ -87,12 +87,13 @@ struct Lighting
 		float VdotH = saturate(dot(V,H));
 		
 		//G Reflectance due to Geometry
-		float k = pow(Roughness + 1,2) / 8;
-		float G = (NdotV / (NdotV * (1-k) + k));
-		G *= (NdotL / (NdotL*(1-k) + k));
+		float k = pow((1-Roughness) + 1,2) / 8;
+		float G = NdotV / (NdotV * (1-k) + k);
+		float G2 = NdotL / (NdotL*(1-k) + k);
+		G *= G2;
 		
 		//F Reflectance due to Fresnel
-		float3 F0 = abs( (1.0 - ior) / (1.0 + ior) );
+		float F0 = pow(1-ior,2) / pow(1 + ior,2);
 		F0 = lerp(F0, gColor.xyz, metallic);
 		float3 F = F0 + (1-F0) * pow(1-VdotH,5);
 	
@@ -102,7 +103,7 @@ struct Lighting
 		float D = R2 / (3.14 * pow(NdotH2 * (R2-1) + 1,2));
 		
 		//Cook-Torance
-		float3 Specular = (D*F*G) / (4*max(NdotL,.001),max(NdotV,.001));
+		float3 Specular = (D*F*G) / (4*max(NdotL,0.001),max(NdotV,0.001));
 		return float4(Specular,1) * _attenuation();
 	}
 	
@@ -209,7 +210,7 @@ PSOut main(PSInput pin) : SV_TARGET
 	float3 ORM = ORMPass.Sample(smp,pin.UV);
 	float LightLink = LightLinkPass.Sample(smp,pin.UV);
 
-	for(int i = 0; i < 16; i++)
+	for(int i = 0; i < 1; i++)
 	{
 		//stop after loop through all lights
 		if (lightBuffer[i].Color.a == 0){
@@ -236,6 +237,9 @@ PSOut main(PSInput pin) : SV_TARGET
 		lighting.gColor = Color;
 		lighting.gNormal = Normal;
 		lighting.camPos = camPos;
+		lighting.metallic = 0;
+		lighting.Roughness = .3;
+		lighting.ior = 1.5;
 
 
 		Result += lighting.Calculate();

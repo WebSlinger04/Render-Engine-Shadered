@@ -10,6 +10,7 @@ Texture2D shadowMap6 : register(t5);
 Texture2D shadowMap7 : register(t6);
 Texture2D shadowMap8 : register(t7);
 SamplerState smp : register(s0);
+bool updateShadows;
 
 float Texture(int index, float2 UV) 
 {
@@ -51,6 +52,11 @@ float Texture(int index, float2 UV)
 [numthreads(32, 32, 1)]
 void main(uint3 dispatchThreadID : SV_DispatchThreadID)
 {
+	if(updateShadows == false)
+	{
+		return;
+	}
+	
 	int texels = 4;
 	for (int i = 0; i < pow(texels,2); i++)
 	{
