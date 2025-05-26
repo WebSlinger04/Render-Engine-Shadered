@@ -103,9 +103,8 @@ DockId=0x0000000E,1
 
 [Window][###code_viewCS0]
 Pos=199,22
-Size=1721,995
+Size=1720,995
 Collapsed=0
-DockId=0x0000000E,1
 
 [Window][Pixel Inspect]
 Pos=1528,22
@@ -165,7 +164,7 @@ Collapsed=0
 DockId=0x160B189F,1
 
 [Window][Variable Manager##pui_shader_variables]
-Pos=959,242
+Pos=960,242
 Size=730,225
 Collapsed=0
 
@@ -283,7 +282,7 @@ Size=282,86
 Collapsed=0
 
 [Window][Save Changes##code_save]
-Pos=878,461
+Pos=879,461
 Size=204,86
 Collapsed=0
 
@@ -454,7 +453,7 @@ Column 2
 DockSpace           ID=0x160B189F Window=0x912BA114 Pos=0,22 Size=1920,995 Split=X
   DockNode          ID=0x00000001 Parent=0x160B189F SizeRef=488,997 Split=Y
     DockNode        ID=0x00000003 Parent=0x00000001 SizeRef=239,498 Selected=0x848ABB8F
-    DockNode        ID=0x00000004 Parent=0x00000001 SizeRef=239,495 Selected=0x0541D7F0
+    DockNode        ID=0x00000004 Parent=0x00000001 SizeRef=239,495 Selected=0xE28BE0D1
   DockNode          ID=0x00000002 Parent=0x160B189F SizeRef=1430,997 Split=X
     DockNode        ID=0x0000000B Parent=0x00000002 SizeRef=729,826
     DockNode        ID=0x0000000C Parent=0x00000002 SizeRef=848,826 Split=X

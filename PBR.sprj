@@ -510,7 +510,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="Translucent" type="shader" active="true" patchverts="1">
+		<pass name="Translucent" type="shader" active="true" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\TranslucentVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\TranslucentPS.hlsl" entry="main" />
 			<inputlayout>
@@ -1187,9 +1187,9 @@
 			<shader type="cs" path="shaders\shadowMapAtlasCS.hlsl" entry="main" />
 			<groupsize x="64" y="64" z="1" />
 			<variables>
-				<variable type="int" name="updateShadows">
+				<variable type="bool" name="updateShadows">
 					<row>
-						<value>0</value>
+						<value>false</value>
 					</row>
 				</variable>
 			</variables>
@@ -1292,13 +1292,12 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Lighting" item="pipe" />
+		<entry type="property" name="ShadowMapAtlas" item="pipe" />
 		<entry type="pinned" name="Ambient" owner="Lighting" />
 		<entry type="pinned" name="LightLink" owner="Translucent" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
-		<entry type="pinned" name="updateShadows" owner="ShadowMapAtlas" />
 		<entry type="camera" fp="true">
 			<positionX>-17.7033634</positionX>
 			<positionY>5.74964142</positionY>
