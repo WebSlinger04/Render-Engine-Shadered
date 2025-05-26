@@ -210,7 +210,7 @@ PSOut main(PSInput pin) : SV_TARGET
 	float3 ORM = ORMPass.Sample(smp,pin.UV);
 	float LightLink = LightLinkPass.Sample(smp,pin.UV);
 
-	for(int i = 0; i < 1; i++)
+	for(int i = 0; i < 16; i++)
 	{
 		//stop after loop through all lights
 		if (lightBuffer[i].Color.a == 0){
