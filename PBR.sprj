@@ -127,7 +127,7 @@
 				</value>
 				<value variable="matGeo" for="Color Grade Quad">
 					<row>
-						<value>1470</value>
+						<value>1471</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -145,7 +145,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>735</value>
+						<value>735.5</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -176,7 +176,7 @@
 					<row>
 						<value>1</value>
 						<value>1</value>
-						<value>1.20000005</value>
+						<value>1.29999995</value>
 					</row>
 				</variable>
 				<variable type="float4" name="PP_Fog">
@@ -211,7 +211,7 @@
 			<itemvalues>
 				<value variable="ortho" for="Bloom Quad">
 					<row>
-						<value>0.00136054424</value>
+						<value>0.00135961932</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -396,7 +396,7 @@
 			<itemvalues>
 				<value variable="matGeo" for="Blur SSAO Quad">
 					<row>
-						<value>1470</value>
+						<value>1471</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -414,7 +414,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>735</value>
+						<value>735.5</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -477,7 +477,7 @@
 			<itemvalues>
 				<value variable="ortho" for="SSAO Quad">
 					<row>
-						<value>0.00136054424</value>
+						<value>0.00135961932</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -604,7 +604,7 @@
 			<itemvalues>
 				<value variable="matGeo" for="Lighting Quad">
 					<row>
-						<value>1470</value>
+						<value>1471</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -622,7 +622,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>735</value>
+						<value>735.5</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -682,7 +682,7 @@
 				</value>
 				<value variable="matProject" for="Lighting Quad">
 					<row>
-						<value>1.53228652</value>
+						<value>1.53124487</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -716,16 +716,16 @@
 				<variable type="float4x4" name="matOrtho" system="Orthographic" />
 				<variable type="float4" name="Ambient">
 					<row>
-						<value>0.0241906941</value>
-						<value>0.0335670859</value>
-						<value>0.0509803928</value>
+						<value>0.0186082274</value>
+						<value>0.025881445</value>
+						<value>0.0392156877</value>
 						<value>0</value>
 					</row>
 				</variable>
 			</variables>
 			<macros />
 		</pass>
-		<pass name="Main" type="shader" active="true" patchverts="1" collapsed="true">
+		<pass name="Main" type="shader" active="true" patchverts="1">
 			<shader type="vs" path="shaders\MainVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\MainPS.hlsl" entry="main" />
 			<inputlayout>
@@ -811,7 +811,7 @@
 				</value>
 				<value variable="LightLinkID" for="Fore">
 					<row>
-						<value>4</value>
+						<value>1</value>
 					</row>
 				</value>
 			</itemvalues>
@@ -1190,7 +1190,7 @@
 		</pass>
 	</pipeline>
 	<objects>
-		<object type="buffer" name="Buffer" size="512" format="float4;float4;float4;float4;" pausedpreview="true">
+		<object type="buffer" name="Buffer" size="576" format="float4;float4;float4;float4;" pausedpreview="true">
 			<bind slot="0" name="Translucent" />
 			<bind slot="0" name="Lighting" />
 			<bind slot="0" name="ShadowMap1" />
@@ -1285,16 +1285,16 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Lighting" item="pipe" />
+		<entry type="property" name="SSAO" item="pipe" />
 		<entry type="pinned" name="Ambient" owner="Lighting" />
 		<entry type="pinned" name="LightLink" owner="Translucent" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
 		<entry type="camera" fp="true">
-			<positionX>-17.7033634</positionX>
-			<positionY>5.74964142</positionY>
-			<positionZ>-6.22094393</positionZ>
+			<positionX>-17.7416496</positionX>
+			<positionY>5.7549758</positionY>
+			<positionZ>-6.23945045</positionZ>
 			<yaw>604.202271</yaw>
 			<pitch>-7.1495266</pitch>
 		</entry>

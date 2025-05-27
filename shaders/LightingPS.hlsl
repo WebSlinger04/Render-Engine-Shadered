@@ -104,7 +104,7 @@ struct Lighting
 		
 		//Cook-Torance
 		float3 Specular = (D*F*G) / (4*max(NdotL,0.001),max(NdotV,0.001));
-		return float4(Specular,1) * _attenuation();
+		return float4(Specular,1) * _attenuation() * lgtColor;
 	}
 	
 	float4 _Volumetric()
@@ -128,7 +128,7 @@ struct Lighting
 		float VolumeFalloff = .0002 * falloff/length(UV-ndcLgtPos);
 		float VolumeCone = pow(Volumetric,ConeAngle);
 		//depth check
-		Volumetric *= saturate( (mul(float4(gPos.xyz,1),matVP).a - viewLgtPos.a ) / 5);
+		Volumetric *= saturate( (mul(float4(gPos.xyz,1),matVP).a - viewLgtPos.a ) / 5 + 1);
 		
 		return Volumetric * lgtColor * VolumeFalloff * VolumeCone * lgtXtra.z;
 	
@@ -140,13 +140,22 @@ struct Lighting
 		float falloff = lgtXtra.x;
 		float ConeAngle = lgtXtra.y;
 		float lightFalloff = falloff/(pow(length(lgtPos - gPos),2));
-		float SpotCone = pow(saturate(dot(lgtVec,normalize(-lgtDir))),ConeAngle);
+		float SpotCone = 1;
+		if(lgtColor.a == 1)
+		{
+			SpotCone = pow(saturate(dot(lgtVec,normalize(-lgtDir))),ConeAngle);
+		}
 		
 		return 1 * lightFalloff * SpotCone;
 	}
 	
 	float _Shadow()
 	{
+		if(lgtColor.a != 1)
+		{
+			return 1;
+		}
+		
 		//construct lightView
 		float texels = 4;
 		float3 N = 4*normalize(-lgtDir);
@@ -238,7 +247,7 @@ PSOut main(PSInput pin) : SV_TARGET
 		lighting.gNormal = Normal;
 		lighting.camPos = camPos;
 		lighting.metallic = 0;
-		lighting.Roughness = .3;
+		lighting.Roughness = .2;
 		lighting.ior = 1.5;
 
 
