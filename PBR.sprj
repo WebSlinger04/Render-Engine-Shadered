@@ -127,7 +127,7 @@
 				</value>
 				<value variable="matGeo" for="Color Grade Quad">
 					<row>
-						<value>1418</value>
+						<value>1470</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -145,7 +145,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>709</value>
+						<value>735</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -211,7 +211,7 @@
 			<itemvalues>
 				<value variable="ortho" for="Bloom Quad">
 					<row>
-						<value>0.00141043728</value>
+						<value>0.00136054424</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -396,7 +396,7 @@
 			<itemvalues>
 				<value variable="matGeo" for="Blur SSAO Quad">
 					<row>
-						<value>1418</value>
+						<value>1470</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -414,7 +414,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>709</value>
+						<value>735</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -477,7 +477,7 @@
 			<itemvalues>
 				<value variable="ortho" for="SSAO Quad">
 					<row>
-						<value>0.00141043728</value>
+						<value>0.00136054424</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -604,7 +604,7 @@
 			<itemvalues>
 				<value variable="matGeo" for="Lighting Quad">
 					<row>
-						<value>1418</value>
+						<value>1470</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -622,7 +622,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>709</value>
+						<value>735</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -682,7 +682,7 @@
 				</value>
 				<value variable="matProject" for="Lighting Quad">
 					<row>
-						<value>1.58847761</value>
+						<value>1.53228652</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -1186,13 +1186,6 @@
 		<pass name="ShadowMapAtlas" type="compute" active="true">
 			<shader type="cs" path="shaders\shadowMapAtlasCS.hlsl" entry="main" />
 			<groupsize x="64" y="64" z="1" />
-			<variables>
-				<variable type="bool" name="updateShadows">
-					<row>
-						<value>false</value>
-					</row>
-				</variable>
-			</variables>
 			<macros />
 		</pass>
 	</pipeline>
@@ -1292,7 +1285,7 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="ShadowMapAtlas" item="pipe" />
+		<entry type="property" name="Lighting" item="pipe" />
 		<entry type="pinned" name="Ambient" owner="Lighting" />
 		<entry type="pinned" name="LightLink" owner="Translucent" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
