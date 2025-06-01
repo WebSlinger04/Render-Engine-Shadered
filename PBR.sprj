@@ -1,6 +1,33 @@
 <?xml version="1.0"?>
 <project version="2">
 	<pipeline>
+		<pass name="Outline" type="shader" active="true" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\FullScreenQuadVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\PostProcessFXPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture />
+			<items>
+				<item name="PostProcessFX Quad" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="ortho" system="Orthographic" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float2" name="screenSize" system="ViewportSize" />
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
+			</variables>
+			<macros />
+		</pass>
 		<pass name="Depth of Field" type="shader" active="true" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\FullScreenQuadVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\Depth of FieldPS.hlsl" entry="main" />
@@ -127,7 +154,7 @@
 				</value>
 				<value variable="matGeo" for="Color Grade Quad">
 					<row>
-						<value>1471</value>
+						<value>1519</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -145,7 +172,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>735.5</value>
+						<value>759.5</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -211,7 +238,7 @@
 			<itemvalues>
 				<value variable="ortho" for="Bloom Quad">
 					<row>
-						<value>0.00135961932</value>
+						<value>0.00131665566</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -396,7 +423,7 @@
 			<itemvalues>
 				<value variable="matGeo" for="Blur SSAO Quad">
 					<row>
-						<value>1471</value>
+						<value>1519</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -414,7 +441,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>735.5</value>
+						<value>759.5</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -477,7 +504,7 @@
 			<itemvalues>
 				<value variable="ortho" for="SSAO Quad">
 					<row>
-						<value>0.00135961932</value>
+						<value>0.00131665566</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -604,7 +631,7 @@
 			<itemvalues>
 				<value variable="matGeo" for="Lighting Quad">
 					<row>
-						<value>1471</value>
+						<value>1519</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -622,7 +649,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>735.5</value>
+						<value>759.5</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -682,7 +709,7 @@
 				</value>
 				<value variable="matProject" for="Lighting Quad">
 					<row>
-						<value>1.53124487</value>
+						<value>1.48285794</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -863,6 +890,11 @@
 						<value>0</value>
 						<value>0</value>
 						<value>-0.20002</value>
+						<value>0</value>
+					</row>
+				</value>
+				<value variable="lightIndex" for="VBuffer">
+					<row>
 						<value>0</value>
 					</row>
 				</value>
@@ -1063,7 +1095,13 @@
 					<topology>TriangleList</topology>
 				</item>
 			</items>
-			<itemvalues />
+			<itemvalues>
+				<value variable="lightIndex" for="VBuffer4">
+					<row>
+						<value>3</value>
+					</row>
+				</value>
+			</itemvalues>
 			<variables>
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float4x4" name="matProject" system="Projection" />
@@ -1090,7 +1128,13 @@
 					<topology>TriangleList</topology>
 				</item>
 			</items>
-			<itemvalues />
+			<itemvalues>
+				<value variable="lightIndex" for="VBuffer5">
+					<row>
+						<value>4</value>
+					</row>
+				</value>
+			</itemvalues>
 			<variables>
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float4x4" name="matProject" system="Projection" />
@@ -1117,7 +1161,13 @@
 					<topology>TriangleList</topology>
 				</item>
 			</items>
-			<itemvalues />
+			<itemvalues>
+				<value variable="lightIndex" for="VBuffer6">
+					<row>
+						<value>5</value>
+					</row>
+				</value>
+			</itemvalues>
 			<variables>
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float4x4" name="matProject" system="Projection" />
@@ -1144,7 +1194,13 @@
 					<topology>TriangleList</topology>
 				</item>
 			</items>
-			<itemvalues />
+			<itemvalues>
+				<value variable="lightIndex" for="VBuffer7">
+					<row>
+						<value>6</value>
+					</row>
+				</value>
+			</itemvalues>
 			<variables>
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float4x4" name="matProject" system="Projection" />
@@ -1171,13 +1227,85 @@
 					<topology>TriangleList</topology>
 				</item>
 			</items>
-			<itemvalues />
+			<itemvalues>
+				<value variable="lightIndex" for="VBuffer8">
+					<row>
+						<value>7</value>
+					</row>
+				</value>
+			</itemvalues>
 			<variables>
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float4x4" name="matProject" system="Projection" />
 				<variable type="int" name="lightIndex">
 					<row>
 						<value>7</value>
+					</row>
+				</variable>
+			</variables>
+			<macros />
+		</pass>
+		<pass name="ShadowMap9" type="shader" active="true" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture name="ShadowMap9" />
+			<items>
+				<item name="VBuffer9" type="vertexbuffer">
+					<buffer>wPositionBuffer</buffer>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues>
+				<value variable="lightIndex" for="VBuffer9">
+					<row>
+						<value>8</value>
+					</row>
+				</value>
+			</itemvalues>
+			<variables>
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float4x4" name="matProject" system="Projection" />
+				<variable type="int" name="lightIndex">
+					<row>
+						<value>0</value>
+					</row>
+				</variable>
+			</variables>
+			<macros />
+		</pass>
+		<pass name="ShadowMap10" type="shader" active="true" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture name="ShadowMap10" />
+			<items>
+				<item name="VBuffer10" type="vertexbuffer">
+					<buffer>wPositionBuffer</buffer>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues>
+				<value variable="lightIndex" for="VBuffer10">
+					<row>
+						<value>9</value>
+					</row>
+				</value>
+			</itemvalues>
+			<variables>
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float4x4" name="matProject" system="Projection" />
+				<variable type="int" name="lightIndex">
+					<row>
+						<value>36476</value>
 					</row>
 				</variable>
 			</variables>
@@ -1190,7 +1318,7 @@
 		</pass>
 	</pipeline>
 	<objects>
-		<object type="buffer" name="Buffer" size="576" format="float4;float4;float4;float4;" pausedpreview="true">
+		<object type="buffer" name="Buffer" size="832" format="float4;float4;float4;float4;" pausedpreview="true">
 			<bind slot="0" name="Translucent" />
 			<bind slot="0" name="Lighting" />
 			<bind slot="0" name="ShadowMap1" />
@@ -1213,12 +1341,14 @@
 			<bind slot="2" name="Lighting" />
 		</object>
 		<object type="rendertexture" name="Position Pass" format="R32G32B32A32_FLOAT" rsize="1.000000,1.000000" clear="true">
+			<bind slot="1" name="Outline" />
 			<bind slot="1" name="Depth of Field" />
 			<bind slot="0" name="Color Grade" />
 			<bind slot="0" name="SSAO" />
 			<bind slot="0" name="Lighting" />
 		</object>
 		<object type="rendertexture" name="Normal Pass" format="R32G32B32_FLOAT" rsize="1.000000,1.000000" clear="true">
+			<bind slot="2" name="Outline" />
 			<bind slot="1" name="Color Grade" />
 			<bind slot="1" name="SSAO" />
 			<bind slot="1" name="Lighting" />
@@ -1258,6 +1388,7 @@
 			<bind slot="0" name="Bloom" />
 		</object>
 		<object type="rendertexture" name="Final Pass" rsize="1.000000,1.000000" clear="true">
+			<bind slot="0" name="Outline" />
 			<bind slot="0" name="Depth of Field" />
 		</object>
 		<object type="texture" path="importedAssets\T_ColorAtlas.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
@@ -1282,10 +1413,19 @@
 		<object type="rendertexture" name="ShadowMap8" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="7" name="ShadowMapAtlas" />
 		</object>
+		<object type="rendertexture" name="ShadowMap9" format="R16" fsize="1024,1024" clear="true">
+			<bind slot="8" name="ShadowMapAtlas" />
+		</object>
+		<object type="rendertexture" name="ShadowMap10" format="R16" fsize="1024,1024" clear="true">
+			<bind slot="9" name="ShadowMapAtlas" />
+		</object>
+		<object type="texture" path="importedAssets\HalfToneTex.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="3" name="Outline" />
+		</object>
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="SSAO" item="pipe" />
+		<entry type="property" name="Bloom" item="pipe" />
 		<entry type="pinned" name="Ambient" owner="Lighting" />
 		<entry type="pinned" name="LightLink" owner="Translucent" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />

@@ -9,6 +9,8 @@ Texture2D shadowMap5 : register(t4);
 Texture2D shadowMap6 : register(t5);
 Texture2D shadowMap7 : register(t6);
 Texture2D shadowMap8 : register(t7);
+Texture2D shadowMap9 : register(t8);
+Texture2D shadowMap10 : register(t9);
 SamplerState smp : register(s0);
 
 float Texture(int index, float2 UV) 
@@ -38,6 +40,12 @@ float Texture(int index, float2 UV)
 			break;
 		case 7:
 			return shadowMap8.Sample(smp,UV).x;
+			break;
+		case 8:
+			return shadowMap9.Sample(smp,UV).x;
+			break;
+		case 9:
+			return shadowMap10.Sample(smp,UV).x;
 			break;
 		default:
 			return 0;
