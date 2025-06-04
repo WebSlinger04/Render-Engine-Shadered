@@ -154,7 +154,7 @@
 				</value>
 				<value variable="matGeo" for="Color Grade Quad">
 					<row>
-						<value>1519</value>
+						<value>1406</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -172,7 +172,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>759.5</value>
+						<value>703</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -201,9 +201,9 @@
 				</variable>
 				<variable type="float3" name="PP_ECS">
 					<row>
+						<value>1.20000005</value>
 						<value>1</value>
-						<value>1</value>
-						<value>1.29999995</value>
+						<value>1.5</value>
 					</row>
 				</variable>
 				<variable type="float4" name="PP_Fog">
@@ -238,7 +238,7 @@
 			<itemvalues>
 				<value variable="ortho" for="Bloom Quad">
 					<row>
-						<value>0.00131665566</value>
+						<value>0.00142247509</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -423,7 +423,7 @@
 			<itemvalues>
 				<value variable="matGeo" for="Blur SSAO Quad">
 					<row>
-						<value>1519</value>
+						<value>1406</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -441,7 +441,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>759.5</value>
+						<value>703</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -504,7 +504,7 @@
 			<itemvalues>
 				<value variable="ortho" for="SSAO Quad">
 					<row>
-						<value>0.00131665566</value>
+						<value>0.00142247509</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -537,7 +537,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="Translucent" type="shader" active="true" patchverts="1" collapsed="true">
+		<pass name="Translucent" type="shader" active="true" patchverts="1">
 			<shader type="vs" path="shaders\TranslucentVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\TranslucentPS.hlsl" entry="main" />
 			<inputlayout>
@@ -631,7 +631,7 @@
 			<itemvalues>
 				<value variable="matGeo" for="Lighting Quad">
 					<row>
-						<value>1519</value>
+						<value>1406</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -649,7 +649,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>759.5</value>
+						<value>703</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -709,7 +709,7 @@
 				</value>
 				<value variable="matProject" for="Lighting Quad">
 					<row>
-						<value>1.48285794</value>
+						<value>1.60203493</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -1318,7 +1318,7 @@
 		</pass>
 	</pipeline>
 	<objects>
-		<object type="buffer" name="Buffer" size="832" format="float4;float4;float4;float4;" pausedpreview="true">
+		<object type="buffer" name="Buffer" size="896" format="float4;float4;float4;float4;" pausedpreview="true">
 			<bind slot="0" name="Translucent" />
 			<bind slot="0" name="Lighting" />
 			<bind slot="0" name="ShadowMap1" />
@@ -1425,16 +1425,16 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Bloom" item="pipe" />
+		<entry type="property" name="Props4" item="pipe" />
 		<entry type="pinned" name="Ambient" owner="Lighting" />
 		<entry type="pinned" name="LightLink" owner="Translucent" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
 		<entry type="camera" fp="true">
-			<positionX>-17.7416496</positionX>
-			<positionY>5.7549758</positionY>
-			<positionZ>-6.23945045</positionZ>
+			<positionX>-17.8947945</positionX>
+			<positionY>5.7763133</positionY>
+			<positionZ>-6.31347656</positionZ>
 			<yaw>604.202271</yaw>
 			<pitch>-7.1495266</pitch>
 		</entry>

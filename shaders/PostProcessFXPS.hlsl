@@ -17,17 +17,17 @@ Texture2D Normal : register(t2);
 Texture2D HT : register(t3);
 SamplerState smp : register(s0);
 
-/*
-float4 HalfTone(float2 UV,float4 Color)
+float4 HalfTone(float2 UV,float4 Color,float4 ColorResult)
 {
-    float4 HalfToneTex = 1-HT.Sample(smp,UV*300);
-    float threshold = 0.04;
-    float Luminosity = (Color.x + Color.y + Color.z) / 3;
-    Luminosity = step(threshold,Luminosity);
-    float4 HT = lerp(HalfToneTex,1,Luminosity);
-    return Color*HT;
+    float screenRatio = screenSize.x/screenSize.y;
+    float4 HalfToneTex = HT.Sample(smp,UV*float2(screenRatio,1)*200)*20;
+    float3 Color2 = normalize(Color);
+    float Mask = Color2.x + Color2.y*(0.5)+Color2.z*(0.25);
+    Mask = pow(Mask,3);
+    Mask = saturate(Mask*HalfToneTex);
+    float4 HT = lerp(Color,ColorResult,Mask*ColorResult.a);
+    return HT;
 }
-*/
 
 float4 Outline(float2 UV,float4 Color)
 {  
@@ -62,6 +62,6 @@ float4 main(PSInput pin)
     float4 Col = Color.Sample(smp,pin.UV);
 
     result = Outline(pin.UV,Col);
-    //result = HalfTone(pin.UV,result);
+    //result = HalfTone(pin.UV,result,float4(1,0.5,0.25,0.2));
     return result;
 }
