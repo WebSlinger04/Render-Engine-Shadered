@@ -1,7 +1,7 @@
 Texture2D texCA : register(t0);
-Texture2D texORM : register(t2);
-Texture2D texNormal : register(t3);
-Texture2D texEmissive : register(t1);
+Texture2D texORM : register(t1);
+Texture2D texNormal : register(t2);
+Texture2D texEmissive : register(t3);
 SamplerState smp : register(s0);
 int LightLinkID;
 
@@ -17,10 +17,10 @@ struct PSInput
 
 struct PSOut
 {
-	float3 Color;
 	float4 Position;
 	float3 Normal;
 	float LightLink;
+	float3 Color;
 	float3 ORM;
 	float4 Emissive;
 };
@@ -38,7 +38,7 @@ PSOut main(PSInput pin)
 	
 	
 	//Color Map
-	float3 cMap = colorMap.xyz; //*aoMap;
+	float3 cMap = colorMap.xyz*ormMap.x;
 	//ORM
 	pout.ORM = ormMap;
 	//Normal Map

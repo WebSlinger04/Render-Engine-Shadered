@@ -11,7 +11,7 @@ struct PSInput
 	float2 UV : TEXCOORD;
 };
 
-Texture2D AOPass : register(t0);
+Texture2D SceneAoNoise : register(t0);
 SamplerState smp : register(s0);
 
 float gaussian(float x, float sigma)
@@ -32,7 +32,7 @@ float main(PSInput pin) : SV_TARGET
 		for (int x = -size ; x < size; x++)
 		{
 		float2 offset = float2(x,y) * texelSize;;
-		AO += (AOPass.Sample(smp, pin.UV + offset));
+		AO += (SceneAoNoise.Sample(smp, pin.UV + offset));
 		}
 	}
 

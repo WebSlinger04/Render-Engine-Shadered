@@ -11,8 +11,8 @@ struct PSInput
 	float2 UV : TEXCOORD;
 };
 
-Texture2D EmissivePass : register(t0);
-Texture2D LightingPass : register(t1);
+Texture2D SceneLighting : register(t0);
+Texture2D EmissivePass : register(t1);
 SamplerState smp : register(s0);
 
 float gaussian(float x, float sigma)
@@ -29,9 +29,9 @@ float4 main(PSInput pin) : SV_TARGET
 	float4 EmissiveLighting;
 
 	float weightsum;
-	int size = 1;
+	int size = 2;
 	float2 texelSize = 1/screenSize;
-	float threshold = 0.8;
+	float threshold = 1;
 
 	//blur
 	for (int y = -size ; y < size; y++)
@@ -46,8 +46,8 @@ float4 main(PSInput pin) : SV_TARGET
 		Emissive += (EmissivePass.Sample(smp, pin.UV + offset)) * weight;
 
 		//Bloom due to screen luminosity
-		EmissiveLighting = (LightingPass.Sample(smp,pin.UV + offset)) * weight;
-		float Luminosity = (EmissiveLighting.x + EmissiveLighting.y + EmissiveLighting.z );
+		EmissiveLighting = SceneLighting.Sample(smp,pin.UV + offset) * weight;
+		float Luminosity = (EmissiveLighting.x + EmissiveLighting.y + EmissiveLighting.z )/3;
 		Luminosity = Luminosity > threshold ? Luminosity : 0;
 		Emissive += EmissiveLighting * Luminosity * .2; 
 		weightsum += weight;
