@@ -207,7 +207,7 @@ struct Lighting
 		float3 dir = gNormal;
 	    uv.x = atan2(dir.z,dir.x) / (2.0 * 3.14159265) + 0.5;
 	    uv.y = asin(clamp(dir.y, -1.0, 0.99)) / 3.14159265 + 0.5;
-	    float3 Diffuse = envMapBlur.Sample(smp,uv) * gColor;
+	    float3 Diffuse = envMap.SampleLevel(smp,uv,8) * gColor;
 	    Diffuse /= 3.14;
 	    Diffuse *= 1-metallic;
 		
