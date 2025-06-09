@@ -1,33 +1,6 @@
 <?xml version="1.0"?>
 <project version="2">
 	<pipeline>
-		<pass name="Outline" type="shader" active="true" patchverts="1" collapsed="true">
-			<shader type="vs" path="shaders\FullScreenQuadVS.hlsl" entry="main" />
-			<shader type="ps" path="shaders\PostProcessFXPS.hlsl" entry="main" />
-			<inputlayout>
-				<item value="Position" semantic="POSITION" />
-				<item value="Normal" semantic="NORMAL" />
-				<item value="Texcoord" semantic="TEXCOORD0" />
-			</inputlayout>
-			<rendertexture />
-			<items>
-				<item name="PostProcessFX Quad" type="geometry">
-					<type>ScreenQuad</type>
-					<width>1</width>
-					<height>1</height>
-					<depth>1</depth>
-					<topology>TriangleList</topology>
-				</item>
-			</items>
-			<itemvalues />
-			<variables>
-				<variable type="float4x4" name="ortho" system="Orthographic" />
-				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
-				<variable type="float2" name="screenSize" system="ViewportSize" />
-				<variable type="float4x4" name="matVP" system="ViewProjection" />
-			</variables>
-			<macros />
-		</pass>
 		<pass name="Depth of Field" type="shader" active="true" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\FullScreenQuadVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\Depth of FieldPS.hlsl" entry="main" />
@@ -63,7 +36,7 @@
 				<item value="Normal" semantic="NORMAL" />
 				<item value="Texcoord" semantic="TEXCOORD0" />
 			</inputlayout>
-			<rendertexture name="Final Pass" />
+			<rendertexture name="Scene Final" />
 			<items>
 				<item name="Color Grade Quad" type="geometry">
 					<type>ScreenQuad</type>
@@ -154,7 +127,7 @@
 				</value>
 				<value variable="matGeo" for="Color Grade Quad">
 					<row>
-						<value>1406</value>
+						<value>1517</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -172,7 +145,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>703</value>
+						<value>758.5</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -201,17 +174,17 @@
 				</variable>
 				<variable type="float3" name="PP_ECS">
 					<row>
-						<value>1.20000005</value>
+						<value>0</value>
+						<value>0</value>
 						<value>1</value>
-						<value>1.5</value>
 					</row>
 				</variable>
 				<variable type="float4" name="PP_Fog">
 					<row>
-						<value>0.0382929631</value>
-						<value>0.97647059</value>
-						<value>0.953016043</value>
-						<value>0.100000001</value>
+						<value>9.99989993e-07</value>
+						<value>9.99999997e-07</value>
+						<value>9.9999977e-07</value>
+						<value>0</value>
 					</row>
 				</variable>
 			</variables>
@@ -225,7 +198,7 @@
 				<item value="Normal" semantic="NORMAL" />
 				<item value="Texcoord" semantic="TEXCOORD0" />
 			</inputlayout>
-			<rendertexture name="Emissive Pass" />
+			<rendertexture name="Scene Bloom" />
 			<items>
 				<item name="Bloom Quad" type="geometry">
 					<type>ScreenQuad</type>
@@ -238,7 +211,7 @@
 			<itemvalues>
 				<value variable="ortho" for="Bloom Quad">
 					<row>
-						<value>0.00142247509</value>
+						<value>0.00131839153</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -410,7 +383,7 @@
 				<item value="Normal" semantic="NORMAL" />
 				<item value="Texcoord" semantic="TEXCOORD0" />
 			</inputlayout>
-			<rendertexture name="Blur AO Pass" />
+			<rendertexture name="Scene AO Blur" />
 			<items>
 				<item name="Blur SSAO Quad" type="geometry">
 					<type>ScreenQuad</type>
@@ -423,7 +396,7 @@
 			<itemvalues>
 				<value variable="matGeo" for="Blur SSAO Quad">
 					<row>
-						<value>1406</value>
+						<value>1517</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -441,7 +414,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>703</value>
+						<value>758.5</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -491,7 +464,7 @@
 				<item value="Normal" semantic="NORMAL" />
 				<item value="Texcoord" semantic="TEXCOORD0" />
 			</inputlayout>
-			<rendertexture name="AO Pass" />
+			<rendertexture name="Scene AO Noise" />
 			<items>
 				<item name="SSAO Quad" type="geometry">
 					<type>ScreenQuad</type>
@@ -504,7 +477,7 @@
 			<itemvalues>
 				<value variable="ortho" for="SSAO Quad">
 					<row>
-						<value>0.00142247509</value>
+						<value>0.00131839153</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -545,8 +518,8 @@
 				<item value="Normal" semantic="NORMAL" />
 				<item value="Texcoord" semantic="TEXCOORD0" />
 			</inputlayout>
-			<rendertexture name="Translucent Color Pass" />
-			<rendertexture name="Translucent Depth Pass" />
+			<rendertexture name="Scene Translucent" />
+			<rendertexture name="Scene Translucent Depth" />
 			<items>
 				<item name="Translucent Render State" type="renderstate">
 					<blend>true</blend>
@@ -618,7 +591,7 @@
 				<item value="Normal" semantic="NORMAL" />
 				<item value="Texcoord" semantic="TEXCOORD0" />
 			</inputlayout>
-			<rendertexture name="Lighting Pass" />
+			<rendertexture name="Scene Lighting" />
 			<items>
 				<item name="Lighting Quad" type="geometry">
 					<type>ScreenQuad</type>
@@ -631,7 +604,7 @@
 			<itemvalues>
 				<value variable="matGeo" for="Lighting Quad">
 					<row>
-						<value>1406</value>
+						<value>1517</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -649,7 +622,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>703</value>
+						<value>758.5</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -709,7 +682,7 @@
 				</value>
 				<value variable="matProject" for="Lighting Quad">
 					<row>
-						<value>1.60203493</value>
+						<value>1.48481297</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -743,16 +716,16 @@
 				<variable type="float4x4" name="matOrtho" system="Orthographic" />
 				<variable type="float4" name="Ambient">
 					<row>
-						<value>0.0186082274</value>
-						<value>0.025881445</value>
-						<value>0.0392156877</value>
+						<value>9.99989993e-07</value>
+						<value>9.99994541e-07</value>
+						<value>9.99999997e-07</value>
 						<value>0</value>
 					</row>
 				</variable>
 			</variables>
 			<macros />
 		</pass>
-		<pass name="Main" type="shader" active="true" patchverts="1">
+		<pass name="Main" type="shader" active="true" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\MainVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\MainPS.hlsl" entry="main" />
 			<inputlayout>
@@ -762,12 +735,12 @@
 				<item value="Tangent" semantic="TANGENT" />
 				<item value="Bitangent" semantic="BITANGENT" />
 			</inputlayout>
-			<rendertexture name="Color Pass" />
-			<rendertexture name="Position Pass" />
-			<rendertexture name="Normal Pass" />
-			<rendertexture name="LightLink" />
-			<rendertexture name="ORM Pass" />
-			<rendertexture name="Emissive Pass 1" />
+			<rendertexture name="World Position" />
+			<rendertexture name="World Normal" />
+			<rendertexture name="Scene Light Link" />
+			<rendertexture name="Scene Color" />
+			<rendertexture name="Scene ORM" />
+			<rendertexture name="Scene Emissive" />
 			<items>
 				<item name="Ceiling" type="model">
 					<filepath>importedAssets\Ceiling.obj</filepath>
@@ -859,7 +832,7 @@
 			<inputlayout>
 				<item value="Position" semantic="POSITION" />
 			</inputlayout>
-			<rendertexture name="ShadowMap01" />
+			<rendertexture name="SM 01" />
 			<items>
 				<item name="VBuffer" type="vertexbuffer">
 					<buffer>wPositionBuffer</buffer>
@@ -918,7 +891,7 @@
 				<item value="Normal" semantic="NORMAL" />
 				<item value="Texcoord" semantic="TEXCOORD0" />
 			</inputlayout>
-			<rendertexture name="ShadowMap02" />
+			<rendertexture name="SM 02" />
 			<items>
 				<item name="VBuffer2" type="vertexbuffer">
 					<buffer>wPositionBuffer</buffer>
@@ -977,7 +950,7 @@
 				<item value="Normal" semantic="NORMAL" />
 				<item value="Texcoord" semantic="TEXCOORD0" />
 			</inputlayout>
-			<rendertexture name="ShadowMap03" />
+			<rendertexture name="SM 03" />
 			<items>
 				<item name="VBuffer3" type="vertexbuffer">
 					<buffer>wPositionBuffer</buffer>
@@ -1088,7 +1061,7 @@
 				<item value="Normal" semantic="NORMAL" />
 				<item value="Texcoord" semantic="TEXCOORD0" />
 			</inputlayout>
-			<rendertexture name="ShadowMap4" />
+			<rendertexture name="SM 04" />
 			<items>
 				<item name="VBuffer4" type="vertexbuffer">
 					<buffer>wPositionBuffer</buffer>
@@ -1121,7 +1094,7 @@
 				<item value="Normal" semantic="NORMAL" />
 				<item value="Texcoord" semantic="TEXCOORD0" />
 			</inputlayout>
-			<rendertexture name="ShadowMap5" />
+			<rendertexture name="SM 05" />
 			<items>
 				<item name="VBuffer5" type="vertexbuffer">
 					<buffer>wPositionBuffer</buffer>
@@ -1154,7 +1127,7 @@
 				<item value="Normal" semantic="NORMAL" />
 				<item value="Texcoord" semantic="TEXCOORD0" />
 			</inputlayout>
-			<rendertexture name="ShadowMap6" />
+			<rendertexture name="SM 06" />
 			<items>
 				<item name="VBuffer6" type="vertexbuffer">
 					<buffer>wPositionBuffer</buffer>
@@ -1187,7 +1160,7 @@
 				<item value="Normal" semantic="NORMAL" />
 				<item value="Texcoord" semantic="TEXCOORD0" />
 			</inputlayout>
-			<rendertexture name="ShadowMap7" />
+			<rendertexture name="SM 07" />
 			<items>
 				<item name="VBuffer7" type="vertexbuffer">
 					<buffer>wPositionBuffer</buffer>
@@ -1220,7 +1193,7 @@
 				<item value="Normal" semantic="NORMAL" />
 				<item value="Texcoord" semantic="TEXCOORD0" />
 			</inputlayout>
-			<rendertexture name="ShadowMap8" />
+			<rendertexture name="SM 08" />
 			<items>
 				<item name="VBuffer8" type="vertexbuffer">
 					<buffer>wPositionBuffer</buffer>
@@ -1253,7 +1226,7 @@
 				<item value="Normal" semantic="NORMAL" />
 				<item value="Texcoord" semantic="TEXCOORD0" />
 			</inputlayout>
-			<rendertexture name="ShadowMap9" />
+			<rendertexture name="SM 09" />
 			<items>
 				<item name="VBuffer9" type="vertexbuffer">
 					<buffer>wPositionBuffer</buffer>
@@ -1278,39 +1251,6 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="ShadowMap10" type="shader" active="true" patchverts="1" collapsed="true">
-			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
-			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
-			<inputlayout>
-				<item value="Position" semantic="POSITION" />
-				<item value="Normal" semantic="NORMAL" />
-				<item value="Texcoord" semantic="TEXCOORD0" />
-			</inputlayout>
-			<rendertexture name="ShadowMap10" />
-			<items>
-				<item name="VBuffer10" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
-					<topology>TriangleList</topology>
-				</item>
-			</items>
-			<itemvalues>
-				<value variable="lightIndex" for="VBuffer10">
-					<row>
-						<value>9</value>
-					</row>
-				</value>
-			</itemvalues>
-			<variables>
-				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
-				<variable type="float4x4" name="matProject" system="Projection" />
-				<variable type="int" name="lightIndex">
-					<row>
-						<value>36476</value>
-					</row>
-				</variable>
-			</variables>
-			<macros />
-		</pass>
 		<pass name="ShadowMapAtlas" type="compute" active="true">
 			<shader type="cs" path="shaders\shadowMapAtlasCS.hlsl" entry="main" />
 			<groupsize x="64" y="64" z="1" />
@@ -1318,7 +1258,7 @@
 		</pass>
 	</pipeline>
 	<objects>
-		<object type="buffer" name="Buffer" size="896" format="float4;float4;float4;float4;" pausedpreview="true">
+		<object type="buffer" name="Buffer" size="64" format="float4;float4;float4;float4;" pausedpreview="true">
 			<bind slot="0" name="Translucent" />
 			<bind slot="0" name="Lighting" />
 			<bind slot="0" name="ShadowMap1" />
@@ -1327,116 +1267,113 @@
 			<bind slot="0" name="Main" />
 			<bind slot="1" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="ShadowMap01" format="R16" fsize="1024,1024" clear="true">
-			<bind slot="0" name="ShadowMapAtlas" />
-		</object>
-		<object type="rendertexture" name="Emissive Pass" format="R8G8B8" rsize="1.000000,1.000000" clear="true">
-			<bind slot="3" name="Color Grade" />
-		</object>
-		<object type="rendertexture" name="Lighting Pass" format="R16G16B16A16" rsize="1.000000,1.000000" clear="true">
-			<bind slot="2" name="Color Grade" />
-			<bind slot="1" name="Bloom" />
-		</object>
-		<object type="rendertexture" name="Color Pass" format="RGB" rsize="1.000000,1.000000" clear="true">
-			<bind slot="2" name="Lighting" />
-		</object>
-		<object type="rendertexture" name="Position Pass" format="R32G32B32A32_FLOAT" rsize="1.000000,1.000000" clear="true">
-			<bind slot="1" name="Outline" />
-			<bind slot="1" name="Depth of Field" />
-			<bind slot="0" name="Color Grade" />
-			<bind slot="0" name="SSAO" />
-			<bind slot="0" name="Lighting" />
-		</object>
-		<object type="rendertexture" name="Normal Pass" format="R32G32B32_FLOAT" rsize="1.000000,1.000000" clear="true">
-			<bind slot="2" name="Outline" />
-			<bind slot="1" name="Color Grade" />
-			<bind slot="1" name="SSAO" />
-			<bind slot="1" name="Lighting" />
-		</object>
-		<object type="rendertexture" name="Translucent Color Pass" rsize="1.000000,1.000000" clear="true">
-			<bind slot="4" name="Color Grade" />
-		</object>
-		<object type="rendertexture" name="Translucent Depth Pass" format="R16" rsize="1.000000,1.000000" clear="true">
-			<bind slot="5" name="Color Grade" />
-		</object>
-		<object type="rendertexture" name="ShadowMap02" format="R16" fsize="1024,1024" clear="true">
-			<bind slot="1" name="ShadowMapAtlas" />
-		</object>
 		<object type="image" name="ShadowMapAtlas" width="2048" height="2048" format="R16">
-			<bind slot="4" name="Lighting" uav="0" />
+			<bind slot="3" name="Lighting" uav="0" />
 			<bind slot="0" name="ShadowMapAtlas" uav="1" />
-		</object>
-		<object type="rendertexture" name="ShadowMap03" format="R16" fsize="1024,1024" clear="true">
-			<bind slot="2" name="ShadowMapAtlas" />
-		</object>
-		<object type="rendertexture" name="AO Pass" format="R" rsize="1.000000,1.000000" clear="true">
-			<bind slot="0" name="Blur SSAO" />
 		</object>
 		<object type="texture" path="importedAssets\VectorNoise.png" vflip="false" min_filter="Linear" mag_filter="Linear" wrap_s="Repeat" wrap_t="Repeat">
 			<bind slot="2" name="SSAO" />
 		</object>
-		<object type="rendertexture" name="Blur AO Pass" format="R" rsize="1.000000,1.000000" clear="true">
-			<bind slot="6" name="Color Grade" />
+		<object type="rendertexture" name="World Position" format="R16G16B16A16_FLOAT" rsize="1.000000,1.000000" clear="true">
+			<bind slot="0" name="Depth of Field" />
+			<bind slot="0" name="Color Grade" />
+			<bind slot="0" name="SSAO" />
+			<bind slot="0" name="Lighting" />
 		</object>
-		<object type="rendertexture" name="LightLink" format="R16_FLOAT" rsize="1.000000,1.000000" clear="true">
+		<object type="rendertexture" name="World Normal" format="R16G16B16_FLOAT" rsize="1.000000,1.000000" clear="true">
+			<bind slot="1" name="SSAO" />
+			<bind slot="1" name="Lighting" />
+		</object>
+		<object type="rendertexture" name="Scene Light Link" format="R8" rsize="1.000000,1.000000" clear="true">
+			<bind slot="2" name="Lighting" />
+		</object>
+		<object type="rendertexture" name="Scene Color" format="RGB" rsize="1.000000,1.000000" clear="true">
+			<bind slot="0" name="Translucent" />
+			<bind slot="4" name="Lighting" />
+		</object>
+		<object type="rendertexture" name="Scene ORM" format="RGB" rsize="1.000000,1.000000" clear="true">
 			<bind slot="5" name="Lighting" />
 		</object>
-		<object type="rendertexture" name="ORM Pass" format="RGB" rsize="1.000000,1.000000" clear="true" r="0.999989986" g="1" b="1" a="1">
-			<bind slot="3" name="Lighting" />
+		<object type="rendertexture" name="Scene Emissive" format="RGB" rsize="1.000000,1.000000" clear="true">
+			<bind slot="1" name="Bloom" />
 		</object>
-		<object type="rendertexture" name="Emissive Pass 1" rsize="1.000000,1.000000" clear="true">
+		<object type="rendertexture" name="Scene Lighting" format="RGB" rsize="1.000000,1.000000" clear="true">
+			<bind slot="1" name="Color Grade" />
 			<bind slot="0" name="Bloom" />
 		</object>
-		<object type="rendertexture" name="Final Pass" rsize="1.000000,1.000000" clear="true">
-			<bind slot="0" name="Outline" />
-			<bind slot="0" name="Depth of Field" />
+		<object type="rendertexture" name="Scene Translucent" rsize="1.000000,1.000000" clear="true" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07">
+			<bind slot="4" name="Color Grade" />
 		</object>
-		<object type="texture" path="importedAssets\T_ColorAtlas.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
-			<bind slot="0" name="Translucent" />
-			<bind slot="0" name="Main" />
+		<object type="rendertexture" name="Scene Translucent Depth" format="R16" rsize="1.000000,1.000000" clear="true">
+			<bind slot="5" name="Color Grade" />
 		</object>
-		<object type="texture" path="importedAssets\T_EmissiveAtlas.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
-			<bind slot="1" name="Main" />
+		<object type="rendertexture" name="Scene AO Noise" format="R" rsize="1.000000,1.000000" clear="true">
+			<bind slot="0" name="Blur SSAO" />
 		</object>
-		<object type="rendertexture" name="ShadowMap4" format="R16" fsize="1024,1024" clear="true">
+		<object type="rendertexture" name="Scene AO Blur" format="R" rsize="1.000000,1.000000" clear="true">
+			<bind slot="3" name="Color Grade" />
+		</object>
+		<object type="rendertexture" name="Scene Bloom" format="RGB" rsize="1.000000,1.000000" clear="true">
+			<bind slot="2" name="Color Grade" />
+		</object>
+		<object type="rendertexture" name="Scene Final" format="RGB" rsize="1.000000,1.000000" clear="true">
+			<bind slot="1" name="Depth of Field" />
+		</object>
+		<object type="rendertexture" name="SM 01" format="R16" fsize="512,512" clear="true">
+			<bind slot="0" name="ShadowMapAtlas" />
+		</object>
+		<object type="rendertexture" name="SM 02" format="R16" fsize="512,512" clear="true">
+			<bind slot="1" name="ShadowMapAtlas" />
+		</object>
+		<object type="rendertexture" name="SM 03" format="R16" fsize="512,512" clear="true">
+			<bind slot="2" name="ShadowMapAtlas" />
+		</object>
+		<object type="rendertexture" name="SM 04" format="R16" fsize="512,512" clear="true">
 			<bind slot="3" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="ShadowMap5" format="R16" fsize="1024,1024" clear="true">
+		<object type="rendertexture" name="SM 05" format="R16" fsize="512,512" clear="true">
 			<bind slot="4" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="ShadowMap6" format="R16" fsize="1024,1024" clear="true">
+		<object type="rendertexture" name="SM 06" format="R16" fsize="512,512" clear="true">
 			<bind slot="5" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="ShadowMap7" format="R16" fsize="1024,1024" clear="true">
+		<object type="rendertexture" name="SM 07" format="R16" fsize="512,512" clear="true">
 			<bind slot="6" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="ShadowMap8" format="R16" fsize="1024,1024" clear="true">
+		<object type="rendertexture" name="SM 08" format="R16" fsize="512,512" clear="true">
 			<bind slot="7" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="ShadowMap9" format="R16" fsize="1024,1024" clear="true">
+		<object type="rendertexture" name="SM 09" format="R16" fsize="512,512" clear="true">
 			<bind slot="8" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="ShadowMap10" format="R16" fsize="1024,1024" clear="true">
-			<bind slot="9" name="ShadowMapAtlas" />
+		<object type="texture" path="importedAssets\T_Color.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="0" name="Main" />
 		</object>
-		<object type="texture" path="importedAssets\HalfToneTex.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
-			<bind slot="3" name="Outline" />
+		<object type="texture" path="importedAssets\T_ORM.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="1" name="Main" />
+		</object>
+		<object type="texture" path="importedAssets\T_Normal.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="2" name="Main" />
+		</object>
+		<object type="texture" path="importedAssets\T_Emissive.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="3" name="Main" />
 		</object>
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Props4" item="pipe" />
+		<entry type="property" name="Translucent" item="pipe" />
+		<entry type="file" name="Translucent" shader="vs" />
+		<entry type="file" name="Translucent" shader="ps" />
 		<entry type="pinned" name="Ambient" owner="Lighting" />
-		<entry type="pinned" name="LightLink" owner="Translucent" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
 		<entry type="camera" fp="true">
-			<positionX>-17.8947945</positionX>
-			<positionY>5.7763133</positionY>
-			<positionZ>-6.31347656</positionZ>
-			<yaw>604.202271</yaw>
-			<pitch>-7.1495266</pitch>
+			<positionX>-18.4142742</positionX>
+			<positionY>5.31767893</positionY>
+			<positionZ>-4.50113821</positionZ>
+			<yaw>606.448669</yaw>
+			<pitch>-7.39951897</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />

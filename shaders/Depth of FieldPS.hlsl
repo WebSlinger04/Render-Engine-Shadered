@@ -11,8 +11,8 @@ cbuffer cbPerFrame : register(b0)
 };
 
 
-Texture2D FinalPass : register(t0);
-Texture2D DepthPass : register(t1);
+Texture2D Position : register(t0);
+Texture2D FinalPass : register(t1);
 SamplerState smp : register(s0);
 
 float gaussian(float x, float sigma)
@@ -26,7 +26,7 @@ float4 main(PSInput pin) : SV_TARGET
 	
 	float4 blurFinal;
 	float4 Final = FinalPass.Sample(smp,pin.UV);
-	float Depth = mul(DepthPass.Sample(smp,pin.UV),matVP).z / 20;
+	float Depth = mul(Position.Sample(smp,pin.UV),matVP).z / 20;
 	
 	float weightsum;
 	int size = 2;
@@ -46,7 +46,6 @@ float4 main(PSInput pin) : SV_TARGET
 	}
 
 	blurFinal = blurFinal/weightsum;
-	
 	
 	return lerp(Final,blurFinal,Depth);
 

@@ -44,9 +44,6 @@ float Texture(int index, float2 UV)
 		case 8:
 			return shadowMap9.Sample(smp,UV).x;
 			break;
-		case 9:
-			return shadowMap10.Sample(smp,UV).x;
-			break;
 		default:
 			return 0;
 			break;
@@ -60,7 +57,7 @@ float Texture(int index, float2 UV)
 void main(uint3 dispatchThreadID : SV_DispatchThreadID)
 {
 	
-	int texels = 4;
+	int texels = 3;
 	for (int i = 0; i < pow(texels,2); i++)
 	{
 		float2 texSize = float2(2048,2048);

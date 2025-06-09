@@ -1,9 +1,9 @@
-Texture2D PositionPass : register(t0);
-Texture2D NormalPass : register(t1);
-Texture2D ColorPass : register(t2);
-Texture2D ORMPass : register(t3);
-Texture2D ShadowMap : register(t4);
-Texture2D LightLinkPass : register(t5);
+Texture2D Position : register(t0);
+Texture2D Normal : register(t1);
+Texture2D SceneLightLink : register(t2);
+Texture2D ShadowMapAtlas : register(t3);
+Texture2D SceneColor : register(t4);
+Texture2D SceneORM : register(t5);
 SamplerState smp : register(s0);
 
 //Buffer
@@ -29,11 +29,6 @@ struct PSInput
 {
 	float4 Position : SV_POSITION;
 	float2 UV : TEXCOORD;
-};
-
-struct PSOut
-{
-	float4 Main : SV_Target1;
 };
 
 float randomNumber(float maxNumber)
@@ -157,7 +152,7 @@ struct Lighting
 		}
 		
 		//construct lightView
-		float texels = 4;
+		float texels = 3;
 		float3 N = 4*normalize(-lgtDir);
 		float3 T = normalize(cross(float3(0,1,0),N));
 		float3 B = normalize(cross(N,T));
@@ -175,49 +170,48 @@ struct Lighting
 		shadowProject.xy = shadowProject.xy * .5+.5;
 		float2 uvMap = shadowProject.xy;
 
-		//fetch shadowMap from atlas
+		//fetch ShadowMapAtlas from atlas
 		float offset = lgtIndex;
 		float x = offset%texels * 1/texels;
 		float y = -floor(offset/texels) * 1/texels + 1-1/texels;
 		float2 clipUv = (uvMap / texels) + float2(x,y);;
 		
-		float shadowMap;
+		float Shadow;
 		//if outside range set to 1 else calculate shadow;
 		if ((clipUv.x < x) || (clipUv.x > x + 1/texels) || (clipUv.y < y) ||  (clipUv.y > y + 1/texels))
 		{
-			shadowMap = 1;
+			Shadow = 1;
 		} else
 		{
-			int ShadowSamples = 32;
-			float d = 0.0075;
+			int ShadowSamples = 64;
+			float d = 0.003;
 			for (int i = 0; i < ShadowSamples; i++)
 			{
 				float2 offset = float2(randomNumber(i*3.1232)*2-1,randomNumber(i*1.63434)*2-1);
 				offset *= d;
-				float shadowTex = ShadowMap.Sample(smp,clipUv.xy + offset).x;
-				shadowMap += ( 1/shadowProject.w >  shadowTex - .001 );
+				float shadowTex = ShadowMapAtlas.Sample(smp,clipUv.xy + offset).x;
+				Shadow += ( 1/shadowProject.w >  shadowTex - .002 );
 			}
-			shadowMap /= ShadowSamples;
+			Shadow /= ShadowSamples;
 		}
-		return shadowMap;
+		return Shadow;
 	}
 };
 
 
 float4 Ambient;
 	
-PSOut main(PSInput pin) : SV_TARGET
+float4 main(PSInput pin) : SV_TARGET
 {
-	PSOut pout;
 	pin.UV.y = 1-pin.UV.y;
 	
 	float4 Result;
 	
-	float4 Position = PositionPass.Sample(smp,pin.UV);
-	float3 Normal = NormalPass.Sample(smp,pin.UV);
-	float4 Color = ColorPass.Sample(smp,pin.UV);
-	float3 ORM = ORMPass.Sample(smp,pin.UV);
-	float LightLink = LightLinkPass.Sample(smp,pin.UV);
+	float4 Position = Position.Sample(smp,pin.UV);
+	float3 Normal = Normal.Sample(smp,pin.UV);
+	float4 Color = SceneColor.Sample(smp,pin.UV);
+	float3 ORM = SceneORM.Sample(smp,pin.UV);
+	float LightLink = SceneLightLink.Sample(smp,pin.UV);
 
 	for(int i = 0; i < 16; i++)
 	{
@@ -246,8 +240,8 @@ PSOut main(PSInput pin) : SV_TARGET
 		lighting.gColor = Color;
 		lighting.gNormal = Normal;
 		lighting.camPos = camPos;
-		lighting.metallic = 0;
-		lighting.Roughness = .2;
+		lighting.metallic = ORM.z;
+		lighting.Roughness = ORM.y;
 		lighting.ior = 1.5;
 
 
@@ -255,6 +249,5 @@ PSOut main(PSInput pin) : SV_TARGET
 
 	}
 		
-	pout.Main = Result + Ambient;
-	return pout;
+	return Result + Ambient;
 }

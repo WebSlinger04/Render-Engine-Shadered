@@ -10,9 +10,9 @@ struct PSInput
 	float2 UV : TEXCOORD;
 };
 
-Texture2D PositionPass : register(t0);
-Texture2D NormalPass : register(t1);
-Texture2D NoisePass : register(t2);
+Texture2D Position : register(t0);
+Texture2D Normal : register(t1);
+Texture2D Noise : register(t2);
 SamplerState smp : register(s0);
 
 
@@ -25,9 +25,9 @@ float randomNumber(float maxNumber)
 float main(PSInput pin) : SV_TARGET
 {
 	pin.UV.y = 1-pin.UV.y;
-	float4 Position = PositionPass.Sample(smp, pin.UV);
-	float3 Normal = NormalPass.Sample(smp, pin.UV);
-	float3 Noise = NoisePass.Sample(smp,pin.UV*10);
+	float4 PositionPass = Position.Sample(smp, pin.UV);
+	float3 Normal = Normal.Sample(smp, pin.UV);
+	float3 Noise = Noise.Sample(smp,pin.UV*10);
 	Normal = mul(Normal,matVP);
 	Noise = Noise * 2 - 1;
 	Noise.z = 0;
@@ -41,10 +41,10 @@ float main(PSInput pin) : SV_TARGET
 	
 	//SSAO
 	float ao = 0;
-	float radius = .3;
+	float radius = .2;
 	float aoSamples = 32;
 	float bias = -.2;
-	float depth = mul(Position,matVP).z + bias;
+	float depth = mul(PositionPass,matVP).z + bias;
 		
 	//hemishpere
 	for (int i = 0; i < aoSamples ; i ++)
@@ -67,7 +67,7 @@ float main(PSInput pin) : SV_TARGET
 		samplePos = samplePos + float3(pin.UV.xy,depth);
 
 		//sample and depth check
-		float textureOffset =  mul(PositionPass.Sample(smp, samplePos.xy),matVP).z;
+		float textureOffset =  mul(Position.Sample(smp, samplePos.xy),matVP).z;
 		float radiusCheck = smoothstep(0,1,radius/abs(depth-textureOffset));
 		ao += ((textureOffset <= samplePos.z) ? 1 :0) * radiusCheck;
 

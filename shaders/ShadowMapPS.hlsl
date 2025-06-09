@@ -3,14 +3,7 @@ struct PSInput
 	float4 Position : SV_POSITION;
 };
 
-struct PSOut
+float4 main(PSInput pin)
 {
-	float SM : SV_Target0;
-};
-
-PSOut main(PSInput pin)
-{
-	PSOut pout;
-	pout.SM = pin.Position.w;
-	return pout;
+	return pin.Position.w;
 }

@@ -25,9 +25,8 @@ struct PSInput
 
 struct PSOut
 {
-	float4 Color;
-	float4 Depth;
-	
+	float4 Translucent;
+	float Depth;
 };
 
 struct Lighting
@@ -67,7 +66,6 @@ struct Lighting
 PSOut main(PSInput pin)
 {
 	PSOut pout = (PSOut)0;
-	
 	//sample maps
 	float2 uvMap = (pin.UV + float2(0,1)) * float2(0.1667,-0.5);
 	float4 Color = texCA.Sample(smp,uvMap);
@@ -99,8 +97,9 @@ PSOut main(PSInput pin)
 		lighting.gNormal = pin.wNormal;
 		Result += lighting._Diffuse();
 	}
-	pout.Color = Result + Ambient;
-	pout.Color.a = 0.3;
+	Result = Result + Ambient;
+	Result = .4;
+	pout.Translucent = Result;
 	pout.Depth = pin.Position.a;
 	return pout;
 }

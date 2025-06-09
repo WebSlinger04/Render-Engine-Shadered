@@ -1,10 +1,9 @@
-Texture2D PositionPass : register(t0);
-Texture2D NormalPass : register(t1);
-Texture2D LightingPass : register(t2);
-Texture2D EmissivePass : register(t3);
-Texture2D TranslucentPass : register(t4);
-Texture2D TranslucentDepth : register(t5);
-Texture2D AoPass: register(t6);
+Texture2D Position : register(t0);
+Texture2D SceneLighting : register(t1);
+Texture2D EmissivePass : register(t2);
+Texture2D AoPass: register(t3);
+Texture2D SceneTranslucent : register(t4);
+Texture2D SceneTranslucentDepth : register(t5);
 SamplerState smp : register(s0);
 
 float3 PP_ECS;
@@ -17,17 +16,17 @@ struct PSInput
 	float2 UV : TEXCOORD;
 };
 
-float4 ColorGrade(float4 Color)
+float4 ColorGrade(float4 SceneColor)
 {
-	Color = saturate(Color * pow(2,PP_ECS.x));	
-	Color = saturate((Color - 0.5) * (1+(PP_ECS.y*.1)) + 0.5);
+	SceneColor = saturate(SceneColor * pow(2,PP_ECS.x));	
+	SceneColor = saturate((SceneColor - 0.5) * (1+(PP_ECS.y*.1)) + 0.5);
 	
-	float Luminance = (Color.x + Color.y + Color.z)/3;
-	Color = saturate(lerp(Luminance,Color,PP_ECS.z));
-	Color = saturate(Color + float4(PP_LGG[0],1));
-	Color = saturate(Color * float4(PP_LGG[1],1));
-	Color = saturate(pow(Color,1/float4(PP_LGG[2],1)));
-	return Color;
+	float Luminance = (SceneColor.x + SceneColor.y + SceneColor.z)/3;
+	SceneColor = saturate(lerp(Luminance,SceneColor,PP_ECS.z));
+	SceneColor = saturate(SceneColor + float4(PP_LGG[0],1));
+	SceneColor = saturate(SceneColor * float4(PP_LGG[1],1));
+	SceneColor = saturate(pow(SceneColor,1/float4(PP_LGG[2],1)));
+	return SceneColor;
 }
 
 float Vignette(float2 UV)
@@ -41,31 +40,29 @@ float Vignette(float2 UV)
 float4 Fog(float Depth)
 {
 	float fogStart = 0.85;
-	float4 fogColor = float4(PP_Fog.xyz,1);
+	float4 fogSceneColor = float4(PP_Fog.xyz,1);
 	float fogStrength = PP_Fog.a;
 	float4 fog = saturate ( (1-Depth) -fogStart);
-	fog = fog * fogColor * fogStrength;
+	fog = fog * fogSceneColor * fogStrength;
 	return fog;
 }
 
 float4 main(PSInput pin) : SV_TARGET
 {
 	pin.UV.y = 1-pin.UV.y;
-	float4 Position = PositionPass.Sample(smp, pin.UV);
-	float3 Normal = NormalPass.Sample(smp, pin.UV);
-	float4 Lighting = LightingPass.Sample(smp, pin.UV);
+	float4 Position = Position.Sample(smp,pin.UV);
+	float4 SceneColor = SceneLighting.Sample(smp, pin.UV);
 	float4 Emissive = EmissivePass.Sample(smp, pin.UV);
-	float4 Translucent = TranslucentPass.Sample(smp, pin.UV);
-	float4 TDepth = TranslucentDepth.Sample(smp, pin.UV);
 	float AO = AoPass.Sample(smp,pin.UV);
-	float4 Color = Lighting;
+	float4 Translucent = SceneTranslucent.Sample(smp,pin.UV);
+	float TranslucentDepth = SceneTranslucentDepth.Sample(smp,pin.UV);
 	
 	//translucent
-	if (Position.a < TDepth.x)
+	if (Position.a < TranslucentDepth.x)
 	{
-		Color = float4(lerp(Lighting.xyz,Translucent.xyz,Translucent.a),1);
+		SceneColor = float4(lerp(SceneColor.xyz,Translucent.xyz,Translucent.a),1);
 	}
 	
-	Color *= AO;
-	return (ColorGrade(Color) + Emissive + Fog(Position.a)) * Vignette(pin.UV);
+	SceneColor *= AO;
+	return (ColorGrade(SceneColor) + Emissive + Fog(Position.a)) * Vignette(pin.UV);
 }
