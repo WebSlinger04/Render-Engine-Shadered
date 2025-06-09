@@ -29,7 +29,7 @@ float4 main(PSInput pin) : SV_TARGET
 	float Depth = mul(Position.Sample(smp,pin.UV),matVP).z / 20;
 	
 	float weightsum;
-	int size = 2;
+	int size = 5;
 	float2 texelSize = 1/screenSize;
 
 	//blur

@@ -1,1 +1,0 @@
-To install plugins, just place a folder containing plugin.dll/plugin.so here.
