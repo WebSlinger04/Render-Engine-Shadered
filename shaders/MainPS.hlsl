@@ -29,7 +29,7 @@ PSOut main(PSInput pin)
 {
 	PSOut pout = (PSOut)0;
 	//sample maps
-	float2 uvMap = (pin.UV + float2(0,1)) * float2(0.1667,-0.5);
+	float2 uvMap = pin.UV * float2(1,-1);
 	float4 colorMap = texCA.Sample(smp,uvMap);
 	float4 ormMap =  texORM.Sample(smp,uvMap);
 	float4 NormalMap =  texNormal.Sample(smp,uvMap)*2-1;

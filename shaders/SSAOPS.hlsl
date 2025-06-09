@@ -73,5 +73,6 @@ float main(PSInput pin) : SV_TARGET
 
 	}
 	ao = 1-(ao/aoSamples);
+	ao=1;
 	return ao;
 }

@@ -85,7 +85,7 @@ struct Lighting
 		float VdotH = saturate(dot(V,H));
 		
 		//G Reflectance due to Geometry
-		float k = pow(Roughness+4,2) / 2;
+		float k = pow(Roughness+1,2) / 2;
 		float G = NdotV / (NdotV * (1-k) + k);
 		float G2 = NdotL / (NdotL*(1-k) + k);
 		G *= G2;
@@ -101,7 +101,7 @@ struct Lighting
 		float D = R2 / (3.14 * pow(NdotH2 * (R2-1) + 1,2));
 		
 		//Cook-Torance
-		float3 Specular = (D*F*G) / (4*max(NdotL,0.001)*max(NdotV,0.001));
+		float3 Specular = (D*F*G) / (4*NdotL*NdotV);
 		return float4(Specular,1) * _attenuation() * lgtColor;
 	}
 	
@@ -208,13 +208,14 @@ struct Lighting
 	    uv.x = atan2(dir.z,dir.x) / (2.0 * 3.14159265) + 0.5;
 	    uv.y = asin(clamp(dir.y, -1.0, 0.99)) / 3.14159265 + 0.5;
 	    float3 Diffuse = envMapBlur.Sample(smp,uv) * gColor;
+	    Diffuse /= 3.14;
 	    Diffuse *= 1-metallic;
 		
 		//specular
 		dir = reflect(-normalize(camPos-gPos),gNormal);
 	    uv.x = atan2(dir.z,dir.x) / (2.0 * 3.14159265) + 0.5;
 	    uv.y = asin(clamp(dir.y, -1.0, 0.99)) / 3.14159265 + 0.5;
-	    float3 Specular = envMap.SampleLevel(smp,uv,Roughness*5);
+	    float3 Specular = envMap.SampleLevel(smp,uv,Roughness*11);
 	    
 	    float3 F0 = pow(1-ior,2) / pow(1 + ior,2);
 		F0 = lerp(F0, gColor.xyz, metallic);
@@ -266,10 +267,10 @@ float4 main(PSInput pin) : SV_TARGET
 		lighting.gColor = Color;
 		lighting.gNormal = normalize(Normal);
 		lighting.camPos = camPos;
-		lighting.metallic = 0;
-		lighting.Roughness = 0.1;
+		lighting.metallic = ORM.z;
+		lighting.Roughness = max(ORM.y,0.05);
 		lighting.ior = 1.5;
-		lighting.HDRStrength = 0.3;
+		lighting.HDRStrength = 0.5;
 
 
 		Result += lighting.Calculate();

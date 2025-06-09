@@ -209,14 +209,12 @@
 					<depthfrontfail>Keep</depthfrontfail>
 					<depthbackfail>Keep</depthbackfail>
 				</item>
-				<item name="TCube" type="geometry">
+				<item name="Place Translucent .obj here" type="geometry">
 					<type>Cube</type>
 					<width>1</width>
 					<height>1</height>
 					<depth>1</depth>
-					<x>1.5798769</x>
-					<y>1.85842562</y>
-					<z>0.306857586</z>
+					<y>1.00867844</y>
 					<topology>TriangleList</topology>
 				</item>
 			</items>
@@ -294,42 +292,15 @@
 			<rendertexture name="Scene ORM" />
 			<rendertexture name="Scene Emissive" />
 			<items>
-				<item name="Plane" type="geometry">
-					<type>Plane</type>
-					<width>1</width>
-					<height>1</height>
-					<depth>1</depth>
-					<scaleX>20</scaleX>
-					<scaleY>20</scaleY>
-					<scaleZ>20</scaleZ>
-					<pitch>1.57079637</pitch>
-					<y>-0.44242692</y>
-					<topology>TriangleList</topology>
-				</item>
-				<item name="Cube" type="geometry">
+				<item name="Place .obj here" type="geometry">
 					<type>Cube</type>
 					<width>1</width>
 					<height>1</height>
 					<depth>1</depth>
-					<yaw>6.19417381</yaw>
-					<x>-0.774018049</x>
-					<y>-0.011276722</y>
+					<scaleX>10</scaleX>
+					<scaleY>0.100000001</scaleY>
+					<scaleZ>10</scaleZ>
 					<topology>TriangleList</topology>
-				</item>
-				<item name="Sphere" type="geometry">
-					<type>Sphere</type>
-					<width>1</width>
-					<height>1</height>
-					<depth>1</depth>
-					<y>3.40744019</y>
-					<z>0.555475473</z>
-					<topology>TriangleList</topology>
-				</item>
-				<item name="MonkeyTest" type="model">
-					<filepath>ArtAssets\Models\SM_MonkeyTest.obj</filepath>
-					<grouponly>false</grouponly>
-					<x>2.78734088</x>
-					<y>3.20256233</y>
 				</item>
 			</items>
 			<itemvalues />
@@ -701,20 +672,16 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="file" name="Color Grade" shader="vs" />
-		<entry type="file" name="Color Grade" shader="ps" />
-		<entry type="file" name="Main" shader="vs" />
-		<entry type="file" name="Translucent" shader="ps" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
 		<entry type="pinned" name="AmbientColor" owner="Lighting" />
 		<entry type="camera" fp="true">
-			<positionX>-0.669112265</positionX>
-			<positionY>4.28976154</positionY>
-			<positionZ>-2.70076704</positionZ>
-			<yaw>1298.15466</yaw>
-			<pitch>-21.9486237</pitch>
+			<positionX>3.25386429</positionX>
+			<positionY>8.69715118</positionY>
+			<positionZ>13.5486736</positionZ>
+			<yaw>1453.16907</yaw>
+			<pitch>-28.4485435</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />
