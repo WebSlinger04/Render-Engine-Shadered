@@ -4,6 +4,8 @@ Texture2D SceneLightLink : register(t2);
 Texture2D ShadowMapAtlas : register(t3);
 Texture2D SceneColor : register(t4);
 Texture2D SceneORM : register(t5);
+Texture2D envMapBlur : register(t6);
+Texture2D envMap : register(t7);
 SamplerState smp : register(s0);
 
 //Buffer
@@ -55,6 +57,7 @@ struct Lighting
 	float metallic;
 	float Roughness;
 	float ior;
+	float HDRStrength;
 
 	float4 Calculate()
 	{
@@ -65,9 +68,9 @@ struct Lighting
 	{
 		float3 lgtVec = normalize(lgtPos - gPos);
 		float NdotL = dot(lgtVec, gNormal);
-		float4 diffuseLight = saturate(NdotL);
+		float4 diffuseLight = saturate(NdotL) / 3.14;
 		diffuseLight = diffuseLight * lgtColor;
-			
+		diffuseLight *= 1-metallic;
 		return diffuseLight * gColor * _attenuation();
 	}
 	
@@ -82,13 +85,13 @@ struct Lighting
 		float VdotH = saturate(dot(V,H));
 		
 		//G Reflectance due to Geometry
-		float k = pow((1-Roughness) + 1,2) / 8;
+		float k = pow(Roughness+1,2) / 2;
 		float G = NdotV / (NdotV * (1-k) + k);
 		float G2 = NdotL / (NdotL*(1-k) + k);
 		G *= G2;
-		
+
 		//F Reflectance due to Fresnel
-		float F0 = pow(1-ior,2) / pow(1 + ior,2);
+		float3 F0 = pow(1-ior,2) / pow(1 + ior,2);
 		F0 = lerp(F0, gColor.xyz, metallic);
 		float3 F = F0 + (1-F0) * pow(1-VdotH,5);
 	
@@ -98,7 +101,7 @@ struct Lighting
 		float D = R2 / (3.14 * pow(NdotH2 * (R2-1) + 1,2));
 		
 		//Cook-Torance
-		float3 Specular = (D*F*G) / (4*max(NdotL,0.001),max(NdotV,0.001));
+		float3 Specular = (D*F*G) / (4*NdotL*NdotV);
 		return float4(Specular,1) * _attenuation() * lgtColor;
 	}
 	
@@ -196,10 +199,35 @@ struct Lighting
 		}
 		return Shadow;
 	}
+	
+	float4 HDRI()
+	{
+		float2 uv;
+		//diffuse
+		float3 dir = gNormal;
+	    uv.x = atan2(dir.z,dir.x) / (2.0 * 3.14159265) + 0.5;
+	    uv.y = asin(clamp(dir.y, -1.0, 0.99)) / 3.14159265 + 0.5;
+	    float3 Diffuse = envMap.SampleLevel(smp,uv,8) * gColor;
+	    Diffuse /= 3.14;
+	    Diffuse *= 1-metallic;
+		
+		//specular
+		dir = reflect(-normalize(camPos-gPos),gNormal);
+	    uv.x = atan2(dir.z,dir.x) / (2.0 * 3.14159265) + 0.5;
+	    uv.y = asin(clamp(dir.y, -1.0, 0.99)) / 3.14159265 + 0.5;
+	    float3 Specular = envMap.SampleLevel(smp,uv,Roughness*11);
+	    
+	    float3 F0 = pow(1-ior,2) / pow(1 + ior,2);
+		F0 = lerp(F0, gColor.xyz, metallic);
+	    Specular = Specular * (F0);
+	    
+		float3 HDRI = Diffuse + Specular;
+		return float4(HDRI, 1.0)*HDRStrength;
+	}
 };
 
 
-float4 Ambient;
+float4 AmbientColor;
 	
 float4 main(PSInput pin) : SV_TARGET
 {
@@ -212,8 +240,8 @@ float4 main(PSInput pin) : SV_TARGET
 	float4 Color = SceneColor.Sample(smp,pin.UV);
 	float3 ORM = SceneORM.Sample(smp,pin.UV);
 	float LightLink = SceneLightLink.Sample(smp,pin.UV);
-
-	for(int i = 0; i < 16; i++)
+	Lighting lighting;
+	for(int i = 0; i < 9; i++)
 	{
 		//stop after loop through all lights
 		if (lightBuffer[i].Color.a == 0){
@@ -229,7 +257,6 @@ float4 main(PSInput pin) : SV_TARGET
 		}
 
 		//set data
-		Lighting lighting;
 		lighting.lgtIndex = i;
 		lighting.lgtColor = lightBuffer[i].Color;
 		lighting.lgtPos = lightBuffer[i].Position;
@@ -238,16 +265,16 @@ float4 main(PSInput pin) : SV_TARGET
 		lighting.UV = pin.UV;
 		lighting.gPos = Position;
 		lighting.gColor = Color;
-		lighting.gNormal = Normal;
+		lighting.gNormal = normalize(Normal);
 		lighting.camPos = camPos;
 		lighting.metallic = ORM.z;
-		lighting.Roughness = ORM.y;
+		lighting.Roughness = max(ORM.y,0.05);
 		lighting.ior = 1.5;
+		lighting.HDRStrength = 0.5;
 
 
 		Result += lighting.Calculate();
 
 	}
-		
-	return Result + Ambient;
+	return Result + lighting.HDRI() + AmbientColor;
 }

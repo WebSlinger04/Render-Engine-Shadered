@@ -76,9 +76,9 @@
 				</variable>
 				<variable type="float4" name="PP_Fog">
 					<row>
-						<value>0</value>
-						<value>0</value>
-						<value>0</value>
+						<value>9.99999997e-07</value>
+						<value>9.99989993e-07</value>
+						<value>9.99989993e-07</value>
 						<value>0</value>
 					</row>
 				</variable>
@@ -209,14 +209,12 @@
 					<depthfrontfail>Keep</depthfrontfail>
 					<depthbackfail>Keep</depthbackfail>
 				</item>
-				<item name="TCube" type="geometry">
+				<item name="Place Translucent .obj here" type="geometry">
 					<type>Cube</type>
 					<width>1</width>
 					<height>1</height>
 					<depth>1</depth>
-					<x>1.5798769</x>
-					<y>0.460141182</y>
-					<z>0.306857586</z>
+					<y>1.00867844</y>
 					<topology>TriangleList</topology>
 				</item>
 			</items>
@@ -229,7 +227,7 @@
 						<value>0</value>
 					</row>
 				</variable>
-				<variable type="float4" name="Ambient">
+				<variable type="float4" name="AmbientColor">
 					<row>
 						<value>0</value>
 						<value>0</value>
@@ -262,22 +260,22 @@
 			<variables>
 				<variable type="float4x4" name="matOrtho" system="Orthographic" />
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
-				<variable type="float4" name="camPos" system="CameraPosition3" />
+				<variable type="float4" name="camPos" system="CameraPosition" />
 				<variable type="float4x4" name="matProject" system="Projection" />
 				<variable type="float2" name="viewSize" system="ViewportSize" />
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
-				<variable type="float4" name="Ambient">
+				<variable type="float4" name="AmbientColor">
 					<row>
-						<value>0</value>
-						<value>0</value>
-						<value>0</value>
+						<value>9.9999977e-07</value>
+						<value>9.99989993e-07</value>
+						<value>9.99999997e-07</value>
 						<value>0</value>
 					</row>
 				</variable>
 			</variables>
 			<macros />
 		</pass>
-		<pass name="Main" type="shader" active="true" patchverts="1" collapsed="true">
+		<pass name="Main" type="shader" active="true" patchverts="1">
 			<shader type="vs" path="shaders\MainVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\MainPS.hlsl" entry="main" />
 			<inputlayout>
@@ -294,23 +292,14 @@
 			<rendertexture name="Scene ORM" />
 			<rendertexture name="Scene Emissive" />
 			<items>
-				<item name="Cube" type="geometry">
+				<item name="Place .obj here" type="geometry">
 					<type>Cube</type>
 					<width>1</width>
 					<height>1</height>
 					<depth>1</depth>
-					<topology>TriangleList</topology>
-				</item>
-				<item name="Plane" type="geometry">
-					<type>Plane</type>
-					<width>1</width>
-					<height>1</height>
-					<depth>1</depth>
-					<scaleX>5</scaleX>
-					<scaleY>5</scaleY>
-					<scaleZ>5</scaleZ>
-					<pitch>1.57079637</pitch>
-					<y>-0.44242692</y>
+					<scaleX>10</scaleX>
+					<scaleY>0.100000001</scaleY>
+					<scaleZ>10</scaleZ>
 					<topology>TriangleList</topology>
 				</item>
 			</items>
@@ -601,7 +590,6 @@
 			<bind slot="2" name="Lighting" />
 		</object>
 		<object type="rendertexture" name="Scene Color" format="RGB" rsize="1.000000,1.000000" clear="true">
-			<bind slot="0" name="Translucent" />
 			<bind slot="4" name="Lighting" />
 		</object>
 		<object type="rendertexture" name="Scene ORM" format="RGB" rsize="1.000000,1.000000" clear="true">
@@ -663,6 +651,7 @@
 			<bind slot="2" name="SSAO" />
 		</object>
 		<object type="texture" path="ArtAssets\Texture\T_Color.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="0" name="Translucent" />
 			<bind slot="0" name="Main" />
 		</object>
 		<object type="texture" path="ArtAssets\Texture\T_ORM.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
@@ -674,20 +663,25 @@
 		<object type="texture" path="ArtAssets\Texture\T_Emissive.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
 			<bind slot="3" name="Main" />
 		</object>
+		<object type="texture" path="ArtAssets\Texture\HDR_Blur.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="6" name="Lighting" />
+		</object>
+		<object type="texture" path="ArtAssets\Texture\HDR.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="7" name="Lighting" />
+		</object>
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Depth of Field" item="pipe" />
-		<entry type="pinned" name="Ambient" owner="Translucent" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
+		<entry type="pinned" name="AmbientColor" owner="Lighting" />
 		<entry type="camera" fp="true">
-			<positionX>4.11909628</positionX>
-			<positionY>4.8107028</positionY>
-			<positionZ>-9.99715042</positionZ>
-			<yaw>878.71521</yaw>
-			<pitch>-22.0995407</pitch>
+			<positionX>3.25386429</positionX>
+			<positionY>8.69715118</positionY>
+			<positionZ>13.5486736</positionZ>
+			<yaw>1453.16907</yaw>
+			<pitch>-28.4485435</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />

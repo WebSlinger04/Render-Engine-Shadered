@@ -2,7 +2,7 @@
 Texture2D texCA : register(t0);
 SamplerState smp : register(s0);
 int LightLink;
-float4 Ambient;
+float4 AmbientColor;
 
 //Buffer
 struct InputData 
@@ -67,7 +67,7 @@ PSOut main(PSInput pin)
 {
 	PSOut pout = (PSOut)0;
 	//sample maps
-	float2 uvMap = (pin.UV + float2(0,1)) * float2(0.1667,-0.5);
+	float2 uvMap = pin.UV * float2(1,-1);
 	float4 Color = texCA.Sample(smp,uvMap);
 	
 	float4 Result;
@@ -97,8 +97,8 @@ PSOut main(PSInput pin)
 		lighting.gNormal = pin.wNormal;
 		Result += lighting._Diffuse();
 	}
-	Result = Result + Ambient;
-	Result = .4;
+	Result = Result + AmbientColor;
+	Result.a = .2;
 	pout.Translucent = Result;
 	pout.Depth = pin.Position.a;
 	return pout;
