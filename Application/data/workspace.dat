@@ -15,10 +15,10 @@ Collapsed=0
 DockId=0x00000004,1
 
 [Window][Preview]
-Pos=538,22
-Size=1382,995
+Pos=1022,22
+Size=898,995
 Collapsed=0
-DockId=0x00000006,0
+DockId=0x00000007,0
 
 [Window][Output]
 Pos=674,279
@@ -50,15 +50,15 @@ Collapsed=0
 
 [Window][###code_viewVS0]
 Pos=538,22
-Size=533,995
+Size=482,995
 Collapsed=0
 DockId=0x00000005,0
 
 [Window][###code_viewPS0]
 Pos=538,22
-Size=533,995
+Size=482,995
 Collapsed=0
-DockId=0x00000005,0
+DockId=0x00000005,1
 
 [Window][###code_viewGS0]
 Pos=276,22
@@ -84,10 +84,10 @@ Size=1920,48
 Collapsed=0
 
 [Window][###objprev0]
-Pos=0,22
-Size=536,624
+Pos=1384,22
+Size=536,995
 Collapsed=0
-DockId=0x00000003,3
+DockId=0x00000008,0
 
 [Window][###objprev1]
 Pos=538,22
@@ -163,8 +163,8 @@ Collapsed=0
 DockId=0x160B189F,1
 
 [Window][Variable Manager##pui_shader_variables]
-Pos=1050,242
-Size=729,225
+Pos=1064,242
+Size=730,225
 Collapsed=0
 
 [Window][###OpenProjectDlg]
@@ -256,7 +256,7 @@ Size=630,225
 Collapsed=0
 
 [Window][Value Edit##pui_shader_value_edit]
-Pos=799,403
+Pos=801,403
 Size=450,200
 Collapsed=0
 
@@ -451,8 +451,8 @@ Column 2
 [Docking][Data]
 DockSpace           ID=0x160B189F Window=0x912BA114 Pos=0,22 Size=1920,995 Split=X
   DockNode          ID=0x00000001 Parent=0x160B189F SizeRef=536,997 Split=Y
-    DockNode        ID=0x00000003 Parent=0x00000001 SizeRef=239,624 Selected=0x0541D7F0
-    DockNode        ID=0x00000004 Parent=0x00000001 SizeRef=239,369 Selected=0xC89E3217
+    DockNode        ID=0x00000003 Parent=0x00000001 SizeRef=239,624 Selected=0x848ABB8F
+    DockNode        ID=0x00000004 Parent=0x00000001 SizeRef=239,369 Selected=0xE28BE0D1
   DockNode          ID=0x00000002 Parent=0x160B189F SizeRef=1382,997 Split=X
     DockNode        ID=0x0000000B Parent=0x00000002 SizeRef=729,826
     DockNode        ID=0x0000000C Parent=0x00000002 SizeRef=848,826 Split=X
@@ -463,5 +463,7 @@ DockSpace           ID=0x160B189F Window=0x912BA114 Pos=0,22 Size=1920,995 Split
         DockNode    ID=0x00000010 Parent=0x0000000D SizeRef=786,414
       DockNode      ID=0x0000000E Parent=0x0000000C SizeRef=1189,826 Split=X Selected=0x763816AC
         DockNode    ID=0x00000005 Parent=0x0000000E SizeRef=533,995 Selected=0xF34EBBA5
-        DockNode    ID=0x00000006 Parent=0x0000000E SizeRef=994,995 CentralNode=1 Selected=0x763816AC
+        DockNode    ID=0x00000006 Parent=0x0000000E SizeRef=994,995 Split=X Selected=0x763816AC
+          DockNode  ID=0x00000007 Parent=0x00000006 SizeRef=844,995 CentralNode=1 Selected=0x763816AC
+          DockNode  ID=0x00000008 Parent=0x00000006 SizeRef=536,995 Selected=0xFE26F2A7
 

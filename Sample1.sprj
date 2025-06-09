@@ -76,9 +76,9 @@
 				</variable>
 				<variable type="float4" name="PP_Fog">
 					<row>
-						<value>0</value>
-						<value>0</value>
-						<value>0</value>
+						<value>9.99999997e-07</value>
+						<value>9.99989993e-07</value>
+						<value>9.99989993e-07</value>
 						<value>0</value>
 					</row>
 				</variable>
@@ -168,7 +168,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="Translucent" type="shader" active="true" patchverts="1">
+		<pass name="Translucent" type="shader" active="true" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\TranslucentVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\TranslucentPS.hlsl" entry="main" />
 			<inputlayout>
@@ -229,7 +229,7 @@
 						<value>0</value>
 					</row>
 				</variable>
-				<variable type="float4" name="Ambient">
+				<variable type="float4" name="AmbientColor">
 					<row>
 						<value>0</value>
 						<value>0</value>
@@ -262,15 +262,22 @@
 			<variables>
 				<variable type="float4x4" name="matOrtho" system="Orthographic" />
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
-				<variable type="float4" name="camPos" system="CameraPosition3" />
-				<variable type="float4x4" name="matProject" system="Projection" />
-				<variable type="float2" name="viewSize" system="ViewportSize" />
-				<variable type="float4x4" name="matVP" system="ViewProjection" />
-				<variable type="float4" name="Ambient">
+				<variable type="float4" name="camPos">
 					<row>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
+						<value>0</value>
+					</row>
+				</variable>
+				<variable type="float4x4" name="matProject" system="Projection" />
+				<variable type="float2" name="viewSize" system="ViewportSize" />
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float4" name="AmbientColor">
+					<row>
+						<value>9.9999977e-07</value>
+						<value>9.99989993e-07</value>
+						<value>9.99999997e-07</value>
 						<value>0</value>
 					</row>
 				</variable>
@@ -677,17 +684,19 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Depth of Field" item="pipe" />
-		<entry type="pinned" name="Ambient" owner="Translucent" />
+		<entry type="property" name="Translucent" item="pipe" />
+		<entry type="file" name="Translucent" shader="vs" />
+		<entry type="file" name="Translucent" shader="ps" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
+		<entry type="pinned" name="AmbientColor" owner="Lighting" />
 		<entry type="camera" fp="true">
-			<positionX>4.11909628</positionX>
-			<positionY>4.8107028</positionY>
-			<positionZ>-9.99715042</positionZ>
-			<yaw>878.71521</yaw>
-			<pitch>-22.0995407</pitch>
+			<positionX>5.69144583</positionX>
+			<positionY>4.3465209</positionY>
+			<positionZ>-9.066432</positionZ>
+			<yaw>873.266235</yaw>
+			<pitch>-22.4495296</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />

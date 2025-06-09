@@ -199,7 +199,7 @@ struct Lighting
 };
 
 
-float4 Ambient;
+float4 AmbientColor;
 	
 float4 main(PSInput pin) : SV_TARGET
 {
@@ -249,5 +249,5 @@ float4 main(PSInput pin) : SV_TARGET
 
 	}
 		
-	return Result + Ambient;
+	return Result + AmbientColor;
 }
