@@ -168,7 +168,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="Translucent" type="shader" active="true" patchverts="1" collapsed="true">
+		<pass name="Translucent" type="shader" active="true" patchverts="1">
 			<shader type="vs" path="shaders\TranslucentVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\TranslucentPS.hlsl" entry="main" />
 			<inputlayout>
@@ -215,7 +215,7 @@
 					<height>1</height>
 					<depth>1</depth>
 					<x>1.5798769</x>
-					<y>0.460141182</y>
+					<y>1.85842562</y>
 					<z>0.306857586</z>
 					<topology>TriangleList</topology>
 				</item>
@@ -619,7 +619,6 @@
 			<bind slot="2" name="Lighting" />
 		</object>
 		<object type="rendertexture" name="Scene Color" format="RGB" rsize="1.000000,1.000000" clear="true">
-			<bind slot="0" name="Translucent" />
 			<bind slot="4" name="Lighting" />
 		</object>
 		<object type="rendertexture" name="Scene ORM" format="RGB" rsize="1.000000,1.000000" clear="true">
@@ -681,6 +680,7 @@
 			<bind slot="2" name="SSAO" />
 		</object>
 		<object type="texture" path="ArtAssets\Texture\T_Color.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="0" name="Translucent" />
 			<bind slot="0" name="Main" />
 		</object>
 		<object type="texture" path="ArtAssets\Texture\T_ORM.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
@@ -701,18 +701,20 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="file" name="Lighting" shader="vs" />
-		<entry type="file" name="Lighting" shader="ps" />
+		<entry type="file" name="Color Grade" shader="vs" />
+		<entry type="file" name="Color Grade" shader="ps" />
+		<entry type="file" name="Main" shader="vs" />
+		<entry type="file" name="Translucent" shader="ps" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
 		<entry type="pinned" name="AmbientColor" owner="Lighting" />
 		<entry type="camera" fp="true">
-			<positionX>-6.74274111</positionX>
-			<positionY>8.52709484</positionY>
-			<positionZ>-8.3632803</positionZ>
-			<yaw>1303.15271</yaw>
-			<pitch>-24.8987865</pitch>
+			<positionX>-0.669112265</positionX>
+			<positionY>4.28976154</positionY>
+			<positionZ>-2.70076704</positionZ>
+			<yaw>1298.15466</yaw>
+			<pitch>-21.9486237</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />

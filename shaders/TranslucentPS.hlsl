@@ -98,7 +98,7 @@ PSOut main(PSInput pin)
 		Result += lighting._Diffuse();
 	}
 	Result = Result + AmbientColor;
-	Result.a = .4;
+	Result.a = .2;
 	pout.Translucent = Result;
 	pout.Depth = pin.Position.a;
 	return pout;

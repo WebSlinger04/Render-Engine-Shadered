@@ -15,14 +15,14 @@ Collapsed=0
 DockId=0x00000004,1
 
 [Window][Preview]
-Pos=1152,22
-Size=768,995
+Pos=288,22
+Size=1632,995
 Collapsed=0
 DockId=0x00000006,0
 
 [Window][Output]
-Pos=1152,22
-Size=768,995
+Pos=288,22
+Size=1632,995
 Collapsed=0
 DockId=0x00000006,1
 
@@ -59,7 +59,7 @@ DockId=0x00000005,0
 Pos=288,22
 Size=862,995
 Collapsed=0
-DockId=0x00000005,1
+DockId=0x00000005,0
 
 [Window][###code_viewGS0]
 Pos=276,22
@@ -68,16 +68,16 @@ Collapsed=0
 DockId=0x0000000E,2
 
 [Window][###code_viewVS1]
-Pos=538,22
-Size=528,995
+Pos=288,22
+Size=862,995
 Collapsed=0
 DockId=0x00000005,2
 
 [Window][###code_viewPS1]
-Pos=538,22
-Size=528,995
+Pos=288,22
+Size=862,995
 Collapsed=0
-DockId=0x00000005,3
+DockId=0x00000005,1
 
 [Window][##toolbar]
 Pos=0,22
@@ -86,15 +86,15 @@ Collapsed=0
 
 [Window][###objprev0]
 Pos=0,22
-Size=536,624
+Size=286,624
 Collapsed=0
 DockId=0x00000003,3
 
 [Window][###objprev1]
-Pos=538,22
-Size=1382,995
+Pos=1152,22
+Size=768,995
 Collapsed=0
-DockId=0x00000006,1
+DockId=0x00000006,2
 
 [Window][###objprev2]
 Pos=658,85
@@ -262,7 +262,7 @@ Size=450,200
 Collapsed=0
 
 [Window][Resource manager##pui_res_manager]
-Pos=709,425
+Pos=697,422
 Size=600,240
 Collapsed=0
 
@@ -457,7 +457,7 @@ Column 2
 [Docking][Data]
 DockSpace           ID=0x160B189F Window=0x912BA114 Pos=0,22 Size=1920,995 Split=X
   DockNode          ID=0x00000001 Parent=0x160B189F SizeRef=381,997 Split=Y
-    DockNode        ID=0x00000003 Parent=0x00000001 SizeRef=239,624 Selected=0x848ABB8F
+    DockNode        ID=0x00000003 Parent=0x00000001 SizeRef=239,624 Selected=0x7DA7F56F
     DockNode        ID=0x00000004 Parent=0x00000001 SizeRef=239,369 Selected=0xC89E3217
   DockNode          ID=0x00000002 Parent=0x160B189F SizeRef=2177,997 Split=X
     DockNode        ID=0x0000000B Parent=0x00000002 SizeRef=729,826
