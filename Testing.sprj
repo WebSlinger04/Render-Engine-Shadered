@@ -168,6 +168,43 @@
 			</variables>
 			<macros />
 		</pass>
+		<pass name="Lighting" type="shader" active="true" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\LightingVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\LightingPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture name="Scene Lighting" />
+			<items>
+				<item name="Lighting Quad" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="matOrtho" system="Orthographic" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float4" name="camPos" system="CameraPosition" />
+				<variable type="float4x4" name="matProject" system="Projection" />
+				<variable type="float2" name="viewSize" system="ViewportSize" />
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float4" name="AmbientColor">
+					<row>
+						<value>9.9999977e-07</value>
+						<value>9.99989993e-07</value>
+						<value>9.99999997e-07</value>
+						<value>0</value>
+					</row>
+				</variable>
+			</variables>
+			<macros />
+		</pass>
 		<pass name="Translucent" type="shader" active="true" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\TranslucentVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\TranslucentPS.hlsl" entry="main" />
@@ -209,6 +246,10 @@
 					<depthfrontfail>Keep</depthfrontfail>
 					<depthbackfail>Keep</depthbackfail>
 				</item>
+				<item name="SphereTestTranslucent" type="model">
+					<filepath>ArtAssets\Models\SM_SphereTest_Translucent.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
 			</items>
 			<itemvalues />
 			<variables>
@@ -230,44 +271,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="Lighting" type="shader" active="true" patchverts="1" collapsed="true">
-			<shader type="vs" path="shaders\LightingVS.hlsl" entry="main" />
-			<shader type="ps" path="shaders\LightingPS.hlsl" entry="main" />
-			<inputlayout>
-				<item value="Position" semantic="POSITION" />
-				<item value="Normal" semantic="NORMAL" />
-				<item value="Texcoord" semantic="TEXCOORD0" />
-			</inputlayout>
-			<rendertexture name="Scene Lighting" />
-			<items>
-				<item name="Lighting Quad" type="geometry">
-					<type>ScreenQuad</type>
-					<width>1</width>
-					<height>1</height>
-					<depth>1</depth>
-					<topology>TriangleList</topology>
-				</item>
-			</items>
-			<itemvalues />
-			<variables>
-				<variable type="float4x4" name="matOrtho" system="Orthographic" />
-				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
-				<variable type="float4" name="camPos" system="CameraPosition" />
-				<variable type="float4x4" name="matProject" system="Projection" />
-				<variable type="float2" name="viewSize" system="ViewportSize" />
-				<variable type="float4x4" name="matVP" system="ViewProjection" />
-				<variable type="float4" name="AmbientColor">
-					<row>
-						<value>9.9999977e-07</value>
-						<value>9.99989993e-07</value>
-						<value>9.99999997e-07</value>
-						<value>0</value>
-					</row>
-				</variable>
-			</variables>
-			<macros />
-		</pass>
-		<pass name="Main" type="shader" active="true" patchverts="1" collapsed="true">
+		<pass name="Main" type="shader" active="true" patchverts="1">
 			<shader type="vs" path="shaders\MainVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\MainPS.hlsl" entry="main" />
 			<inputlayout>
@@ -549,9 +553,9 @@
 		</pass>
 	</pipeline>
 	<objects>
-		<object type="buffer" name="Buffer" size="64" format="float4;float4;float4;float4;" pausedpreview="true">
-			<bind slot="0" name="Translucent" />
+		<object type="buffer" name="Buffer" size="320" format="float4;float4;float4;float4;" pausedpreview="true">
 			<bind slot="0" name="Lighting" />
+			<bind slot="0" name="Translucent" />
 			<bind slot="0" name="ShadowMap1" />
 		</object>
 		<object type="buffer" name="wPositionBuffer" size="0" format="float4" pausedpreview="false">
@@ -636,39 +640,38 @@
 		<object type="texture" path="ArtAssets\Texture\VectorNoise.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
 			<bind slot="2" name="SSAO" />
 		</object>
-		<object type="texture" path="ArtAssets\Texture\T_Normal.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
-			<bind slot="2" name="Main" />
-		</object>
-		<object type="texture" path="ArtAssets\Texture\T_Emissive.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
-			<bind slot="3" name="Main" />
-		</object>
-		<object type="texture" path="ArtAssets\Texture\HDR_Blur.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+		<object type="texture" path="ArtAssets\Texture\HDR.dds" vflip="false" min_filter="Linear_MipmapNearest" mag_filter="Nearest" wrap_s="MirroredRepeat" wrap_t="MirroredRepeat">
 			<bind slot="6" name="Lighting" />
+		</object>
+		<object type="texture" path="ArtAssets\Texture\T_SphereTest_Color.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="0" name="Translucent" />
+			<bind slot="0" name="Main" />
 		</object>
 		<object type="texture" path="ArtAssets\Texture\T_SphereTest_ORM.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
 			<bind slot="1" name="Main" />
 		</object>
-		<object type="texture" path="ArtAssets\Texture\T_SphereTest_Color.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
-			<bind slot="0" name="Main" />
+		<object type="texture" path="ArtAssets\Texture\T_SphereTest_Normal.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="2" name="Main" />
 		</object>
-		<object type="texture" path="ArtAssets\Texture\HDR.dds" vflip="false" min_filter="Linear_MipmapNearest" mag_filter="Nearest" wrap_s="MirroredRepeat" wrap_t="MirroredRepeat">
-			<bind slot="7" name="Lighting" />
+		<object type="texture" path="ArtAssets\Texture\T_SphereTest_Emissive.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="3" name="Main" />
 		</object>
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="file" name="Lighting" shader="vs" />
-		<entry type="file" name="Lighting" shader="ps" />
+		<entry type="property" name="Main" item="pipe" />
+		<entry type="file" name="Main" shader="vs" />
+		<entry type="file" name="Main" shader="ps" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
 		<entry type="pinned" name="AmbientColor" owner="Lighting" />
 		<entry type="camera" fp="true">
-			<positionX>7.99682903</positionX>
-			<positionY>7.51622391</positionY>
-			<positionZ>15.4748688</positionZ>
-			<yaw>1451.3291</yaw>
-			<pitch>-9.24861431</pitch>
+			<positionX>43.9875565</positionX>
+			<positionY>1.36725092</positionY>
+			<positionZ>2.4052093</positionZ>
+			<yaw>1436.02686</yaw>
+			<pitch>-19.3984566</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />

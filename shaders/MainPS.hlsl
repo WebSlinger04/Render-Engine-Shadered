@@ -43,7 +43,6 @@ PSOut main(PSInput pin)
 	pout.ORM = ormMap;
 	//Normal Map
 	float3 N = (pin.wNormal * NormalMap.z) + (pin.wBitangent * -NormalMap.y) + (pin.wTangent * -NormalMap.x);
-	N = pin.wNormal;
 	
 	
 	pout.Color = cMap;
