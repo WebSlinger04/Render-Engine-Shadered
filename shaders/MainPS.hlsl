@@ -11,8 +11,6 @@ struct PSInput
 	float2 UV;
 	float4 wPosition;
 	float3 wNormal;
-	float3 wTangent;
-	float3 wBitangent;
 };
 
 struct PSOut
@@ -32,7 +30,7 @@ PSOut main(PSInput pin)
 	float2 uvMap = pin.UV * float2(1,-1);
 	float4 colorMap = texCA.Sample(smp,uvMap);
 	float4 ormMap =  texORM.Sample(smp,uvMap);
-	float4 NormalMap =  texNormal.Sample(smp,uvMap)*2-1;
+	float3 NormalMap = texNormal.Sample(smp,uvMap)*2-1;
 	float4 EmissiveMap = texEmissive.Sample(smp,uvMap);
 
 	
@@ -41,9 +39,12 @@ PSOut main(PSInput pin)
 	float3 cMap = colorMap.xyz*ormMap.x;
 	//ORM
 	pout.ORM = ormMap;
-	//Normal Map
-	float3 N = (pin.wNormal * NormalMap.z) + (pin.wBitangent * -NormalMap.y) + (pin.wTangent * -NormalMap.x);
 	
+	//Normal Map
+	float3 wTangent = cross(pin.wNormal,float3(0,1,0));
+	float3 wBitangent = cross(pin.wNormal,wTangent);
+	float3 N = (pin.wNormal * NormalMap.z) + (wBitangent * -NormalMap.y) + (wTangent * -NormalMap.x);
+	N = normalize(N);
 	
 	pout.Color = cMap;
 	pout.Position = pin.wPosition;

@@ -659,19 +659,18 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Main" item="pipe" />
-		<entry type="file" name="Main" shader="vs" />
-		<entry type="file" name="Main" shader="ps" />
+		<entry type="file" name="Bloom" shader="vs" />
+		<entry type="file" name="Bloom" shader="ps" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
 		<entry type="pinned" name="AmbientColor" owner="Lighting" />
 		<entry type="camera" fp="true">
-			<positionX>43.9875565</positionX>
-			<positionY>1.36725092</positionY>
-			<positionZ>2.4052093</positionZ>
-			<yaw>1436.02686</yaw>
-			<pitch>-19.3984566</pitch>
+			<positionX>86.0060196</positionX>
+			<positionY>2.53714752</positionY>
+			<positionZ>16.3071861</positionZ>
+			<yaw>1441.01318</yaw>
+			<pitch>-7.54847765</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />
