@@ -4,7 +4,7 @@ Using the Shadered program as a visualization tool, I wrote multiple shaders in 
 
 # Features
 - Lighting
-  - Ambient Lighting
+  - Image based Lighting
   - Diffuse Lighting
   - Specular Lighting (BRDF)
   - Shadow Mapping
@@ -17,6 +17,7 @@ Using the Shadered program as a visualization tool, I wrote multiple shaders in 
   - Roughness Map
   - Normal Map
   - Opacity Map
+  - Emissive Map
 - Post Processing
   - Bloom
   - Color Grading
