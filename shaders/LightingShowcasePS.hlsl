@@ -5,6 +5,7 @@ Texture2D ShadowMapAtlas : register(t3);
 Texture2D SceneColor : register(t4);
 Texture2D SceneORM : register(t5);
 Texture2D envMap : register(t6);
+Texture2D SpecularTest : register(t7);
 SamplerState smp : register(s0);
 
 //Buffer
@@ -225,6 +226,37 @@ struct Lighting
 		float3 HDRI = Diffuse + Specular;
 		return float4(HDRI, 1.0)*HDRStrength;
 	}
+	
+	float4 SpecularTest(float3 value)
+	{
+		float3 r = value + 0.001;
+		float3 lgtVec = normalize(lgtPos - gPos);
+		float3 V = normalize(camPos-gPos);
+		float3 H = normalize(lgtVec+V);
+		float NdotL = saturate(dot(gNormal,lgtVec));
+		float NdotH = saturate(dot(gNormal,H));
+		float NdotV = saturate(dot(gNormal,V));
+		float VdotH = saturate(dot(V,H));
+		
+		//G Reflectance due to Geometry
+		float k = pow(r.y,2) / 2;
+		float G = NdotV / (NdotV * (1-k) + k);
+		float G2 = NdotL / (NdotL*(1-k) + k);
+		G *= G2;
+		//F Reflectance due to Fresnel
+		float3 F0 = pow(1-ior,2) / pow(1 + ior,2);
+		F0 = 0.5;
+		F0 = lerp(F0, 0, r.x);
+		float3 F = F0 + (1-F0) * pow(1-VdotH,5);
+		F /=  (4*NdotL*NdotV);
+		F = saturate(F);
+		//D Reflectance due to Normal distribution
+		float R2 = r.z * r.z;
+		float NdotH2 = NdotH * NdotH;
+		float D = R2 / (3.14 * pow(NdotH2 * (R2-1) + 1,2));
+		
+		return F.x*ceil(value.x) + G*ceil(value.y) + D*ceil(value.z);
+	}
 };
 
 
@@ -240,6 +272,7 @@ float4 main(PSInput pin) : SV_TARGET
 	float3 Normal = Normal.Sample(smp,pin.UV);
 	float4 Color = SceneColor.Sample(smp,pin.UV);
 	float3 ORM = SceneORM.Sample(smp,pin.UV);
+	float4 Test = SpecularTest.Sample(smp,pin.UV);
 	float LightLink = SceneLightLink.Sample(smp,pin.UV);
 	Lighting lighting;
 	for(int i = 0; i < 9; i++)
@@ -275,7 +308,29 @@ float4 main(PSInput pin) : SV_TARGET
 
 
 		Result += lighting.Calculate();
-
+		
+		if (Test.a >= 0.5)
+		{
+			lighting.lgtColor = lightBuffer[1].Color;
+			lighting.lgtPos = lightBuffer[1].Position;
+			lighting.lgtDir = lightBuffer[1].Direction;
+			lighting.lgtXtra = lightBuffer[1].extraData;
+			Result = 0;
+			Result += lighting.SpecularTest(Test.xyz);
+		}
+		
+		if (Test.a >= 0.5 && Test.x <= 0)
+		{
+			lighting.lgtColor = lightBuffer[1].Color;
+			lighting.lgtPos = lightBuffer[1].Position - float3(-5,-5,0);
+			lighting.lgtDir = lightBuffer[1].Direction;
+			lighting.lgtXtra = lightBuffer[1].extraData;
+			Result = 0;
+			Result += lighting.SpecularTest(Test.xyz);
+		}
+		
 	}
+	
+	
 	return Result + lighting.HDRI() + AmbientColor;
 }
