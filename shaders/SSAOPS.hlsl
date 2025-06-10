@@ -42,8 +42,8 @@ float main(PSInput pin) : SV_TARGET
 	//SSAO
 	float ao = 0;
 	float radius = .1;
-	float aoSamples = 64;
-	float bias = -.2;
+	float aoSamples = 32;
+	float bias = -.01;
 	float depth = mul(PositionPass,matVP).z + bias;
 		
 	//hemishpere
@@ -73,6 +73,5 @@ float main(PSInput pin) : SV_TARGET
 
 	}
 	ao = 1-(ao/aoSamples);
-	ao=1;
 	return ao;
 }

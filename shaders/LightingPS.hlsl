@@ -4,8 +4,7 @@ Texture2D SceneLightLink : register(t2);
 Texture2D ShadowMapAtlas : register(t3);
 Texture2D SceneColor : register(t4);
 Texture2D SceneORM : register(t5);
-Texture2D envMapBlur : register(t6);
-Texture2D envMap : register(t7);
+Texture2D envMap : register(t6);
 SamplerState smp : register(s0);
 
 //Buffer
@@ -85,7 +84,7 @@ struct Lighting
 		float VdotH = saturate(dot(V,H));
 		
 		//G Reflectance due to Geometry
-		float k = pow(Roughness+1,2) / 2;
+		float k = pow(Roughness+2,2) / 2;
 		float G = NdotV / (NdotV * (1-k) + k);
 		float G2 = NdotL / (NdotL*(1-k) + k);
 		G *= G2;
@@ -102,6 +101,7 @@ struct Lighting
 		
 		//Cook-Torance
 		float3 Specular = (D*F*G) / (4*NdotL*NdotV);
+		Specular = saturate(Specular);
 		return float4(Specular,1) * _attenuation() * lgtColor;
 	}
 	
@@ -215,7 +215,8 @@ struct Lighting
 		dir = reflect(-normalize(camPos-gPos),gNormal);
 	    uv.x = atan2(dir.z,dir.x) / (2.0 * 3.14159265) + 0.5;
 	    uv.y = asin(clamp(dir.y, -1.0, 0.99)) / 3.14159265 + 0.5;
-	    float3 Specular = envMap.SampleLevel(smp,uv,Roughness*11);
+	    uv.x *=2;
+	    float3 Specular = envMap.SampleLevel(smp,uv,Roughness*10);
 	    
 	    float3 F0 = pow(1-ior,2) / pow(1 + ior,2);
 		F0 = lerp(F0, gColor.xyz, metallic);
