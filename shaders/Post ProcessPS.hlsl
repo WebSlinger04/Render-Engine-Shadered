@@ -56,6 +56,7 @@ float4 main(PSInput pin) : SV_TARGET
 	float AO = AoPass.Sample(smp,pin.UV);
 	float4 Translucent = SceneTranslucent.Sample(smp,pin.UV);
 	float TranslucentDepth = SceneTranslucentDepth.Sample(smp,pin.UV);
+	SceneColor *= AO;
 	
 	//translucent
 	if (Position.a < TranslucentDepth.x)
@@ -63,6 +64,5 @@ float4 main(PSInput pin) : SV_TARGET
 		SceneColor = float4(lerp(SceneColor.xyz,Translucent.xyz,Translucent.a),1);
 	}
 	
-	SceneColor *= AO;
 	return (ColorGrade(SceneColor) + Emissive + Fog(Position.a)) * Vignette(pin.UV);
 }

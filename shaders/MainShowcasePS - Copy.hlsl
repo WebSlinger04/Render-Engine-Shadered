@@ -2,6 +2,7 @@ Texture2D texCA : register(t0);
 Texture2D texORM : register(t1);
 Texture2D texNormal : register(t2);
 Texture2D texEmissive : register(t3);
+Texture2D texSplat : register(t4);
 SamplerState smp : register(s0);
 int LightLinkID;
 
@@ -33,7 +34,7 @@ PSOut main(PSInput pin)
 	float4 ormMap =  texORM.Sample(smp,uvMap);
 	float3 NormalMap = texNormal.Sample(smp,uvMap)*2-1;
 	float4 EmissiveMap = texEmissive.Sample(smp,uvMap);
-
+	float4 splat  = texSplat.Sample(smp,uvMap);
 	
 	
 	//Color Map
@@ -53,5 +54,6 @@ PSOut main(PSInput pin)
 	pout.Normal  = N;
 	pout.LightLink = LightLinkID;
 	pout.Emissive = EmissiveMap;
+	pout.SpecTest = splat;
 	return pout;
 }

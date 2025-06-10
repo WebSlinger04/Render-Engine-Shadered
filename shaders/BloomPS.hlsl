@@ -29,16 +29,17 @@ float4 main(PSInput pin) : SV_TARGET
 	float4 EmissiveLighting;
 
 	float weightsum;
-	int size = 8;
+	int Sample = 3;
+	float size = 3;
 	float2 texelSize = 1/screenSize;
 	float threshold = 1;
 
 	//blur
-	for (int y = -size ; y < size; y++)
+	for (int y = -Sample ; y < Sample; y++)
 	{
-		for (int x = -size ; x < size; x++)
+		for (int x = -Sample ; x < Sample; x++)
 		{
-		float2 offset = float2(x,y) * texelSize;
+		float2 offset = float2(x,y) * texelSize * size;
 		float circle = length(float2(x,y));
 		float weight = gaussian(circle,size);
 
