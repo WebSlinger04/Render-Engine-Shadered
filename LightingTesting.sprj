@@ -49,6 +49,27 @@
 			<itemvalues>
 				<value variable="matGeo" for="Color Grade Quad">
 					<row>
+						<value>973</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>933</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>1</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>486.5</value>
+						<value>466.5</value>
+						<value>-1000</value>
 						<value>1</value>
 					</row>
 				</value>
@@ -678,16 +699,18 @@
 	</objects>
 	<cameras />
 	<settings>
+		<entry type="file" name="Lighting" shader="vs" />
+		<entry type="file" name="Lighting" shader="ps" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
 		<entry type="pinned" name="AmbientColor" owner="Lighting" />
 		<entry type="camera" fp="true">
-			<positionX>45.6946259</positionX>
-			<positionY>6.09848309</positionY>
-			<positionZ>16.714716</positionZ>
-			<yaw>1440.44739</yaw>
-			<pitch>-16.5488186</pitch>
+			<positionX>86.2225876</positionX>
+			<positionY>9.84494972</positionY>
+			<positionZ>20.8618488</positionZ>
+			<yaw>1082.4469</yaw>
+			<pitch>-19.4989834</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />

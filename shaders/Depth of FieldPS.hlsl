@@ -47,6 +47,7 @@ float4 main(PSInput pin) : SV_TARGET
 
 	blurFinal = blurFinal/weightsum;
 	
+	return Final;
 	return lerp(Final,blurFinal,Depth);
 
 }

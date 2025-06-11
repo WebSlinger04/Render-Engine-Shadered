@@ -110,25 +110,43 @@ struct Lighting
 		//get light values in view space
 		float4 viewLgtPos = mul(float4(lgtPos.xyz,1),matVP);
 		viewLgtPos.xyz /= viewLgtPos.w;
-		float2 ndcLgtPos = viewLgtPos.xy * 0.5 + 0.5;
+		float3 ndcLgtPos = viewLgtPos.xyz * 0.5 + 0.5;
 		
-		float3 ndcLgtDir = mul(float4(lgtDir.xyz,0),matVP).xyz;
-		ndcLgtDir.xyz = normalize(ndcLgtDir.xyz);
-
+		float2 ndcLgtDir = mul(float4(lgtDir.xyz,0),matVP).xy;
+		ndcLgtDir = normalize(ndcLgtDir);
+		
 		//volumetric
-		float2 viewVector = normalize(UV-ndcLgtPos);
+		float2 viewVector = normalize(UV-ndcLgtPos.xy);
 		float4 Volumetric = saturate(dot(viewVector,ndcLgtDir));
 		
 		//volume falloff
 		float falloff = lgtXtra.x;
-		float ConeAngle = lgtXtra.y;
-		float vecDist = distance(float3(UV,0),float3(ndcLgtPos,0));
-		float VolumeFalloff = .0002 * falloff/length(UV-ndcLgtPos);
+		float ConeAngle = lgtXtra.y * 5;
+		float vecDist = distance(float3(UV,0),float3(ndcLgtPos.xy,0));
+		float VolumeFalloff = .0001 * falloff/length(UV-ndcLgtPos.xy);
 		float VolumeCone = pow(Volumetric,ConeAngle);
-		//depth check
-		Volumetric *= saturate( (mul(float4(gPos.xyz,1),matVP).a - viewLgtPos.a ) / 5 + 1);
 		
-		return Volumetric * lgtColor * VolumeFalloff * VolumeCone * lgtXtra.z;
+		//raymarch
+		float cullCheck = 1;
+		float2 ray = normalize(ndcLgtPos.xy-UV);
+		float2 startPos = UV;
+		int slices = 64;
+		float stepSize = distance(ndcLgtPos.xy,startPos.xy) / slices;
+		for (int i = 0; i < slices; i++)
+		{
+			float offset = stepSize * i;	
+			float2 marchUV = offset * ray + startPos;	
+			float4 sampleDepth = Position.Sample(smp,marchUV);
+			
+			if (length(sampleDepth.xyz-lgtPos.xyz) < length(gPos.xyz-lgtPos.xyz)-70)
+			{
+				cullCheck = 0;
+				break;
+			}
+		}
+
+		
+		return saturate(Volumetric * lgtColor * VolumeFalloff * VolumeCone * cullCheck) * lgtXtra.z ;
 	
 	}
 	
