@@ -18,6 +18,41 @@
 					<depth>1</depth>
 					<topology>TriangleList</topology>
 				</item>
+				<item name="DOF Quad2" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="DOF Quad3" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="DOF Quad4" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="DOF Quad5" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="DOF Quad6" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
 			</items>
 			<itemvalues />
 			<variables>
@@ -45,11 +80,46 @@
 					<depth>1</depth>
 					<topology>TriangleList</topology>
 				</item>
+				<item name="Color Grade Quad2" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="Color Grade Quad3" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="Color Grade Quad4" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="Color Grade Quad5" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="Color Grade Quad6" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
 			</items>
 			<itemvalues>
 				<value variable="matGeo" for="Color Grade Quad">
 					<row>
-						<value>973</value>
+						<value>859</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
@@ -67,7 +137,7 @@
 						<value>0</value>
 					</row>
 					<row>
-						<value>486.5</value>
+						<value>429.5</value>
 						<value>466.5</value>
 						<value>-1000</value>
 						<value>1</value>
@@ -129,6 +199,41 @@
 					<depth>1</depth>
 					<topology>TriangleList</topology>
 				</item>
+				<item name="Bloom Quad2" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="Bloom Quad3" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="Bloom Quad4" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="Bloom Quad5" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="Bloom Quad6" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
 			</items>
 			<itemvalues />
 			<variables>
@@ -157,6 +262,41 @@
 					<depth>1</depth>
 					<topology>TriangleList</topology>
 				</item>
+				<item name="Blur SSAO Quad2" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="Blur SSAO Quad3" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="Blur SSAO Quad4" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="Blur SSAO Quad5" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="Blur SSAO Quad6" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
 			</items>
 			<itemvalues />
 			<variables>
@@ -179,6 +319,41 @@
 			<rendertexture name="Scene AO Noise" />
 			<items>
 				<item name="SSAO Quad" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="SSAO Quad2" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="SSAO Quad3" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="SSAO Quad4" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="SSAO Quad5" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="SSAO Quad6" type="geometry">
 					<type>ScreenQuad</type>
 					<width>1</width>
 					<height>1</height>
@@ -274,6 +449,41 @@
 					<depth>1</depth>
 					<topology>TriangleList</topology>
 				</item>
+				<item name="Lighting Quad2" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="Lighting Quad3" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="Lighting Quad4" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="Lighting Quad5" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="Lighting Quad6" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
 			</items>
 			<itemvalues />
 			<variables>
@@ -291,6 +501,7 @@
 						<value>0</value>
 					</row>
 				</variable>
+				<variable type="float4x4" name="matProj" system="Projection" />
 			</variables>
 			<macros />
 		</pass>
@@ -317,6 +528,46 @@
 					<grouponly>false</grouponly>
 				</item>
 				<item name="LightTest2" type="model">
+					<filepath>ArtAssets\Models\SM_LightingTest_2.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+				<item name="LightTest3" type="model">
+					<filepath>ArtAssets\Models\SM_LightingTest.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+				<item name="LightTest4" type="model">
+					<filepath>ArtAssets\Models\SM_LightingTest_2.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+				<item name="LightTest5" type="model">
+					<filepath>ArtAssets\Models\SM_LightingTest.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+				<item name="LightTest6" type="model">
+					<filepath>ArtAssets\Models\SM_LightingTest_2.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+				<item name="LightTest7" type="model">
+					<filepath>ArtAssets\Models\SM_LightingTest.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+				<item name="LightTest8" type="model">
+					<filepath>ArtAssets\Models\SM_LightingTest_2.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+				<item name="LightTest9" type="model">
+					<filepath>ArtAssets\Models\SM_LightingTest.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+				<item name="LightTest10" type="model">
+					<filepath>ArtAssets\Models\SM_LightingTest_2.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+				<item name="LightTest11" type="model">
+					<filepath>ArtAssets\Models\SM_LightingTest.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+				<item name="LightTest12" type="model">
 					<filepath>ArtAssets\Models\SM_LightingTest_2.obj</filepath>
 					<grouponly>false</grouponly>
 				</item>
@@ -351,6 +602,26 @@
 					<buffer>wPositionBuffer_2</buffer>
 					<topology>TriangleList</topology>
 				</item>
+				<item name="VBuffer10" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer19" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer28" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer29" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer30" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
 			</items>
 			<itemvalues />
 			<variables>
@@ -375,6 +646,26 @@
 			<rendertexture name="SM 02" />
 			<items>
 				<item name="VBuffer2" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer11" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer20" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer31" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer32" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer33" type="vertexbuffer">
 					<buffer>wPositionBuffer_2</buffer>
 					<topology>TriangleList</topology>
 				</item>
@@ -405,6 +696,26 @@
 					<buffer>wPositionBuffer_2</buffer>
 					<topology>TriangleList</topology>
 				</item>
+				<item name="VBuffer12" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer21" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer34" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer35" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer36" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
 			</items>
 			<itemvalues />
 			<variables>
@@ -429,6 +740,26 @@
 			<rendertexture name="SM 04" />
 			<items>
 				<item name="VBuffer4" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer13" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer22" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer37" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer38" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer39" type="vertexbuffer">
 					<buffer>wPositionBuffer_2</buffer>
 					<topology>TriangleList</topology>
 				</item>
@@ -459,6 +790,26 @@
 					<buffer>wPositionBuffer_2</buffer>
 					<topology>TriangleList</topology>
 				</item>
+				<item name="VBuffer14" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer23" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer40" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer41" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer42" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
 			</items>
 			<itemvalues />
 			<variables>
@@ -483,6 +834,26 @@
 			<rendertexture name="SM 06" />
 			<items>
 				<item name="VBuffer6" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer15" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer24" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer43" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer44" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer45" type="vertexbuffer">
 					<buffer>wPositionBuffer_2</buffer>
 					<topology>TriangleList</topology>
 				</item>
@@ -513,6 +884,26 @@
 					<buffer>wPositionBuffer_2</buffer>
 					<topology>TriangleList</topology>
 				</item>
+				<item name="VBuffer16" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer25" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer46" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer47" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer48" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
 			</items>
 			<itemvalues />
 			<variables>
@@ -540,6 +931,26 @@
 					<buffer>wPositionBuffer_2</buffer>
 					<topology>TriangleList</topology>
 				</item>
+				<item name="VBuffer17" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer26" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer49" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer50" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer51" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
 			</items>
 			<itemvalues />
 			<variables>
@@ -564,6 +975,26 @@
 			<rendertexture name="SM 09" />
 			<items>
 				<item name="VBuffer9" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer18" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer27" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer52" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer53" type="vertexbuffer">
+					<buffer>wPositionBuffer_2</buffer>
+					<topology>TriangleList</topology>
+				</item>
+				<item name="VBuffer54" type="vertexbuffer">
 					<buffer>wPositionBuffer_2</buffer>
 					<topology>TriangleList</topology>
 				</item>
@@ -706,11 +1137,11 @@
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
 		<entry type="pinned" name="AmbientColor" owner="Lighting" />
 		<entry type="camera" fp="true">
-			<positionX>86.2225876</positionX>
-			<positionY>9.84494972</positionY>
-			<positionZ>20.8618488</positionZ>
-			<yaw>1082.4469</yaw>
-			<pitch>-19.4989834</pitch>
+			<positionX>85.9195251</positionX>
+			<positionY>5.90860319</positionY>
+			<positionZ>11.4410868</positionZ>
+			<yaw>0.548297346</yaw>
+			<pitch>-22.7490406</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />

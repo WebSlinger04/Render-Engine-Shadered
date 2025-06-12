@@ -121,9 +121,10 @@ struct Lighting
 		
 		//volume falloff
 		float falloff = lgtXtra.x;
-		float ConeAngle = lgtXtra.y * 5;
+		float ConeAngle = lgtXtra.y * 20;
 		float vecDist = distance(float3(UV,0),float3(ndcLgtPos.xy,0));
-		float VolumeFalloff = .0001 * falloff/length(UV-ndcLgtPos.xy);
+		float VolumeFalloff = saturate(1-distance(camPos,lgtPos) / 50);
+		VolumeFalloff = pow(VolumeFalloff,2) * .5;
 		float VolumeCone = pow(Volumetric,ConeAngle);
 		
 		//raymarch
@@ -134,6 +135,7 @@ struct Lighting
 		float stepSize = distance(ndcLgtPos.xy,startPos.xy) / slices;
 		for (int i = 0; i < slices; i++)
 		{
+			
 			float offset = stepSize * i;	
 			float2 marchUV = offset * ray + startPos;	
 			float4 sampleDepth = Position.Sample(smp,marchUV);

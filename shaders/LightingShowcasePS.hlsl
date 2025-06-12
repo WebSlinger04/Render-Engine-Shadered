@@ -25,6 +25,7 @@ cbuffer cbPerFrame : register(b0)
 	float4x4 matProject;
 	float2 viewSize;
 	float4x4 matVP;
+	float4x4 matProj;
 };
 
 struct PSInput
@@ -61,7 +62,7 @@ struct Lighting
 
 	float4 Calculate()
 	{
-		return (_Diffuse() + _Specular()) * _Shadow() + _Volumetric();
+		return (_Diffuse() + _Specular()) * _Shadow() + _Volumetric() + _SSR();
 	}
 
 	float4 _Diffuse()
@@ -112,7 +113,7 @@ struct Lighting
 		float4 viewLgtPos = mul(float4(lgtPos.xyz,1),matVP);
 		viewLgtPos.xyz /= viewLgtPos.w;
 		float3 ndcLgtPos = viewLgtPos.xyz * 0.5 + 0.5;
-		
+
 		float2 ndcLgtDir = mul(float4(lgtDir.xyz,0),matVP).xy;
 		ndcLgtDir = normalize(ndcLgtDir);
 		
@@ -122,9 +123,10 @@ struct Lighting
 		
 		//volume falloff
 		float falloff = lgtXtra.x;
-		float ConeAngle = lgtXtra.y * 5;
+		float ConeAngle = lgtXtra.y * 20;
 		float vecDist = distance(float3(UV,0),float3(ndcLgtPos.xy,0));
-		float VolumeFalloff = .0001 * falloff/length(UV-ndcLgtPos.xy);
+		float VolumeFalloff = saturate(1-distance(camPos,lgtPos) / 50);
+		VolumeFalloff = pow(VolumeFalloff,2) * .5;
 		float VolumeCone = pow(Volumetric,ConeAngle);
 		
 		//raymarch
@@ -135,6 +137,7 @@ struct Lighting
 		float stepSize = distance(ndcLgtPos.xy,startPos.xy) / slices;
 		for (int i = 0; i < slices; i++)
 		{
+			
 			float offset = stepSize * i;	
 			float2 marchUV = offset * ray + startPos;	
 			float4 sampleDepth = Position.Sample(smp,marchUV);
@@ -243,6 +246,53 @@ struct Lighting
 	    
 		float3 HDRI = Diffuse + Specular;
 		return float4(HDRI, 1.0)*HDRStrength;
+	}
+	
+	float4 _SSR()
+	{
+	
+		float3 viewPos = mul(float4(gPos.xyz,1),matVP).xyz;
+		float3 viewDir = normalize(gPos-camPos);
+		float3 viewNormal = mul(float4(gNormal,0),matVP).xyz;
+		viewNormal = normalize(viewNormal);
+		float3 refDir = normalize(reflect(viewDir,viewNormal));
+		
+		float3 ray = normalize(refDir);
+		float3 rayStart = viewPos;
+		int slices = 64;
+		float stepSize = 0.1;
+		float bias;
+		
+		//raymarch
+		for(int i = 0; i < slices; i++)
+		{
+			float3 offset = rayStart + ray * stepSize * i;
+			
+			
+	        // Project to NDC
+	        float4 projPos = mul(matProj, float4(offset, 1.0));
+	        projPos.xyz /= projPos.w;
+	        float2 screenUV = projPos.xy * 0.5 + 0.5;
+
+			
+			//early exit
+			if (screenUV.x < 0 || screenUV.x > 1 || screenUV.y < 0 || screenUV.y > 1)
+            	break;
+		
+			float sceneDepth = Position.Sample(smp,screenUV).a;
+			float z = mul(matProj,float4(offset,1)).z / projPos.w;
+		
+			 // Compare depth
+	        if (z < sceneDepth + bias)
+	        {
+	            float4 reflectedColor = SceneColor.Sample(smp, screenUV);
+	            reflectedColor = float4(1,0,0,0);
+	            return reflectedColor;
+	        }
+		
+		}
+		
+		return 0;
 	}
 	
 	float4 SpecularTest(float3 value)
