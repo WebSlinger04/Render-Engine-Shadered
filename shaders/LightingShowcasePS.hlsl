@@ -62,7 +62,7 @@ struct Lighting
 
 	float4 Calculate()
 	{
-		return (_Diffuse() + _Specular()) * _Shadow() + _Volumetric() + _SSR();
+		return (_Diffuse() + _Specular()) * _Shadow() + _Volumetric();
 	}
 
 	float4 _Diffuse()
@@ -133,10 +133,14 @@ struct Lighting
 		float cullCheck = 1;
 		float2 ray = normalize(ndcLgtPos.xy-UV);
 		float2 startPos = UV;
-		int slices = 64;
+		int slices = 16;
 		float stepSize = distance(ndcLgtPos.xy,startPos.xy) / slices;
 		for (int i = 0; i < slices; i++)
 		{
+			if(Volumetric.x == 0)
+			{
+				break;
+			}
 			
 			float offset = stepSize * i;	
 			float2 marchUV = offset * ray + startPos;	
@@ -248,7 +252,7 @@ struct Lighting
 		return float4(HDRI, 1.0)*HDRStrength;
 	}
 	
-	float4 _SSR()
+	/*float4 _SSR()
 	{
 	
 		float3 viewPos = mul(float4(gPos.xyz,1),matVP).xyz;
@@ -293,7 +297,7 @@ struct Lighting
 		}
 		
 		return 0;
-	}
+		*/
 	
 	float4 SpecularTest(float3 value)
 	{

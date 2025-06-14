@@ -29,8 +29,8 @@ float4 main(PSInput pin) : SV_TARGET
 	float4 EmissiveLighting;
 
 	float weightsum;
-	int Sample = 3;
-	float size = 3;
+	int Sample = 2;
+	float size = 2;
 	float2 texelSize = 1/screenSize;
 	float threshold = 1;
 
@@ -54,6 +54,6 @@ float4 main(PSInput pin) : SV_TARGET
 		weightsum += weight;
 		}
 	}
-
+	return 0;
 	return EmissivePass.Sample(smp,pin.UV) + saturate(Emissive/weightsum-EmissivePass.Sample(smp,pin.UV));
 }

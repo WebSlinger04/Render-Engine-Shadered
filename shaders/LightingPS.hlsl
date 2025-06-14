@@ -131,10 +131,14 @@ struct Lighting
 		float cullCheck = 1;
 		float2 ray = normalize(ndcLgtPos.xy-UV);
 		float2 startPos = UV;
-		int slices = 64;
+		int slices = 16;
 		float stepSize = distance(ndcLgtPos.xy,startPos.xy) / slices;
 		for (int i = 0; i < slices; i++)
 		{
+			if(Volumetric.x == 0)
+			{
+				break;
+			}
 			
 			float offset = stepSize * i;	
 			float2 marchUV = offset * ray + startPos;	
@@ -207,13 +211,13 @@ struct Lighting
 		} else
 		{
 			int ShadowSamples = 64;
-			float d = 0.003;
+			float d = 0.001;
 			for (int i = 0; i < ShadowSamples; i++)
 			{
 				float2 offset = float2(randomNumber(i*3.1232)*2-1,randomNumber(i*1.63434)*2-1);
 				offset *= d;
 				float shadowTex = ShadowMapAtlas.Sample(smp,clipUv.xy + offset).x;
-				Shadow += ( 1/shadowProject.w >  shadowTex - d );
+				Shadow += ( 1/shadowProject.w >  shadowTex - d);
 			}
 			Shadow /= ShadowSamples;
 		}
@@ -291,7 +295,7 @@ float4 main(PSInput pin) : SV_TARGET
 		lighting.metallic = ORM.z;
 		lighting.Roughness = max(ORM.y,0.05);
 		lighting.ior = 1.5;
-		lighting.HDRStrength = 0.5;
+		lighting.HDRStrength = .5;
 
 
 		Result += lighting.Calculate();

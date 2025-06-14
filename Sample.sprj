@@ -168,7 +168,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="Translucent" type="shader" active="true" patchverts="1">
+		<pass name="Translucent" type="shader" active="true" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\TranslucentVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\TranslucentPS.hlsl" entry="main" />
 			<inputlayout>
@@ -209,13 +209,9 @@
 					<depthfrontfail>Keep</depthfrontfail>
 					<depthbackfail>Keep</depthbackfail>
 				</item>
-				<item name="Place Translucent .obj here" type="geometry">
-					<type>Cube</type>
-					<width>1</width>
-					<height>1</height>
-					<depth>1</depth>
-					<y>1.00867844</y>
-					<topology>TriangleList</topology>
+				<item name="Glass" type="model">
+					<filepath>ArtAssets\Models\SM_Clasroom_Translucent.obj</filepath>
+					<grouponly>false</grouponly>
 				</item>
 			</items>
 			<itemvalues />
@@ -233,6 +229,11 @@
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
+					</row>
+				</variable>
+				<variable type="int" name="atlasSize">
+					<row>
+						<value>7</value>
 					</row>
 				</variable>
 			</variables>
@@ -266,9 +267,9 @@
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4" name="AmbientColor">
 					<row>
-						<value>9.9999977e-07</value>
-						<value>9.99989993e-07</value>
-						<value>9.99999997e-07</value>
+						<value>0.0274509806</value>
+						<value>0.0215745084</value>
+						<value>0.0102268355</value>
 						<value>0</value>
 					</row>
 				</variable>
@@ -292,15 +293,9 @@
 			<rendertexture name="Scene ORM" />
 			<rendertexture name="Scene Emissive" />
 			<items>
-				<item name="Place .obj here" type="geometry">
-					<type>Cube</type>
-					<width>1</width>
-					<height>1</height>
-					<depth>1</depth>
-					<scaleX>10</scaleX>
-					<scaleY>0.100000001</scaleY>
-					<scaleZ>10</scaleZ>
-					<topology>TriangleList</topology>
+				<item name="Opaque" type="model">
+					<filepath>ArtAssets\Models\SM_Clasroom_Opaque.obj</filepath>
+					<grouponly>false</grouponly>
 				</item>
 			</items>
 			<itemvalues />
@@ -310,6 +305,11 @@
 				<variable type="int" name="LightLinkID">
 					<row>
 						<value>0</value>
+					</row>
+				</variable>
+				<variable type="int" name="atlasSize">
+					<row>
+						<value>7</value>
 					</row>
 				</variable>
 			</variables>
@@ -324,7 +324,7 @@
 			<rendertexture name="SM 01" />
 			<items>
 				<item name="VBuffer" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
+					<buffer>wPositionBuffer3</buffer>
 					<topology>TriangleList</topology>
 				</item>
 			</items>
@@ -351,7 +351,7 @@
 			<rendertexture name="SM 02" />
 			<items>
 				<item name="VBuffer2" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
+					<buffer>wPositionBuffer3</buffer>
 					<topology>TriangleList</topology>
 				</item>
 			</items>
@@ -378,7 +378,7 @@
 			<rendertexture name="SM 03" />
 			<items>
 				<item name="VBuffer3" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
+					<buffer>wPositionBuffer3</buffer>
 					<topology>TriangleList</topology>
 				</item>
 			</items>
@@ -405,7 +405,7 @@
 			<rendertexture name="SM 04" />
 			<items>
 				<item name="VBuffer4" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
+					<buffer>wPositionBuffer3</buffer>
 					<topology>TriangleList</topology>
 				</item>
 			</items>
@@ -432,7 +432,7 @@
 			<rendertexture name="SM 05" />
 			<items>
 				<item name="VBuffer5" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
+					<buffer>wPositionBuffer3</buffer>
 					<topology>TriangleList</topology>
 				</item>
 			</items>
@@ -459,7 +459,7 @@
 			<rendertexture name="SM 06" />
 			<items>
 				<item name="VBuffer6" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
+					<buffer>wPositionBuffer3</buffer>
 					<topology>TriangleList</topology>
 				</item>
 			</items>
@@ -486,7 +486,7 @@
 			<rendertexture name="SM 07" />
 			<items>
 				<item name="VBuffer7" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
+					<buffer>wPositionBuffer3</buffer>
 					<topology>TriangleList</topology>
 				</item>
 			</items>
@@ -513,7 +513,7 @@
 			<rendertexture name="SM 08" />
 			<items>
 				<item name="VBuffer8" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
+					<buffer>wPositionBuffer3</buffer>
 					<topology>TriangleList</topology>
 				</item>
 			</items>
@@ -540,7 +540,7 @@
 			<rendertexture name="SM 09" />
 			<items>
 				<item name="VBuffer9" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
+					<buffer>wPositionBuffer3</buffer>
 					<topology>TriangleList</topology>
 				</item>
 			</items>
@@ -556,23 +556,23 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="ShadowMapAtlas" type="compute" active="true">
+		<pass name="ShadowMapAtlas" type="compute" active="false">
 			<shader type="cs" path="shaders\shadowMapAtlasCS.hlsl" entry="main" />
-			<groupsize x="64" y="64" z="1" />
+			<groupsize x="256" y="256" z="1" />
 			<macros />
 		</pass>
 	</pipeline>
 	<objects>
-		<object type="buffer" name="Buffer" size="64" format="float4;float4;float4;float4;" pausedpreview="true">
+		<object type="buffer" name="Buffer3" size="512" format="float4;float4;float4;float4;" pausedpreview="true">
 			<bind slot="0" name="Translucent" />
 			<bind slot="0" name="Lighting" />
 			<bind slot="0" name="ShadowMap1" />
 		</object>
-		<object type="buffer" name="wPositionBuffer" size="0" format="float4" pausedpreview="false">
+		<object type="buffer" name="wPositionBuffer3" size="2364000" format="float4" pausedpreview="false">
 			<bind slot="0" name="Main" />
 			<bind slot="1" name="ShadowMapAtlas" />
 		</object>
-		<object type="image" name="ShadowMapAtlas" width="2048" height="2048" format="R16">
+		<object type="image" name="ShadowMapAtlas" width="4096" height="4096" format="R16">
 			<bind slot="3" name="Lighting" uav="0" />
 			<bind slot="0" name="ShadowMapAtlas" uav="1" />
 		</object>
@@ -620,68 +620,66 @@
 		<object type="rendertexture" name="Scene Final" format="RGB" rsize="1.000000,1.000000" clear="true">
 			<bind slot="1" name="Depth of Field" />
 		</object>
-		<object type="rendertexture" name="SM 01" format="R16" fsize="512,512" clear="true">
+		<object type="rendertexture" name="SM 01" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="0" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="SM 02" format="R16" fsize="512,512" clear="true">
+		<object type="rendertexture" name="SM 02" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="1" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="SM 03" format="R16" fsize="512,512" clear="true">
+		<object type="rendertexture" name="SM 03" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="2" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="SM 04" format="R16" fsize="512,512" clear="true">
+		<object type="rendertexture" name="SM 04" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="3" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="SM 05" format="R16" fsize="512,512" clear="true">
+		<object type="rendertexture" name="SM 05" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="4" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="SM 06" format="R16" fsize="512,512" clear="true">
+		<object type="rendertexture" name="SM 06" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="5" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="SM 07" format="R16" fsize="512,512" clear="true">
+		<object type="rendertexture" name="SM 07" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="6" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="SM 08" format="R16" fsize="512,512" clear="true">
+		<object type="rendertexture" name="SM 08" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="7" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="SM 09" format="R16" fsize="512,512" clear="true">
+		<object type="rendertexture" name="SM 09" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="8" name="ShadowMapAtlas" />
 		</object>
 		<object type="texture" path="ArtAssets\Texture\VectorNoise.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
 			<bind slot="2" name="SSAO" />
 		</object>
-		<object type="texture" path="ArtAssets\Texture\T_Color.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+		<object type="texture" path="ArtAssets\Texture\HDR.png" vflip="false" min_filter="Linear_MipmapNearest" mag_filter="Nearest" wrap_s="MirroredRepeat" wrap_t="MirroredRepeat">
+			<bind slot="6" name="Lighting" />
+		</object>
+		<object type="texture" path="ArtAssets\Texture\T_Classroom_Color.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
 			<bind slot="0" name="Translucent" />
 			<bind slot="0" name="Main" />
 		</object>
-		<object type="texture" path="ArtAssets\Texture\T_ORM.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
-			<bind slot="1" name="Main" />
-		</object>
-		<object type="texture" path="ArtAssets\Texture\T_Normal.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+		<object type="texture" path="ArtAssets\Texture\T_Classroom_Normal.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
 			<bind slot="2" name="Main" />
 		</object>
-		<object type="texture" path="ArtAssets\Texture\T_Emissive.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+		<object type="texture" path="ArtAssets\Texture\T_Classroom_ORM.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="1" name="Main" />
+		</object>
+		<object type="texture" path="ArtAssets\Texture\T_Classroom_Emissive.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
 			<bind slot="3" name="Main" />
-		</object>
-		<object type="texture" path="ArtAssets\Texture\HDR_Blur.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
-			<bind slot="6" name="Lighting" />
-		</object>
-		<object type="texture" path="ArtAssets\Texture\HDR.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
-			<bind slot="7" name="Lighting" />
 		</object>
 	</objects>
 	<cameras />
 	<settings>
+		<entry type="property" name="Lighting" item="pipe" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
 		<entry type="pinned" name="AmbientColor" owner="Lighting" />
 		<entry type="camera" fp="true">
-			<positionX>3.25386429</positionX>
-			<positionY>8.69715118</positionY>
-			<positionZ>13.5486736</positionZ>
-			<yaw>1453.16907</yaw>
-			<pitch>-28.4485435</pitch>
+			<positionX>2.63370609</positionX>
+			<positionY>1.74864173</positionY>
+			<positionZ>5.61221552</positionZ>
+			<yaw>1457.15039</yaw>
+			<pitch>-8.74737644</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />

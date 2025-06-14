@@ -24,11 +24,13 @@ struct PSOut
 	float4 SpecTest;
 };
 
+int atlasSize = 1;
+
 PSOut main(PSInput pin)
 {
 	PSOut pout = (PSOut)0;
 	//sample maps
-	float2 uvMap = pin.UV * float2(1,-1);
+	float2 uvMap = (pin.UV) * float2(1/float(atlasSize),-1);
 	float4 colorMap = texCA.Sample(smp,uvMap);
 	float4 ormMap =  texORM.Sample(smp,uvMap);
 	float3 NormalMap = texNormal.Sample(smp,uvMap)*2-1;

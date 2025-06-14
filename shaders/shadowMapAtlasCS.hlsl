@@ -53,14 +53,14 @@ float Texture(int index, float2 UV)
 }
 
 // Thread group size (e.g., 16x16 threads per group)
-[numthreads(32, 32, 1)]
+[numthreads(16, 16, 1)]
 void main(uint3 dispatchThreadID : SV_DispatchThreadID)
 {
 	
 	int texels = 3;
 	for (int i = 0; i < pow(texels,2); i++)
 	{
-		float2 texSize = float2(2048,2048);
+		float2 texSize = float2(4096,4096);
 		float2 UV = (dispatchThreadID/texSize);
 		float2 selector = dispatchThreadID.xy / texels;
 		
