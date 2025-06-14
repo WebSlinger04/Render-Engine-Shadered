@@ -268,7 +268,7 @@ float4 main(PSInput pin) : SV_TARGET
 	float3 ORM = SceneORM.Sample(smp,pin.UV);
 	float LightLink = SceneLightLink.Sample(smp,pin.UV);
 	Lighting lighting;
-	for(int i = 0; i < 9; i++)
+	for(int i = 0; i < 16; i++)
 	{
 		//stop after loop through all lights
 		if (lightBuffer[i].Color.a == 0){

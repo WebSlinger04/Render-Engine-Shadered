@@ -280,9 +280,9 @@
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4" name="AmbientColor">
 					<row>
-						<value>0.0235294122</value>
-						<value>0.0217208769</value>
-						<value>0.0144867366</value>
+						<value>0.0392156877</value>
+						<value>0.0346635915</value>
+						<value>0.0164552089</value>
 						<value>0</value>
 					</row>
 				</variable>
@@ -320,8 +320,18 @@
 					<filepath>ArtAssets\Models\SM_Clasroom_Opaque.obj</filepath>
 					<grouponly>false</grouponly>
 				</item>
+				<item name="Blinds" type="model">
+					<filepath>ArtAssets\Models\SM_Classroom_Blinds.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
 			</items>
-			<itemvalues />
+			<itemvalues>
+				<value variable="LightLinkID" for="Blinds">
+					<row>
+						<value>1</value>
+					</row>
+				</value>
+			</itemvalues>
 			<variables>
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
@@ -594,7 +604,7 @@
 		</pass>
 	</pipeline>
 	<objects>
-		<object type="buffer" name="Buffer3" size="576" format="float4;float4;float4;float4;" pausedpreview="true">
+		<object type="buffer" name="Buffer3" size="640" format="float4;float4;float4;float4;" pausedpreview="true">
 			<bind slot="0" name="Translucent" />
 			<bind slot="0" name="Lighting" />
 			<bind slot="0" name="ShadowMap1" />
@@ -700,9 +710,7 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Main" item="pipe" />
-		<entry type="file" name="Main" shader="vs" />
-		<entry type="file" name="Main" shader="ps" />
+		<entry type="property" name="Lighting" item="pipe" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
