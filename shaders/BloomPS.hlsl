@@ -29,10 +29,10 @@ float4 main(PSInput pin) : SV_TARGET
 	float4 EmissiveLighting;
 
 	float weightsum;
-	int Sample = 2;
+	int Sample = 3;
 	float size = 2;
 	float2 texelSize = 1/screenSize;
-	float threshold = 1;
+	float threshold = 0.7;
 
 	//blur
 	for (int y = -Sample ; y < Sample; y++)
@@ -43,17 +43,23 @@ float4 main(PSInput pin) : SV_TARGET
 		float circle = length(float2(x,y));
 		float weight = gaussian(circle,size);
 
-		//Bloom due to emissive
-		Emissive += (EmissivePass.Sample(smp, pin.UV + offset)) * weight;
+		if (offset.x+pin.UV.x < 0 || offset.x+pin.UV.x > 1 || offset.y+pin.UV.y < 0 || offset.y+pin.UV.y > 1)
+		{
+			continue;
+		}
 
-		//Bloom due to screen luminosity
+		//Bloom due to emissive
+		Emissive += (EmissivePass.Sample(smp, saturate(pin.UV + offset))) * weight;
+
+
+		/* //Bloom due to screen luminosity
 		EmissiveLighting = SceneLighting.Sample(smp,pin.UV + offset) * weight;
 		float Luminosity = (EmissiveLighting.x + EmissiveLighting.y + EmissiveLighting.z )/3;
 		Luminosity = Luminosity > threshold ? Luminosity : 0;
-		Emissive += EmissiveLighting * Luminosity * .2; 
+		Emissive += EmissiveLighting * Luminosity * .2; */
 		weightsum += weight;
 		}
 	}
-	return 0;
-	return EmissivePass.Sample(smp,pin.UV) + saturate(Emissive/weightsum-EmissivePass.Sample(smp,pin.UV));
+	float4 Result =  EmissivePass.Sample(smp,pin.UV) + saturate(Emissive/weightsum-EmissivePass.Sample(smp,pin.UV)); 
+	return Result;
 }

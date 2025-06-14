@@ -82,6 +82,11 @@
 						<value>0</value>
 					</row>
 				</variable>
+				<variable type="float" name="fogStart">
+					<row>
+						<value>0.800000012</value>
+					</row>
+				</variable>
 			</variables>
 			<macros />
 		</pass>
@@ -165,6 +170,14 @@
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float2" name="screenSize" system="ViewportSize" />
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float4" name="PP_AO">
+					<row>
+						<value>0.100000001</value>
+						<value>32</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+				</variable>
 			</variables>
 			<macros />
 		</pass>
@@ -200,6 +213,16 @@
 						<value>9.99989993e-07</value>
 						<value>9.99999997e-07</value>
 						<value>0</value>
+					</row>
+				</variable>
+				<variable type="float" name="HDRStrength">
+					<row>
+						<value>0.5</value>
+					</row>
+				</variable>
+				<variable type="int" name="ShadowSamples">
+					<row>
+						<value>64</value>
 					</row>
 				</variable>
 			</variables>
@@ -265,6 +288,11 @@
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
+						<value>0</value>
+					</row>
+				</variable>
+				<variable type="int" name="atlasSize">
+					<row>
 						<value>0</value>
 					</row>
 				</variable>
@@ -554,6 +582,14 @@
 		<pass name="ShadowMapAtlas" type="compute" active="true">
 			<shader type="cs" path="shaders\shadowMapAtlasCS.hlsl" entry="main" />
 			<groupsize x="256" y="256" z="1" />
+			<variables>
+				<variable type="int" name="Frame" system="FrameIndex" />
+				<variable type="int" name="updateShadow">
+					<row>
+						<value>600</value>
+					</row>
+				</variable>
+			</variables>
 			<macros />
 		</pass>
 	</pipeline>
@@ -665,19 +701,22 @@
 	<cameras />
 	<settings>
 		<entry type="property" name="Main" item="pipe" />
-		<entry type="file" name="Main" shader="vs" />
-		<entry type="file" name="Main" shader="ps" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
 		<entry type="pinned" name="AmbientColor" owner="Lighting" />
 		<entry type="pinned" name="atlasSize" owner="Main" />
+		<entry type="pinned" name="fogStart" owner="Color Grade" />
+		<entry type="pinned" name="PP_AO" owner="SSAO" />
+		<entry type="pinned" name="HDRStrength" owner="Lighting" />
+		<entry type="pinned" name="updateShadow" owner="ShadowMapAtlas" />
+		<entry type="pinned" name="ShadowSamples" owner="Lighting" />
 		<entry type="camera" fp="true">
-			<positionX>5.14252663</positionX>
-			<positionY>1.17255378</positionY>
-			<positionZ>4.46432209</positionZ>
-			<yaw>1439.98474</yaw>
-			<pitch>-9.34856606</pitch>
+			<positionX>5.07206154</positionX>
+			<positionY>3.07243371</positionY>
+			<positionZ>14.5437775</positionZ>
+			<yaw>1439.58435</yaw>
+			<pitch>-10.6985712</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />

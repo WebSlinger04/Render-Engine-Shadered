@@ -38,6 +38,9 @@ float randomNumber(float maxNumber)
 
 }
 
+float HDRStrength;
+int ShadowSamples;
+
 struct Lighting
 {
 	//init
@@ -168,7 +171,7 @@ struct Lighting
 			SpotCone = pow(saturate(dot(lgtVec,normalize(-lgtDir))),ConeAngle);
 		}
 		
-		return 1 * lightFalloff * SpotCone;
+		return lightFalloff * SpotCone;
 	}
 	
 	float _Shadow()
@@ -210,8 +213,7 @@ struct Lighting
 			Shadow = 1;
 		} else
 		{
-			int ShadowSamples = 64;
-			float d = 0.001;
+			float d = 0.0007;
 			for (int i = 0; i < ShadowSamples; i++)
 			{
 				float2 offset = float2(randomNumber(i*3.1232)*2-1,randomNumber(i*1.63434)*2-1);
@@ -295,11 +297,10 @@ float4 main(PSInput pin) : SV_TARGET
 		lighting.metallic = ORM.z;
 		lighting.Roughness = max(ORM.y,0.05);
 		lighting.ior = 1.5;
-		lighting.HDRStrength = .5;
+		lighting.HDRStrength = HDRStrength;
 
 
 		Result += lighting.Calculate();
-
 	}
 	return Result + lighting.HDRI() + AmbientColor;
 }

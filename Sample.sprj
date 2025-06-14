@@ -53,7 +53,7 @@
 				<variable type="float3" name="PP_ECS">
 					<row>
 						<value>0</value>
-						<value>0</value>
+						<value>0.200000003</value>
 						<value>1</value>
 					</row>
 				</variable>
@@ -76,10 +76,15 @@
 				</variable>
 				<variable type="float4" name="PP_Fog">
 					<row>
-						<value>9.99999997e-07</value>
-						<value>9.99989993e-07</value>
-						<value>9.99989993e-07</value>
-						<value>0</value>
+						<value>0.204166681</value>
+						<value>0.448229253</value>
+						<value>0.5</value>
+						<value>0.150000006</value>
+					</row>
+				</variable>
+				<variable type="float" name="fogStart">
+					<row>
+						<value>0.600000024</value>
 					</row>
 				</variable>
 			</variables>
@@ -165,6 +170,14 @@
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float2" name="screenSize" system="ViewportSize" />
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float4" name="PP_AO">
+					<row>
+						<value>0.300000012</value>
+						<value>32</value>
+						<value>-0.100000001</value>
+						<value>0</value>
+					</row>
+				</variable>
 			</variables>
 			<macros />
 		</pass>
@@ -223,17 +236,17 @@
 						<value>0</value>
 					</row>
 				</variable>
+				<variable type="int" name="atlasSize">
+					<row>
+						<value>9</value>
+					</row>
+				</variable>
 				<variable type="float4" name="AmbientColor">
 					<row>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
 						<value>0</value>
-					</row>
-				</variable>
-				<variable type="int" name="atlasSize">
-					<row>
-						<value>7</value>
 					</row>
 				</variable>
 			</variables>
@@ -267,10 +280,20 @@
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4" name="AmbientColor">
 					<row>
-						<value>0.0274509806</value>
-						<value>0.0215745084</value>
-						<value>0.0102268355</value>
+						<value>0.0235294122</value>
+						<value>0.0217208769</value>
+						<value>0.0144867366</value>
 						<value>0</value>
+					</row>
+				</variable>
+				<variable type="float" name="HDRStrength">
+					<row>
+						<value>0.5</value>
+					</row>
+				</variable>
+				<variable type="int" name="ShadowSamples">
+					<row>
+						<value>64</value>
 					</row>
 				</variable>
 			</variables>
@@ -309,7 +332,7 @@
 				</variable>
 				<variable type="int" name="atlasSize">
 					<row>
-						<value>7</value>
+						<value>9</value>
 					</row>
 				</variable>
 			</variables>
@@ -556,14 +579,22 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="ShadowMapAtlas" type="compute" active="false">
+		<pass name="ShadowMapAtlas" type="compute" active="true">
 			<shader type="cs" path="shaders\shadowMapAtlasCS.hlsl" entry="main" />
 			<groupsize x="256" y="256" z="1" />
+			<variables>
+				<variable type="int" name="Frame" system="FrameIndex" />
+				<variable type="int" name="updateShadow">
+					<row>
+						<value>600</value>
+					</row>
+				</variable>
+			</variables>
 			<macros />
 		</pass>
 	</pipeline>
 	<objects>
-		<object type="buffer" name="Buffer3" size="512" format="float4;float4;float4;float4;" pausedpreview="true">
+		<object type="buffer" name="Buffer3" size="576" format="float4;float4;float4;float4;" pausedpreview="true">
 			<bind slot="0" name="Translucent" />
 			<bind slot="0" name="Lighting" />
 			<bind slot="0" name="ShadowMap1" />
@@ -669,17 +700,25 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Lighting" item="pipe" />
+		<entry type="property" name="Main" item="pipe" />
+		<entry type="file" name="Main" shader="vs" />
+		<entry type="file" name="Main" shader="ps" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
+		<entry type="pinned" name="HDRStrength" owner="Lighting" />
+		<entry type="pinned" name="fogStart" owner="Color Grade" />
+		<entry type="pinned" name="PP_AO" owner="SSAO" />
+		<entry type="pinned" name="updateShadow" owner="ShadowMapAtlas" />
+		<entry type="pinned" name="ShadowSamples" owner="Lighting" />
+		<entry type="pinned" name="atlasSize" owner="Main" />
 		<entry type="pinned" name="AmbientColor" owner="Lighting" />
 		<entry type="camera" fp="true">
-			<positionX>2.63370609</positionX>
-			<positionY>1.74864173</positionY>
-			<positionZ>5.61221552</positionZ>
-			<yaw>1457.15039</yaw>
-			<pitch>-8.74737644</pitch>
+			<positionX>2.49321318</positionX>
+			<positionY>1.04225338</positionY>
+			<positionZ>4.17787886</positionZ>
+			<yaw>1459.35315</yaw>
+			<pitch>-4.34737778</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />

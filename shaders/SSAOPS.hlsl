@@ -22,6 +22,8 @@ float randomNumber(float maxNumber)
 
 }
 
+float4 PP_AO = float4(.3,32,-.1,0);
+
 float main(PSInput pin) : SV_TARGET
 {
 	pin.UV.y = 1-pin.UV.y;
@@ -41,9 +43,9 @@ float main(PSInput pin) : SV_TARGET
 	
 	//SSAO
 	float ao = 0;
-	float radius = .1;
-	float aoSamples = 32;
-	float bias = -.01;
+	float radius = PP_AO.x;
+	float aoSamples = PP_AO.y;
+	float bias = PP_AO.z;
 	float depth = mul(PositionPass,matVP).z + bias;
 		
 	//hemishpere

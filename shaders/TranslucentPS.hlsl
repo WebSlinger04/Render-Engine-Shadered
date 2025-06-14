@@ -47,7 +47,7 @@ struct Lighting
 		float NdotL = dot(lgtVec, gNormal);
 		float4 diffuseLight = saturate(NdotL);
 		diffuseLight = diffuseLight * lgtColor;
-			
+		diffuseLight /= 3.14;
 		return diffuseLight * gColor * _attenuation();
 	}
 	

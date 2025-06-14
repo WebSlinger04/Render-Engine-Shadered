@@ -109,6 +109,11 @@
 						<value>0</value>
 					</row>
 				</variable>
+				<variable type="float" name="fogStart">
+					<row>
+						<value>0</value>
+					</row>
+				</variable>
 			</variables>
 			<macros />
 		</pass>
@@ -192,6 +197,14 @@
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float2" name="screenSize" system="ViewportSize" />
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float4" name="PP_AO">
+					<row>
+						<value>0.100000001</value>
+						<value>16</value>
+						<value>-0.100000001</value>
+						<value>0</value>
+					</row>
+				</variable>
 			</variables>
 			<macros />
 		</pass>
@@ -254,6 +267,7 @@
 						<value>0</value>
 					</row>
 				</variable>
+				<variable type="int" name="atlasSize" system="ViewportSize" />
 			</variables>
 			<macros />
 		</pass>
@@ -584,6 +598,14 @@
 		<pass name="ShadowMapAtlas" type="compute" active="true">
 			<shader type="cs" path="shaders\shadowMapAtlasCS.hlsl" entry="main" />
 			<groupsize x="256" y="256" z="1" />
+			<variables>
+				<variable type="int" name="Frame" system="FrameIndex" />
+				<variable type="int" name="updateShadow">
+					<row>
+						<value>600</value>
+					</row>
+				</variable>
+			</variables>
 			<macros />
 		</pass>
 	</pipeline>
@@ -704,6 +726,9 @@
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
 		<entry type="pinned" name="AmbientColor" owner="Lighting" />
+		<entry type="pinned" name="fogStart" owner="Color Grade" />
+		<entry type="pinned" name="PP_AO" owner="SSAO" />
+		<entry type="pinned" name="updateShadow" owner="ShadowMapAtlas" />
 		<entry type="camera" fp="true">
 			<positionX>60.9348602</positionX>
 			<positionY>11.4951248</positionY>
