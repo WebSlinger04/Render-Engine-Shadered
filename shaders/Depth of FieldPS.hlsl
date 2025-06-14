@@ -26,10 +26,13 @@ float4 main(PSInput pin) : SV_TARGET
 	
 	float4 blurFinal;
 	float4 Final = FinalPass.Sample(smp,pin.UV);
+	
+	return Final;
+	
 	float Depth = mul(Position.Sample(smp,pin.UV),matVP).z / 20;
 	
 	float weightsum;
-	int size = 5;
+	int size = 3;
 	float2 texelSize = 1/screenSize;
 
 	//blur
@@ -47,6 +50,6 @@ float4 main(PSInput pin) : SV_TARGET
 
 	blurFinal = blurFinal/weightsum;
 	
-	return lerp(Final,blurFinal,Depth);
+	return lerp(Final,blurFinal,saturate(Depth));
 
 }

@@ -9,6 +9,7 @@ SamplerState smp : register(s0);
 float3 PP_ECS;
 float3x3 PP_LGG;
 float4 PP_Fog;
+float fogStart;
 
 struct PSInput
 {
@@ -32,14 +33,13 @@ float4 ColorGrade(float4 SceneColor)
 float Vignette(float2 UV)
 {
 	float vignette = distance(UV,float2(0.5,0.5));
-	vignette = saturate(pow(vignette,2.5));
+	vignette = saturate(pow(vignette,2.5))* 2;
 	vignette = saturate((1-vignette));
 	return vignette;
 }
 
 float4 Fog(float Depth)
 {
-	float fogStart = 0.85;
 	float4 fogSceneColor = float4(PP_Fog.xyz,1);
 	float fogStrength = PP_Fog.a;
 	float4 fog = saturate ( (1-Depth) -fogStart);
@@ -64,5 +64,5 @@ float4 main(PSInput pin) : SV_TARGET
 		SceneColor = float4(lerp(SceneColor.xyz,Translucent.xyz,Translucent.a),1);
 	}
 	
-	return (ColorGrade(SceneColor) + Emissive + Fog(Position.a)) * Vignette(pin.UV);
+	return saturate(ColorGrade(SceneColor) + Fog(Position.a)) * Vignette(pin.UV)  + Emissive ;
 }

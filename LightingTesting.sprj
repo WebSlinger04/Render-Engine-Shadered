@@ -49,6 +49,27 @@
 			<itemvalues>
 				<value variable="matGeo" for="Color Grade Quad">
 					<row>
+						<value>1601</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>933</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>1</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>800.5</value>
+						<value>466.5</value>
+						<value>-1000</value>
 						<value>1</value>
 					</row>
 				</value>
@@ -85,6 +106,11 @@
 						<value>9.99999997e-07</value>
 						<value>9.99989993e-07</value>
 						<value>9.99989993e-07</value>
+						<value>0</value>
+					</row>
+				</variable>
+				<variable type="float" name="fogStart">
+					<row>
 						<value>0</value>
 					</row>
 				</variable>
@@ -171,6 +197,14 @@
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float2" name="screenSize" system="ViewportSize" />
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float4" name="PP_AO">
+					<row>
+						<value>0.100000001</value>
+						<value>16</value>
+						<value>-0.100000001</value>
+						<value>0</value>
+					</row>
+				</variable>
 			</variables>
 			<macros />
 		</pass>
@@ -233,6 +267,7 @@
 						<value>0</value>
 					</row>
 				</variable>
+				<variable type="int" name="atlasSize" system="ViewportSize" />
 			</variables>
 			<macros />
 		</pass>
@@ -270,6 +305,7 @@
 						<value>0</value>
 					</row>
 				</variable>
+				<variable type="float4x4" name="matProj" system="Projection" />
 			</variables>
 			<macros />
 		</pass>
@@ -561,7 +597,15 @@
 		</pass>
 		<pass name="ShadowMapAtlas" type="compute" active="true">
 			<shader type="cs" path="shaders\shadowMapAtlasCS.hlsl" entry="main" />
-			<groupsize x="64" y="64" z="1" />
+			<groupsize x="256" y="256" z="1" />
+			<variables>
+				<variable type="int" name="Frame" system="FrameIndex" />
+				<variable type="int" name="updateShadow">
+					<row>
+						<value>600</value>
+					</row>
+				</variable>
+			</variables>
 			<macros />
 		</pass>
 	</pipeline>
@@ -575,7 +619,7 @@
 			<bind slot="0" name="Main" />
 			<bind slot="1" name="ShadowMapAtlas" />
 		</object>
-		<object type="image" name="ShadowMapAtlas" width="2048" height="2048" format="R16">
+		<object type="image" name="ShadowMapAtlas" width="4096" height="4096" format="R16">
 			<bind slot="3" name="Lighting" uav="0" />
 			<bind slot="0" name="ShadowMapAtlas" uav="1" />
 		</object>
@@ -682,12 +726,15 @@
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
 		<entry type="pinned" name="AmbientColor" owner="Lighting" />
+		<entry type="pinned" name="fogStart" owner="Color Grade" />
+		<entry type="pinned" name="PP_AO" owner="SSAO" />
+		<entry type="pinned" name="updateShadow" owner="ShadowMapAtlas" />
 		<entry type="camera" fp="true">
-			<positionX>45.6946259</positionX>
-			<positionY>6.09848309</positionY>
-			<positionZ>16.714716</positionZ>
-			<yaw>1440.44739</yaw>
-			<pitch>-16.5488186</pitch>
+			<positionX>60.9348602</positionX>
+			<positionY>11.4951248</positionY>
+			<positionZ>23.2158165</positionZ>
+			<yaw>-40.2016296</yaw>
+			<pitch>-18.2990646</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />

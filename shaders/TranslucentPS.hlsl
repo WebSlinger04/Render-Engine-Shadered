@@ -47,7 +47,7 @@ struct Lighting
 		float NdotL = dot(lgtVec, gNormal);
 		float4 diffuseLight = saturate(NdotL);
 		diffuseLight = diffuseLight * lgtColor;
-			
+		diffuseLight /= 3.14;
 		return diffuseLight * gColor * _attenuation();
 	}
 	
@@ -63,11 +63,13 @@ struct Lighting
 	}
 };
 
+int atlasSize = 1;
+
 PSOut main(PSInput pin)
 {
 	PSOut pout = (PSOut)0;
 	//sample maps
-	float2 uvMap = pin.UV * float2(1,-1);
+	float2 uvMap =  (pin.UV) * float2(1/float(atlasSize),-1);
 	float4 Color = texCA.Sample(smp,uvMap);
 	
 	float4 Result;

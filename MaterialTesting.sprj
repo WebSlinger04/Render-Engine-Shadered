@@ -82,6 +82,11 @@
 						<value>0</value>
 					</row>
 				</variable>
+				<variable type="float" name="fogStart">
+					<row>
+						<value>0.800000012</value>
+					</row>
+				</variable>
 			</variables>
 			<macros />
 		</pass>
@@ -165,6 +170,14 @@
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float2" name="screenSize" system="ViewportSize" />
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float4" name="PP_AO">
+					<row>
+						<value>0.100000001</value>
+						<value>32</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+				</variable>
 			</variables>
 			<macros />
 		</pass>
@@ -200,6 +213,16 @@
 						<value>9.99989993e-07</value>
 						<value>9.99999997e-07</value>
 						<value>0</value>
+					</row>
+				</variable>
+				<variable type="float" name="HDRStrength">
+					<row>
+						<value>0.5</value>
+					</row>
+				</variable>
+				<variable type="int" name="ShadowSamples">
+					<row>
+						<value>64</value>
 					</row>
 				</variable>
 			</variables>
@@ -268,6 +291,11 @@
 						<value>0</value>
 					</row>
 				</variable>
+				<variable type="int" name="atlasSize">
+					<row>
+						<value>0</value>
+					</row>
+				</variable>
 			</variables>
 			<macros />
 		</pass>
@@ -300,6 +328,11 @@
 				<variable type="int" name="LightLinkID">
 					<row>
 						<value>0</value>
+					</row>
+				</variable>
+				<variable type="int" name="atlasSize">
+					<row>
+						<value>1</value>
 					</row>
 				</variable>
 			</variables>
@@ -548,7 +581,15 @@
 		</pass>
 		<pass name="ShadowMapAtlas" type="compute" active="true">
 			<shader type="cs" path="shaders\shadowMapAtlasCS.hlsl" entry="main" />
-			<groupsize x="64" y="64" z="1" />
+			<groupsize x="256" y="256" z="1" />
+			<variables>
+				<variable type="int" name="Frame" system="FrameIndex" />
+				<variable type="int" name="updateShadow">
+					<row>
+						<value>600</value>
+					</row>
+				</variable>
+			</variables>
 			<macros />
 		</pass>
 	</pipeline>
@@ -562,7 +603,7 @@
 			<bind slot="0" name="Main" />
 			<bind slot="1" name="ShadowMapAtlas" />
 		</object>
-		<object type="image" name="ShadowMapAtlas" width="2048" height="2048" format="R16">
+		<object type="image" name="ShadowMapAtlas" width="4096" height="4096" format="R16">
 			<bind slot="3" name="Lighting" uav="0" />
 			<bind slot="0" name="ShadowMapAtlas" uav="1" />
 		</object>
@@ -610,31 +651,31 @@
 		<object type="rendertexture" name="Scene Final" format="RGB" rsize="1.000000,1.000000" clear="true">
 			<bind slot="1" name="Depth of Field" />
 		</object>
-		<object type="rendertexture" name="SM 01" format="R16" fsize="512,512" clear="true">
+		<object type="rendertexture" name="SM 01" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="0" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="SM 02" format="R16" fsize="512,512" clear="true">
+		<object type="rendertexture" name="SM 02" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="1" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="SM 03" format="R16" fsize="512,512" clear="true">
+		<object type="rendertexture" name="SM 03" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="2" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="SM 04" format="R16" fsize="512,512" clear="true">
+		<object type="rendertexture" name="SM 04" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="3" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="SM 05" format="R16" fsize="512,512" clear="true">
+		<object type="rendertexture" name="SM 05" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="4" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="SM 06" format="R16" fsize="512,512" clear="true">
+		<object type="rendertexture" name="SM 06" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="5" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="SM 07" format="R16" fsize="512,512" clear="true">
+		<object type="rendertexture" name="SM 07" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="6" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="SM 08" format="R16" fsize="512,512" clear="true">
+		<object type="rendertexture" name="SM 08" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="7" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="SM 09" format="R16" fsize="512,512" clear="true">
+		<object type="rendertexture" name="SM 09" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="8" name="ShadowMapAtlas" />
 		</object>
 		<object type="texture" path="ArtAssets\Texture\VectorNoise.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
@@ -659,19 +700,23 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Color Grade" item="pipe" />
-		<entry type="file" name="Color Grade" shader="vs" />
-		<entry type="file" name="Color Grade" shader="ps" />
+		<entry type="property" name="Main" item="pipe" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
 		<entry type="pinned" name="AmbientColor" owner="Lighting" />
+		<entry type="pinned" name="atlasSize" owner="Main" />
+		<entry type="pinned" name="fogStart" owner="Color Grade" />
+		<entry type="pinned" name="PP_AO" owner="SSAO" />
+		<entry type="pinned" name="HDRStrength" owner="Lighting" />
+		<entry type="pinned" name="updateShadow" owner="ShadowMapAtlas" />
+		<entry type="pinned" name="ShadowSamples" owner="Lighting" />
 		<entry type="camera" fp="true">
-			<positionX>66.1456985</positionX>
-			<positionY>4.83675861</positionY>
-			<positionZ>11.1149035</positionZ>
-			<yaw>1437.46399</yaw>
-			<pitch>-18.7985744</pitch>
+			<positionX>5.07206154</positionX>
+			<positionY>3.07243371</positionY>
+			<positionZ>14.5437775</positionZ>
+			<yaw>1439.58435</yaw>
+			<pitch>-10.6985712</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />

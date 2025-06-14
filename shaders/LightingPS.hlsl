@@ -38,6 +38,9 @@ float randomNumber(float maxNumber)
 
 }
 
+float HDRStrength;
+int ShadowSamples;
+
 struct Lighting
 {
 	//init
@@ -110,25 +113,49 @@ struct Lighting
 		//get light values in view space
 		float4 viewLgtPos = mul(float4(lgtPos.xyz,1),matVP);
 		viewLgtPos.xyz /= viewLgtPos.w;
-		float2 ndcLgtPos = viewLgtPos.xy * 0.5 + 0.5;
+		float3 ndcLgtPos = viewLgtPos.xyz * 0.5 + 0.5;
 		
-		float3 ndcLgtDir = mul(float4(lgtDir.xyz,0),matVP).xyz;
-		ndcLgtDir.xyz = normalize(ndcLgtDir.xyz);
-
+		float2 ndcLgtDir = mul(float4(lgtDir.xyz,0),matVP).xy;
+		ndcLgtDir = normalize(ndcLgtDir);
+		
 		//volumetric
-		float2 viewVector = normalize(UV-ndcLgtPos);
+		float2 viewVector = normalize(UV-ndcLgtPos.xy);
 		float4 Volumetric = saturate(dot(viewVector,ndcLgtDir));
 		
 		//volume falloff
 		float falloff = lgtXtra.x;
-		float ConeAngle = lgtXtra.y;
-		float vecDist = distance(float3(UV,0),float3(ndcLgtPos,0));
-		float VolumeFalloff = .0002 * falloff/length(UV-ndcLgtPos);
+		float ConeAngle = lgtXtra.y * 20;
+		float vecDist = distance(float3(UV,0),float3(ndcLgtPos.xy,0));
+		float VolumeFalloff = saturate(1-distance(camPos,lgtPos) / 50);
+		VolumeFalloff = pow(VolumeFalloff,2) * .5;
 		float VolumeCone = pow(Volumetric,ConeAngle);
-		//depth check
-		Volumetric *= saturate( (mul(float4(gPos.xyz,1),matVP).a - viewLgtPos.a ) / 5 + 1);
 		
-		return Volumetric * lgtColor * VolumeFalloff * VolumeCone * lgtXtra.z;
+		//raymarch
+		float cullCheck = 1;
+		float2 ray = normalize(ndcLgtPos.xy-UV);
+		float2 startPos = UV;
+		int slices = 16;
+		float stepSize = distance(ndcLgtPos.xy,startPos.xy) / slices;
+		for (int i = 0; i < slices; i++)
+		{
+			if(Volumetric.x == 0)
+			{
+				break;
+			}
+			
+			float offset = stepSize * i;	
+			float2 marchUV = offset * ray + startPos;	
+			float4 sampleDepth = Position.Sample(smp,marchUV);
+			
+			if (length(sampleDepth.xyz-lgtPos.xyz) < length(gPos.xyz-lgtPos.xyz)-70)
+			{
+				cullCheck = 0;
+				break;
+			}
+		}
+
+		
+		return saturate(Volumetric * lgtColor * VolumeFalloff * VolumeCone * cullCheck) * lgtXtra.z ;
 	
 	}
 	
@@ -144,7 +171,7 @@ struct Lighting
 			SpotCone = pow(saturate(dot(lgtVec,normalize(-lgtDir))),ConeAngle);
 		}
 		
-		return 1 * lightFalloff * SpotCone;
+		return lightFalloff * SpotCone;
 	}
 	
 	float _Shadow()
@@ -186,14 +213,13 @@ struct Lighting
 			Shadow = 1;
 		} else
 		{
-			int ShadowSamples = 64;
-			float d = 0.003;
+			float d = 0.0007;
 			for (int i = 0; i < ShadowSamples; i++)
 			{
 				float2 offset = float2(randomNumber(i*3.1232)*2-1,randomNumber(i*1.63434)*2-1);
 				offset *= d;
 				float shadowTex = ShadowMapAtlas.Sample(smp,clipUv.xy + offset).x;
-				Shadow += ( 1/shadowProject.w >  shadowTex - d );
+				Shadow += ( 1/shadowProject.w >  shadowTex - d);
 			}
 			Shadow /= ShadowSamples;
 		}
@@ -242,7 +268,7 @@ float4 main(PSInput pin) : SV_TARGET
 	float3 ORM = SceneORM.Sample(smp,pin.UV);
 	float LightLink = SceneLightLink.Sample(smp,pin.UV);
 	Lighting lighting;
-	for(int i = 0; i < 9; i++)
+	for(int i = 0; i < 16; i++)
 	{
 		//stop after loop through all lights
 		if (lightBuffer[i].Color.a == 0){
@@ -271,11 +297,10 @@ float4 main(PSInput pin) : SV_TARGET
 		lighting.metallic = ORM.z;
 		lighting.Roughness = max(ORM.y,0.05);
 		lighting.ior = 1.5;
-		lighting.HDRStrength = 0.5;
+		lighting.HDRStrength = HDRStrength;
 
 
 		Result += lighting.Calculate();
-
 	}
 	return Result + lighting.HDRI() + AmbientColor;
 }

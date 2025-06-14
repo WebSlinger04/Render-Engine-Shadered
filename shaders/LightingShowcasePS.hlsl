@@ -25,6 +25,7 @@ cbuffer cbPerFrame : register(b0)
 	float4x4 matProject;
 	float2 viewSize;
 	float4x4 matVP;
+	float4x4 matProj;
 };
 
 struct PSInput
@@ -49,7 +50,7 @@ struct Lighting
 	float4 lgtXtra;
 	
 	float2 UV;
-	float3 gPos;
+	float4 gPos;
 	float4 gColor;
 	float3 gNormal;
 	float3 camPos;
@@ -111,25 +112,49 @@ struct Lighting
 		//get light values in view space
 		float4 viewLgtPos = mul(float4(lgtPos.xyz,1),matVP);
 		viewLgtPos.xyz /= viewLgtPos.w;
-		float2 ndcLgtPos = viewLgtPos.xy * 0.5 + 0.5;
-		
-		float3 ndcLgtDir = mul(float4(lgtDir.xyz,0),matVP).xyz;
-		ndcLgtDir.xyz = normalize(ndcLgtDir.xyz);
+		float3 ndcLgtPos = viewLgtPos.xyz * 0.5 + 0.5;
 
+		float2 ndcLgtDir = mul(float4(lgtDir.xyz,0),matVP).xy;
+		ndcLgtDir = normalize(ndcLgtDir);
+		
 		//volumetric
-		float2 viewVector = normalize(UV-ndcLgtPos);
+		float2 viewVector = normalize(UV-ndcLgtPos.xy);
 		float4 Volumetric = saturate(dot(viewVector,ndcLgtDir));
 		
 		//volume falloff
 		float falloff = lgtXtra.x;
-		float ConeAngle = lgtXtra.y;
-		float vecDist = distance(float3(UV,0),float3(ndcLgtPos,0));
-		float VolumeFalloff = .0002 * falloff/length(UV-ndcLgtPos);
+		float ConeAngle = lgtXtra.y * 20;
+		float vecDist = distance(float3(UV,0),float3(ndcLgtPos.xy,0));
+		float VolumeFalloff = saturate(1-distance(camPos,lgtPos) / 50);
+		VolumeFalloff = pow(VolumeFalloff,2) * .5;
 		float VolumeCone = pow(Volumetric,ConeAngle);
-		//depth check
-		Volumetric *= saturate( (mul(float4(gPos.xyz,1),matVP).a - viewLgtPos.a ) / 5 + 1);
 		
-		return Volumetric * lgtColor * VolumeFalloff * VolumeCone * lgtXtra.z;
+		//raymarch
+		float cullCheck = 1;
+		float2 ray = normalize(ndcLgtPos.xy-UV);
+		float2 startPos = UV;
+		int slices = 16;
+		float stepSize = distance(ndcLgtPos.xy,startPos.xy) / slices;
+		for (int i = 0; i < slices; i++)
+		{
+			if(Volumetric.x == 0)
+			{
+				break;
+			}
+			
+			float offset = stepSize * i;	
+			float2 marchUV = offset * ray + startPos;	
+			float4 sampleDepth = Position.Sample(smp,marchUV);
+			
+			if (length(sampleDepth.xyz-lgtPos.xyz) < length(gPos.xyz-lgtPos.xyz)-70)
+			{
+				cullCheck = 0;
+				break;
+			}
+		}
+
+		
+		return saturate(Volumetric * lgtColor * VolumeFalloff * VolumeCone * cullCheck) * lgtXtra.z ;
 	
 	}
 	
@@ -167,7 +192,7 @@ struct Lighting
 		dot(-lgtPos,T),dot(-lgtPos,B),dot(-lgtPos,N),1);
 		
 		//create UV from light data
-		float4 shadowProject = mul(mul(float4(gPos,1),matLookAt),matProject);
+		float4 shadowProject = mul(mul(float4(gPos.xyz,1),matLookAt),matProject);
 		float screenRatio = viewSize.x /viewSize.y;
 		shadowProject.xy *= float2(screenRatio,1);
 		shadowProject.xy /= shadowProject.w;
@@ -226,6 +251,53 @@ struct Lighting
 		float3 HDRI = Diffuse + Specular;
 		return float4(HDRI, 1.0)*HDRStrength;
 	}
+	
+	/*float4 _SSR()
+	{
+	
+		float3 viewPos = mul(float4(gPos.xyz,1),matVP).xyz;
+		float3 viewDir = normalize(gPos-camPos);
+		float3 viewNormal = mul(float4(gNormal,0),matVP).xyz;
+		viewNormal = normalize(viewNormal);
+		float3 refDir = normalize(reflect(viewDir,viewNormal));
+		
+		float3 ray = normalize(refDir);
+		float3 rayStart = viewPos;
+		int slices = 64;
+		float stepSize = 0.1;
+		float bias;
+		
+		//raymarch
+		for(int i = 0; i < slices; i++)
+		{
+			float3 offset = rayStart + ray * stepSize * i;
+			
+			
+	        // Project to NDC
+	        float4 projPos = mul(matProj, float4(offset, 1.0));
+	        projPos.xyz /= projPos.w;
+	        float2 screenUV = projPos.xy * 0.5 + 0.5;
+
+			
+			//early exit
+			if (screenUV.x < 0 || screenUV.x > 1 || screenUV.y < 0 || screenUV.y > 1)
+            	break;
+		
+			float sceneDepth = Position.Sample(smp,screenUV).a;
+			float z = mul(matProj,float4(offset,1)).z / projPos.w;
+		
+			 // Compare depth
+	        if (z < sceneDepth + bias)
+	        {
+	            float4 reflectedColor = SceneColor.Sample(smp, screenUV);
+	            reflectedColor = float4(1,0,0,0);
+	            return reflectedColor;
+	        }
+		
+		}
+		
+		return 0;
+		*/
 	
 	float4 SpecularTest(float3 value)
 	{
@@ -330,7 +402,6 @@ float4 main(PSInput pin) : SV_TARGET
 		}
 		
 	}
-	
 	
 	return Result + lighting.HDRI() + AmbientColor;
 }
