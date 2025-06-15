@@ -700,7 +700,8 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Main" item="pipe" />
+		<entry type="property" name="Color Grade" item="pipe" />
+		<entry type="file" name="Color Grade" shader="ps" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
@@ -712,11 +713,11 @@
 		<entry type="pinned" name="updateShadow" owner="ShadowMapAtlas" />
 		<entry type="pinned" name="ShadowSamples" owner="Lighting" />
 		<entry type="camera" fp="true">
-			<positionX>5.07206154</positionX>
-			<positionY>3.07243371</positionY>
-			<positionZ>14.5437775</positionZ>
-			<yaw>1439.58435</yaw>
-			<pitch>-10.6985712</pitch>
+			<positionX>5.02484226</positionX>
+			<positionY>1.20559537</positionY>
+			<positionZ>4.70337248</positionZ>
+			<yaw>1440.48511</yaw>
+			<pitch>-7.39855862</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />

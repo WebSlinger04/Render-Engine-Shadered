@@ -52,16 +52,16 @@
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float3" name="PP_ECS">
 					<row>
-						<value>0</value>
 						<value>0.200000003</value>
+						<value>0.25</value>
 						<value>1</value>
 					</row>
 				</variable>
 				<variable type="float3x3" name="PP_LGG">
 					<row>
-						<value>0</value>
-						<value>0</value>
-						<value>0</value>
+						<value>0.0399999991</value>
+						<value>0.00999999978</value>
+						<value>0.0149999997</value>
 					</row>
 					<row>
 						<value>1</value>
@@ -79,12 +79,12 @@
 						<value>0.204166681</value>
 						<value>0.448229253</value>
 						<value>0.5</value>
-						<value>0.150000006</value>
+						<value>0.200000003</value>
 					</row>
 				</variable>
 				<variable type="float" name="fogStart">
 					<row>
-						<value>0.600000024</value>
+						<value>0.5</value>
 					</row>
 				</variable>
 			</variables>
@@ -172,7 +172,7 @@
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4" name="PP_AO">
 					<row>
-						<value>0.300000012</value>
+						<value>0.200000003</value>
 						<value>32</value>
 						<value>-0.100000001</value>
 						<value>0</value>
@@ -280,20 +280,20 @@
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4" name="AmbientColor">
 					<row>
-						<value>0.0392156877</value>
-						<value>0.0346635915</value>
-						<value>0.0164552089</value>
+						<value>0.0196078438</value>
+						<value>0.0151769677</value>
+						<value>0.0074586696</value>
 						<value>0</value>
 					</row>
 				</variable>
 				<variable type="float" name="HDRStrength">
 					<row>
-						<value>0.5</value>
+						<value>0.600000024</value>
 					</row>
 				</variable>
 				<variable type="int" name="ShadowSamples">
 					<row>
-						<value>64</value>
+						<value>124</value>
 					</row>
 				</variable>
 			</variables>
@@ -609,7 +609,7 @@
 			<bind slot="0" name="Lighting" />
 			<bind slot="0" name="ShadowMap1" />
 		</object>
-		<object type="buffer" name="wPositionBuffer3" size="2364000" format="float4" pausedpreview="false">
+		<object type="buffer" name="wPositionBuffer3" size="11878000" format="float4" pausedpreview="false">
 			<bind slot="0" name="Main" />
 			<bind slot="1" name="ShadowMapAtlas" />
 		</object>
@@ -710,7 +710,9 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Lighting" item="pipe" />
+		<entry type="property" name="Color Grade" item="pipe" />
+		<entry type="file" name="Color Grade" shader="vs" />
+		<entry type="file" name="Color Grade" shader="ps" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
