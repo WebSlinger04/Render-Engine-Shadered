@@ -12,7 +12,7 @@ cbuffer cbPerFrame : register(b0)
 {
 	float4x4 matGeo;
 	float4x4 matProject;
-	int lightIndex;
+	int frameIndex;
 };
 
 struct VSInput
@@ -28,6 +28,8 @@ struct VSOutput
 
 VSOutput main(VSInput vin)
 {
+	int texels = 3;
+	int lightIndex = frameIndex/10%pow(texels,2);
 	float3 lgtPosition = lightBuffer[lightIndex].Position.xyz;
 	float3 lgtVector = lightBuffer[lightIndex].Direction.xyz;
 	

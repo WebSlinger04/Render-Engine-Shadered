@@ -338,7 +338,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="ShadowMap1" type="shader" active="true" patchverts="1" collapsed="true">
+		<pass name="ShadowMap" type="shader" active="true" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
 			<inputlayout>
@@ -355,227 +355,7 @@
 			<variables>
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float4x4" name="matProject" system="Projection" />
-				<variable type="int" name="lightIndex">
-					<row>
-						<value>0</value>
-					</row>
-				</variable>
-			</variables>
-			<macros />
-		</pass>
-		<pass name="ShadowMap2" type="shader" active="true" patchverts="1" collapsed="true">
-			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
-			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
-			<inputlayout>
-				<item value="Position" semantic="POSITION" />
-				<item value="Normal" semantic="NORMAL" />
-				<item value="Texcoord" semantic="TEXCOORD0" />
-			</inputlayout>
-			<rendertexture name="SM 02" />
-			<items>
-				<item name="VBuffer2" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
-					<topology>TriangleList</topology>
-				</item>
-			</items>
-			<itemvalues />
-			<variables>
-				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
-				<variable type="float4x4" name="matProject" system="Projection" />
-				<variable type="int" name="lightIndex">
-					<row>
-						<value>1</value>
-					</row>
-				</variable>
-			</variables>
-			<macros />
-		</pass>
-		<pass name="ShadowMap3" type="shader" active="true" patchverts="1" collapsed="true">
-			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
-			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
-			<inputlayout>
-				<item value="Position" semantic="POSITION" />
-				<item value="Normal" semantic="NORMAL" />
-				<item value="Texcoord" semantic="TEXCOORD0" />
-			</inputlayout>
-			<rendertexture name="SM 03" />
-			<items>
-				<item name="VBuffer3" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
-					<topology>TriangleList</topology>
-				</item>
-			</items>
-			<itemvalues />
-			<variables>
-				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
-				<variable type="float4x4" name="matProject" system="Projection" />
-				<variable type="int" name="lightIndex">
-					<row>
-						<value>2</value>
-					</row>
-				</variable>
-			</variables>
-			<macros />
-		</pass>
-		<pass name="ShadowMap4" type="shader" active="true" patchverts="1" collapsed="true">
-			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
-			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
-			<inputlayout>
-				<item value="Position" semantic="POSITION" />
-				<item value="Normal" semantic="NORMAL" />
-				<item value="Texcoord" semantic="TEXCOORD0" />
-			</inputlayout>
-			<rendertexture name="SM 04" />
-			<items>
-				<item name="VBuffer4" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
-					<topology>TriangleList</topology>
-				</item>
-			</items>
-			<itemvalues />
-			<variables>
-				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
-				<variable type="float4x4" name="matProject" system="Projection" />
-				<variable type="int" name="lightIndex">
-					<row>
-						<value>3</value>
-					</row>
-				</variable>
-			</variables>
-			<macros />
-		</pass>
-		<pass name="ShadowMap5" type="shader" active="true" patchverts="1" collapsed="true">
-			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
-			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
-			<inputlayout>
-				<item value="Position" semantic="POSITION" />
-				<item value="Normal" semantic="NORMAL" />
-				<item value="Texcoord" semantic="TEXCOORD0" />
-			</inputlayout>
-			<rendertexture name="SM 05" />
-			<items>
-				<item name="VBuffer5" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
-					<topology>TriangleList</topology>
-				</item>
-			</items>
-			<itemvalues />
-			<variables>
-				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
-				<variable type="float4x4" name="matProject" system="Projection" />
-				<variable type="int" name="lightIndex">
-					<row>
-						<value>4</value>
-					</row>
-				</variable>
-			</variables>
-			<macros />
-		</pass>
-		<pass name="ShadowMap6" type="shader" active="true" patchverts="1" collapsed="true">
-			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
-			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
-			<inputlayout>
-				<item value="Position" semantic="POSITION" />
-				<item value="Normal" semantic="NORMAL" />
-				<item value="Texcoord" semantic="TEXCOORD0" />
-			</inputlayout>
-			<rendertexture name="SM 06" />
-			<items>
-				<item name="VBuffer6" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
-					<topology>TriangleList</topology>
-				</item>
-			</items>
-			<itemvalues />
-			<variables>
-				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
-				<variable type="float4x4" name="matProject" system="Projection" />
-				<variable type="int" name="lightIndex">
-					<row>
-						<value>5</value>
-					</row>
-				</variable>
-			</variables>
-			<macros />
-		</pass>
-		<pass name="ShadowMap7" type="shader" active="true" patchverts="1" collapsed="true">
-			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
-			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
-			<inputlayout>
-				<item value="Position" semantic="POSITION" />
-				<item value="Normal" semantic="NORMAL" />
-				<item value="Texcoord" semantic="TEXCOORD0" />
-			</inputlayout>
-			<rendertexture name="SM 07" />
-			<items>
-				<item name="VBuffer7" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
-					<topology>TriangleList</topology>
-				</item>
-			</items>
-			<itemvalues />
-			<variables>
-				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
-				<variable type="float4x4" name="matProject" system="Projection" />
-				<variable type="int" name="lightIndex">
-					<row>
-						<value>6</value>
-					</row>
-				</variable>
-			</variables>
-			<macros />
-		</pass>
-		<pass name="ShadowMap8" type="shader" active="true" patchverts="1" collapsed="true">
-			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
-			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
-			<inputlayout>
-				<item value="Position" semantic="POSITION" />
-				<item value="Normal" semantic="NORMAL" />
-				<item value="Texcoord" semantic="TEXCOORD0" />
-			</inputlayout>
-			<rendertexture name="SM 08" />
-			<items>
-				<item name="VBuffer8" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
-					<topology>TriangleList</topology>
-				</item>
-			</items>
-			<itemvalues />
-			<variables>
-				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
-				<variable type="float4x4" name="matProject" system="Projection" />
-				<variable type="int" name="lightIndex">
-					<row>
-						<value>7</value>
-					</row>
-				</variable>
-			</variables>
-			<macros />
-		</pass>
-		<pass name="ShadowMap9" type="shader" active="true" patchverts="1" collapsed="true">
-			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
-			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
-			<inputlayout>
-				<item value="Position" semantic="POSITION" />
-				<item value="Normal" semantic="NORMAL" />
-				<item value="Texcoord" semantic="TEXCOORD0" />
-			</inputlayout>
-			<rendertexture name="SM 09" />
-			<items>
-				<item name="VBuffer9" type="vertexbuffer">
-					<buffer>wPositionBuffer</buffer>
-					<topology>TriangleList</topology>
-				</item>
-			</items>
-			<itemvalues />
-			<variables>
-				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
-				<variable type="float4x4" name="matProject" system="Projection" />
-				<variable type="int" name="lightIndex">
-					<row>
-						<value>8</value>
-					</row>
-				</variable>
+				<variable type="int" name="frameIndex" system="FrameIndex" />
 			</variables>
 			<macros />
 		</pass>
@@ -597,7 +377,7 @@
 		<object type="buffer" name="Buffer" size="256" format="float4;float4;float4;float4;" pausedpreview="true">
 			<bind slot="0" name="Lighting" />
 			<bind slot="0" name="Translucent" />
-			<bind slot="0" name="ShadowMap1" />
+			<bind slot="0" name="ShadowMap" />
 		</object>
 		<object type="buffer" name="wPositionBuffer" size="0" format="float4" pausedpreview="false">
 			<bind slot="0" name="Main" />
@@ -654,30 +434,6 @@
 		<object type="rendertexture" name="SM 01" format="R16" fsize="1024,1024" clear="true">
 			<bind slot="0" name="ShadowMapAtlas" />
 		</object>
-		<object type="rendertexture" name="SM 02" format="R16" fsize="1024,1024" clear="true">
-			<bind slot="1" name="ShadowMapAtlas" />
-		</object>
-		<object type="rendertexture" name="SM 03" format="R16" fsize="1024,1024" clear="true">
-			<bind slot="2" name="ShadowMapAtlas" />
-		</object>
-		<object type="rendertexture" name="SM 04" format="R16" fsize="1024,1024" clear="true">
-			<bind slot="3" name="ShadowMapAtlas" />
-		</object>
-		<object type="rendertexture" name="SM 05" format="R16" fsize="1024,1024" clear="true">
-			<bind slot="4" name="ShadowMapAtlas" />
-		</object>
-		<object type="rendertexture" name="SM 06" format="R16" fsize="1024,1024" clear="true">
-			<bind slot="5" name="ShadowMapAtlas" />
-		</object>
-		<object type="rendertexture" name="SM 07" format="R16" fsize="1024,1024" clear="true">
-			<bind slot="6" name="ShadowMapAtlas" />
-		</object>
-		<object type="rendertexture" name="SM 08" format="R16" fsize="1024,1024" clear="true">
-			<bind slot="7" name="ShadowMapAtlas" />
-		</object>
-		<object type="rendertexture" name="SM 09" format="R16" fsize="1024,1024" clear="true">
-			<bind slot="8" name="ShadowMapAtlas" />
-		</object>
 		<object type="texture" path="ArtAssets\Texture\VectorNoise.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
 			<bind slot="2" name="SSAO" />
 		</object>
@@ -700,8 +456,7 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Color Grade" item="pipe" />
-		<entry type="file" name="Color Grade" shader="ps" />
+		<entry type="property" name="ShadowMap" item="pipe" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
