@@ -110,6 +110,11 @@ struct Lighting
 	
 	float4 _Volumetric()
 	{
+		if(lgtXtra.z == 0)
+		{
+			return 0;
+		}
+		
 		//get light values in view space
 		float4 viewLgtPos = mul(float4(lgtPos.xyz,1),matVP);
 		viewLgtPos.xyz /= viewLgtPos.w;
@@ -213,7 +218,7 @@ struct Lighting
 			Shadow = 1;
 		} else
 		{
-			float d = 0.0007;
+			float d = 0.0006;
 			for (int i = 0; i < ShadowSamples; i++)
 			{
 				float2 offset = float2(randomNumber(i*3.1232)*2-1,randomNumber(i*1.63434)*2-1);
