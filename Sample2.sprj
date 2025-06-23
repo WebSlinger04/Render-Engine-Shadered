@@ -1,0 +1,485 @@
+<?xml version="1.0"?>
+<project version="2">
+	<pipeline>
+		<pass name="Depth of Field" type="shader" active="true" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\FullScreenQuadVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\Depth of FieldPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture />
+			<items>
+				<item name="DOF Quad" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="ortho" system="Orthographic" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float2" name="screenSize" system="ViewportSize" />
+			</variables>
+			<macros />
+		</pass>
+		<pass name="Color Grade" type="shader" active="true" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\FullScreenQuadVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\Post ProcessPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture name="Scene Final" />
+			<items>
+				<item name="Color Grade Quad" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="ortho" system="Orthographic" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float3" name="PP_ECS">
+					<row>
+						<value>0</value>
+						<value>0.5</value>
+						<value>0.800000012</value>
+					</row>
+				</variable>
+				<variable type="float3x3" name="PP_LGG">
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+					<row>
+						<value>1</value>
+						<value>1</value>
+						<value>1</value>
+					</row>
+					<row>
+						<value>1</value>
+						<value>1</value>
+						<value>1</value>
+					</row>
+				</variable>
+				<variable type="float4" name="PP_Fog">
+					<row>
+						<value>0.567656219</value>
+						<value>0.776507854</value>
+						<value>0.787500024</value>
+						<value>0.25</value>
+					</row>
+				</variable>
+				<variable type="float" name="fogStart">
+					<row>
+						<value>0.699999988</value>
+					</row>
+				</variable>
+			</variables>
+			<macros />
+		</pass>
+		<pass name="Bloom" type="shader" active="true" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\FullScreenQuadVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\BloomPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture name="Scene Bloom" />
+			<items>
+				<item name="Bloom Quad" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="ortho" system="Orthographic" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float2" name="screenSize" system="ViewportSize" />
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float4x4" name="matView" system="View" />
+			</variables>
+			<macros />
+		</pass>
+		<pass name="Blur SSAO" type="shader" active="true" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\FullScreenQuadVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\Blur SSAOPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture name="Scene AO Blur" />
+			<items>
+				<item name="Blur SSAO Quad" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="ortho" system="Orthographic" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float2" name="screenSize" system="ViewportSize" />
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float4x4" name="matView" system="View" />
+			</variables>
+			<macros />
+		</pass>
+		<pass name="SSAO" type="shader" active="true" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\FullScreenQuadVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\SSAOPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture name="Scene AO Noise" />
+			<items>
+				<item name="SSAO Quad" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="ortho" system="Orthographic" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float2" name="screenSize" system="ViewportSize" />
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float4" name="PP_AO">
+					<row>
+						<value>0.00999999978</value>
+						<value>32</value>
+						<value>-0.00999999978</value>
+						<value>0</value>
+					</row>
+				</variable>
+			</variables>
+			<macros />
+		</pass>
+		<pass name="Translucent" type="shader" active="true" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\TranslucentVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\TranslucentPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture name="Scene Translucent" />
+			<rendertexture name="Scene Translucent Depth" />
+			<items>
+				<item name="Translucent Render State" type="renderstate">
+					<blend>true</blend>
+					<alpha2coverage>false</alpha2coverage>
+					<colorsrcfactor>One</colorsrcfactor>
+					<colordstfactor>One</colordstfactor>
+					<colorfunc>Add</colorfunc>
+					<alphasrcfactor>One</alphasrcfactor>
+					<alphadstfactor>Zero</alphadstfactor>
+					<alphafunc>Add</alphafunc>
+					<blendfactor_r>1</blendfactor_r>
+					<blendfactor_g>1</blendfactor_g>
+					<blendfactor_b>1</blendfactor_b>
+					<blendfactor_a>1</blendfactor_a>
+					<depthtest>true</depthtest>
+					<depthclamp>true</depthclamp>
+					<depthmask>true</depthmask>
+					<depthfunc>Less</depthfunc>
+					<depthbias>0</depthbias>
+					<stenciltest>false</stenciltest>
+					<stencilmask>0</stencilmask>
+					<stencilref>255</stencilref>
+					<stencilfrontfunc>Equal</stencilfrontfunc>
+					<stencilbackfunc>Equal</stencilbackfunc>
+					<stencilfrontpass>Keep</stencilfrontpass>
+					<stencilbackpass>Keep</stencilbackpass>
+					<stencilfrontfail>Keep</stencilfrontfail>
+					<stencilbackfail>Keep</stencilbackfail>
+					<depthfrontfail>Keep</depthfrontfail>
+					<depthbackfail>Keep</depthbackfail>
+				</item>
+				<item name="Glass" type="model">
+					<filepath>ArtAssets\Models\SM_LivingRoom_Translucent.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="int" name="LightLink">
+					<row>
+						<value>0</value>
+					</row>
+				</variable>
+				<variable type="int" name="atlasSize">
+					<row>
+						<value>7</value>
+					</row>
+				</variable>
+				<variable type="float4" name="AmbientColor">
+					<row>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
+					</row>
+				</variable>
+			</variables>
+			<macros />
+		</pass>
+		<pass name="Lighting" type="shader" active="true" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\LightingVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\LightingPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture name="Scene Lighting" />
+			<items>
+				<item name="Lighting Quad" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="matOrtho" system="Orthographic" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float4" name="camPos" system="CameraPosition" />
+				<variable type="float4x4" name="matProject" system="Projection" />
+				<variable type="float2" name="viewSize" system="ViewportSize" />
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float4" name="AmbientColor">
+					<row>
+						<value>0.0165321045</value>
+						<value>0.0186308436</value>
+						<value>0.0196078438</value>
+						<value>0</value>
+					</row>
+				</variable>
+				<variable type="float" name="HDRStrength">
+					<row>
+						<value>1.5</value>
+					</row>
+				</variable>
+				<variable type="int" name="ShadowSamples">
+					<row>
+						<value>16</value>
+					</row>
+				</variable>
+			</variables>
+			<macros />
+		</pass>
+		<pass name="Main" type="shader" active="true" patchverts="1">
+			<shader type="vs" path="shaders\MainVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\MainPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Tangent" semantic="TANGENT" />
+				<item value="Bitangent" semantic="BITANGENT" />
+			</inputlayout>
+			<rendertexture name="World Position" />
+			<rendertexture name="World Normal" />
+			<rendertexture name="Scene Light Link" />
+			<rendertexture name="Scene Color" />
+			<rendertexture name="Scene ORM" />
+			<rendertexture name="Scene Emissive" />
+			<items>
+				<item name="Opaque" type="model">
+					<filepath>ArtAssets\Models\SM_LivingRoom_Opaque.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+				<item name="Opaque2" type="model">
+					<filepath>ArtAssets\Models\SM_LivingRoom_Opaque2.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="int" name="LightLinkID">
+					<row>
+						<value>0</value>
+					</row>
+				</variable>
+				<variable type="int" name="atlasSize">
+					<row>
+						<value>7</value>
+					</row>
+				</variable>
+			</variables>
+			<macros />
+		</pass>
+		<pass name="ShadowMap" type="shader" active="true" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\ShadowMapVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\ShadowMapPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+			</inputlayout>
+			<rendertexture name="SM 01" />
+			<items>
+				<item name="VBuffer" type="vertexbuffer">
+					<buffer>wPositionBuffer4</buffer>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float4x4" name="matProject" system="Projection" />
+				<variable type="int" name="frameIndex" system="FrameIndex" />
+			</variables>
+			<macros />
+		</pass>
+		<pass name="ShadowMapAtlas" type="compute" active="true">
+			<shader type="cs" path="shaders\shadowMapAtlasCS.hlsl" entry="main" />
+			<groupsize x="256" y="256" z="1" />
+			<variables>
+				<variable type="int" name="Frame" system="FrameIndex" />
+				<variable type="int" name="updateShadow">
+					<row>
+						<value>3</value>
+					</row>
+				</variable>
+			</variables>
+			<macros />
+		</pass>
+	</pipeline>
+	<objects>
+		<object type="buffer" name="Buffer4" size="576" format="float4;float4;float4;float4;" pausedpreview="true">
+			<bind slot="0" name="Translucent" />
+			<bind slot="0" name="Lighting" />
+			<bind slot="0" name="ShadowMap" />
+		</object>
+		<object type="buffer" name="wPositionBuffer4" size="19398256" format="float4" pausedpreview="false">
+			<bind slot="0" name="Main" />
+			<bind slot="1" name="ShadowMapAtlas" />
+		</object>
+		<object type="image" name="ShadowMapAtlas" width="4096" height="4096" format="R16">
+			<bind slot="3" name="Lighting" uav="0" />
+			<bind slot="0" name="ShadowMapAtlas" uav="1" />
+		</object>
+		<object type="rendertexture" name="World Position" format="R16G16B16A16_FLOAT" rsize="1.000000,1.000000" clear="true">
+			<bind slot="0" name="Depth of Field" />
+			<bind slot="0" name="Color Grade" />
+			<bind slot="0" name="SSAO" />
+			<bind slot="0" name="Lighting" />
+		</object>
+		<object type="rendertexture" name="World Normal" format="R16G16B16_FLOAT" rsize="1.000000,1.000000" clear="true">
+			<bind slot="1" name="SSAO" />
+			<bind slot="1" name="Lighting" />
+		</object>
+		<object type="rendertexture" name="Scene Light Link" format="R8" rsize="1.000000,1.000000" clear="true">
+			<bind slot="2" name="Lighting" />
+		</object>
+		<object type="rendertexture" name="Scene Color" format="RGB" rsize="1.000000,1.000000" clear="true">
+			<bind slot="4" name="Lighting" />
+		</object>
+		<object type="rendertexture" name="Scene ORM" format="RGB" rsize="1.000000,1.000000" clear="true">
+			<bind slot="5" name="Lighting" />
+		</object>
+		<object type="rendertexture" name="Scene Emissive" format="RGB" rsize="1.000000,1.000000" clear="true">
+			<bind slot="1" name="Bloom" />
+		</object>
+		<object type="rendertexture" name="Scene Lighting" format="RGB" rsize="1.000000,1.000000" clear="true">
+			<bind slot="1" name="Color Grade" />
+			<bind slot="0" name="Bloom" />
+		</object>
+		<object type="rendertexture" name="Scene Translucent" rsize="1.000000,1.000000" clear="true" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07">
+			<bind slot="4" name="Color Grade" />
+		</object>
+		<object type="rendertexture" name="Scene Translucent Depth" format="R16" rsize="1.000000,1.000000" clear="true">
+			<bind slot="5" name="Color Grade" />
+		</object>
+		<object type="rendertexture" name="Scene AO Noise" format="R" rsize="1.000000,1.000000" clear="true">
+			<bind slot="0" name="Blur SSAO" />
+		</object>
+		<object type="rendertexture" name="Scene AO Blur" format="R" rsize="1.000000,1.000000" clear="true">
+			<bind slot="3" name="Color Grade" />
+		</object>
+		<object type="rendertexture" name="Scene Bloom" format="RGB" rsize="1.000000,1.000000" clear="true">
+			<bind slot="2" name="Color Grade" />
+		</object>
+		<object type="rendertexture" name="Scene Final" format="RGB" rsize="1.000000,1.000000" clear="true">
+			<bind slot="1" name="Depth of Field" />
+		</object>
+		<object type="rendertexture" name="SM 01" format="R16" fsize="2048,2048" clear="true">
+			<bind slot="0" name="ShadowMapAtlas" />
+		</object>
+		<object type="texture" path="ArtAssets\Texture\VectorNoise.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="2" name="SSAO" />
+		</object>
+		<object type="texture" path="ArtAssets\Texture\HDR.png" vflip="false" min_filter="Linear_MipmapNearest" mag_filter="Nearest" wrap_s="MirroredRepeat" wrap_t="MirroredRepeat">
+			<bind slot="6" name="Lighting" />
+		</object>
+		<object type="texture" path="ArtAssets\Texture\T_LivingRoom_Color.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="0" name="Translucent" />
+			<bind slot="0" name="Main" />
+		</object>
+		<object type="texture" path="ArtAssets\Texture\T_LivingRoom_Normal.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="2" name="Main" />
+		</object>
+		<object type="texture" path="ArtAssets\Texture\T_LivingRoom_ORM.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="1" name="Main" />
+		</object>
+		<object type="texture" path="ArtAssets\Texture\T_LivingRoom_Emissive.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+			<bind slot="3" name="Main" />
+		</object>
+	</objects>
+	<cameras />
+	<settings>
+		<entry type="property" name="Main" item="pipe" />
+		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
+		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
+		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
+		<entry type="pinned" name="HDRStrength" owner="Lighting" />
+		<entry type="pinned" name="fogStart" owner="Color Grade" />
+		<entry type="pinned" name="PP_AO" owner="SSAO" />
+		<entry type="pinned" name="updateShadow" owner="ShadowMapAtlas" />
+		<entry type="pinned" name="ShadowSamples" owner="Lighting" />
+		<entry type="pinned" name="AmbientColor" owner="Lighting" />
+		<entry type="pinned" name="atlasSize" owner="Translucent" />
+		<entry type="camera" fp="true">
+			<positionX>3.79102349</positionX>
+			<positionY>0.701521635</positionY>
+			<positionZ>-9.8755722</positionZ>
+			<yaw>1260.09204</yaw>
+			<pitch>-5.79624319</pitch>
+		</entry>
+		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
+		<entry type="usealpha" val="false" />
+	</settings>
+	<plugindata />
+</project>
