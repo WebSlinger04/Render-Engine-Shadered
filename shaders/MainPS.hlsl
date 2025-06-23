@@ -33,9 +33,8 @@ PSOut main(PSInput pin)
 	float2 uvMap = (pin.UV) * float2(1/float(atlasSize),-1);
 	float4 colorMap = texCA.Sample(smp,uvMap);
 	float4 ormMap =  texORM.Sample(smp,uvMap);
-	float3 NormalMap = texNormal.Sample(smp,uvMap)*2-1;
+	float3 NormalMap = normalize(texNormal.Sample(smp,uvMap)*2-1);
 	float4 EmissiveMap = texEmissive.Sample(smp,uvMap);
-
 	
 	
 	//Color Map
