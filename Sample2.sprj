@@ -52,9 +52,9 @@
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float3" name="PP_ECS">
 					<row>
-						<value>0</value>
-						<value>0.5</value>
+						<value>1.35000002</value>
 						<value>0.800000012</value>
+						<value>1</value>
 					</row>
 				</variable>
 				<variable type="float3x3" name="PP_LGG">
@@ -66,7 +66,7 @@
 					<row>
 						<value>1</value>
 						<value>1</value>
-						<value>1</value>
+						<value>0.980000019</value>
 					</row>
 					<row>
 						<value>1</value>
@@ -79,12 +79,12 @@
 						<value>0.567656219</value>
 						<value>0.776507854</value>
 						<value>0.787500024</value>
-						<value>0.25</value>
+						<value>0.100000001</value>
 					</row>
 				</variable>
 				<variable type="float" name="fogStart">
 					<row>
-						<value>0.699999988</value>
+						<value>0.720000029</value>
 					</row>
 				</variable>
 			</variables>
@@ -172,9 +172,9 @@
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4" name="PP_AO">
 					<row>
-						<value>0.00999999978</value>
-						<value>32</value>
-						<value>-0.00999999978</value>
+						<value>0.150000006</value>
+						<value>64</value>
+						<value>0.400000006</value>
 						<value>0</value>
 					</row>
 				</variable>
@@ -280,15 +280,15 @@
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4" name="AmbientColor">
 					<row>
-						<value>0.0165321045</value>
-						<value>0.0186308436</value>
-						<value>0.0196078438</value>
+						<value>9.99989993e-07</value>
+						<value>9.99996814e-07</value>
+						<value>9.99999997e-07</value>
 						<value>0</value>
 					</row>
 				</variable>
 				<variable type="float" name="HDRStrength">
 					<row>
-						<value>1.5</value>
+						<value>0.899999976</value>
 					</row>
 				</variable>
 				<variable type="int" name="ShadowSamples">
@@ -316,6 +316,18 @@
 			<rendertexture name="Scene ORM" />
 			<rendertexture name="Scene Emissive" />
 			<items>
+				<item name="Pillow" type="model">
+					<filepath>ArtAssets\Models\SM_LivingRoom_Pillow.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+				<item name="Chair" type="model">
+					<filepath>ArtAssets\Models\SM_LivingRoom_Chair.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+				<item name="Lamp" type="model">
+					<filepath>ArtAssets\Models\SM_LivingRoom_Lamp.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
 				<item name="Opaque" type="model">
 					<filepath>ArtAssets\Models\SM_LivingRoom_Opaque.obj</filepath>
 					<grouponly>false</grouponly>
@@ -325,7 +337,23 @@
 					<grouponly>false</grouponly>
 				</item>
 			</items>
-			<itemvalues />
+			<itemvalues>
+				<value variable="LightLinkID" for="Lamp">
+					<row>
+						<value>1</value>
+					</row>
+				</value>
+				<value variable="LightLinkID" for="Chair">
+					<row>
+						<value>1</value>
+					</row>
+				</value>
+				<value variable="LightLinkID" for="Pillow">
+					<row>
+						<value>1</value>
+					</row>
+				</value>
+			</itemvalues>
 			<variables>
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
@@ -444,11 +472,11 @@
 		<object type="texture" path="ArtAssets\Texture\HDR.png" vflip="false" min_filter="Linear_MipmapNearest" mag_filter="Nearest" wrap_s="MirroredRepeat" wrap_t="MirroredRepeat">
 			<bind slot="6" name="Lighting" />
 		</object>
-		<object type="texture" path="ArtAssets\Texture\T_LivingRoom_Color.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+		<object type="texture" path="ArtAssets\Texture\T_LivingRoom_Color.png" vflip="false" min_filter="Linear" mag_filter="Linear" wrap_s="Repeat" wrap_t="Repeat">
 			<bind slot="0" name="Translucent" />
 			<bind slot="0" name="Main" />
 		</object>
-		<object type="texture" path="ArtAssets\Texture\T_LivingRoom_Normal.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
+		<object type="texture" path="ArtAssets\Texture\T_LivingRoom_Normal.png" vflip="false" min_filter="Linear" mag_filter="Linear" wrap_s="Repeat" wrap_t="Repeat">
 			<bind slot="2" name="Main" />
 		</object>
 		<object type="texture" path="ArtAssets\Texture\T_LivingRoom_ORM.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
@@ -460,7 +488,7 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Main" item="pipe" />
+		<entry type="property" name="World Normal" item="rt" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
@@ -472,11 +500,11 @@
 		<entry type="pinned" name="AmbientColor" owner="Lighting" />
 		<entry type="pinned" name="atlasSize" owner="Translucent" />
 		<entry type="camera" fp="true">
-			<positionX>3.79102349</positionX>
-			<positionY>0.701521635</positionY>
-			<positionZ>-9.8755722</positionZ>
-			<yaw>1260.09204</yaw>
-			<pitch>-5.79624319</pitch>
+			<positionX>3.79988527</positionX>
+			<positionY>0.641284108</positionY>
+			<positionZ>-9.85252857</positionZ>
+			<yaw>1259.54956</yaw>
+			<pitch>-4.6460104</pitch>
 		</entry>
 		<entry type="clearcolor" r="9.99999997e-07" g="9.99989993e-07" b="9.99989993e-07" a="1" />
 		<entry type="usealpha" val="false" />

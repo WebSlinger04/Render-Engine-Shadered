@@ -215,7 +215,7 @@ struct Lighting
 		//if outside range set to 1 else calculate shadow;
 		if ((clipUv.x < x) || (clipUv.x > x + 1/texels) || (clipUv.y < y) ||  (clipUv.y > y + 1/texels))
 		{
-			Shadow = 1;
+			Shadow = 0;
 		} else
 		{
 			float d = 0.0006;
@@ -241,7 +241,7 @@ struct Lighting
 	    float3 Diffuse = envMap.SampleLevel(smp,uv,10) * gColor;
 	    Diffuse /= 3.14;
 	    Diffuse *= 1-metallic;
-		
+
 		//specular
 		dir = reflect(-normalize(camPos-gPos),gNormal);
 	    uv.x = atan2(dir.z,dir.x) / (2.0 * 3.14159265) + 0.5;
