@@ -169,15 +169,15 @@
 				<variable type="float4x4" name="ortho" system="Orthographic" />
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float2" name="screenSize" system="ViewportSize" />
-				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4" name="PP_AO">
 					<row>
-						<value>0.200000003</value>
-						<value>32</value>
+						<value>0.100000001</value>
+						<value>16</value>
 						<value>-0.100000001</value>
 						<value>0</value>
 					</row>
 				</variable>
+				<variable type="float4x4" name="matView" system="View" />
 			</variables>
 			<macros />
 		</pass>
@@ -288,7 +288,7 @@
 				</variable>
 				<variable type="float" name="HDRStrength">
 					<row>
-						<value>0.800000012</value>
+						<value>1</value>
 					</row>
 				</variable>
 				<variable type="int" name="ShadowSamples">
@@ -466,7 +466,7 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="VBuffer" item="pipe" />
+		<entry type="property" name="Color Grade" item="pipe" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />

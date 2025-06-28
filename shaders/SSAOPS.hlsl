@@ -1,7 +1,7 @@
 cbuffer cbPerFrame : register(b0)
 {
 	float2 screenSize;
-	float4x4 matVP;
+	float4x4 matView;
 };
 
 struct PSInput
@@ -30,7 +30,7 @@ float main(PSInput pin) : SV_TARGET
 	float4 PositionPass = Position.Sample(smp, pin.UV);
 	float3 Normal = Normal.Sample(smp, pin.UV);
 	float3 Noise = Noise.Sample(smp,pin.UV*10);
-	Normal = mul(Normal,matVP);
+	Normal = mul(float4(Normal,0),matView);
 	Noise = Noise * 2 - 1;
 	Noise.z = 0;
 
@@ -46,7 +46,7 @@ float main(PSInput pin) : SV_TARGET
 	float radius = PP_AO.x;
 	float aoSamples = PP_AO.y;
 	float bias = PP_AO.z;
-	float depth = mul(PositionPass,matVP).z + bias;
+	float depth = mul(PositionPass,matView).z + bias;
 		
 	//hemishpere
 	for (int i = 0; i < aoSamples ; i ++)
@@ -56,8 +56,7 @@ float main(PSInput pin) : SV_TARGET
 						randomNumber(i + 34.1123352));
 
 		//orient to TBN				
-		random = mul(random,TBN);
-		random = normalize(random);				
+		random = mul(normalize(random),TBN);				
 		//distribute points closer to center
 		random *= randomNumber(i + 123.3434231);
 		float scale = float(i)/aoSamples;
@@ -69,7 +68,7 @@ float main(PSInput pin) : SV_TARGET
 		samplePos = samplePos + float3(pin.UV.xy,depth);
 
 		//sample and depth check
-		float textureOffset =  mul(Position.Sample(smp, samplePos.xy),matVP).z;
+		float textureOffset =  mul(Position.Sample(smp, samplePos.xy),matView).z;
 		float radiusCheck = smoothstep(0,1,radius/abs(depth-textureOffset));
 		ao += ((textureOffset <= samplePos.z) ? 1 :0) * radiusCheck;
 

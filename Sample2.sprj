@@ -169,15 +169,15 @@
 				<variable type="float4x4" name="ortho" system="Orthographic" />
 				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
 				<variable type="float2" name="screenSize" system="ViewportSize" />
-				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4" name="PP_AO">
 					<row>
-						<value>0.150000006</value>
-						<value>64</value>
-						<value>0.400000006</value>
+						<value>0.100000001</value>
+						<value>16</value>
+						<value>-0.0399999991</value>
 						<value>0</value>
 					</row>
 				</variable>
+				<variable type="float4x4" name="matView" system="View" />
 			</variables>
 			<macros />
 		</pass>
@@ -429,7 +429,7 @@
 			<bind slot="1" name="SSAO" />
 			<bind slot="1" name="Lighting" />
 		</object>
-		<object type="rendertexture" name="Scene Light Link" format="R8" rsize="1.000000,1.000000" clear="true">
+		<object type="rendertexture" name="Scene Light Link" format="R16_FLOAT" rsize="1.000000,1.000000" clear="true">
 			<bind slot="2" name="Lighting" />
 		</object>
 		<object type="rendertexture" name="Scene Color" format="RGB" rsize="1.000000,1.000000" clear="true">
@@ -488,7 +488,9 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="World Normal" item="rt" />
+		<entry type="property" name="Color Grade" item="pipe" />
+		<entry type="file" name="Color Grade" shader="vs" />
+		<entry type="file" name="Color Grade" shader="ps" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />

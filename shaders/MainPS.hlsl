@@ -52,7 +52,7 @@ PSOut main(PSInput pin)
 	pout.Position = pin.wPosition;
 	pout.Position.a = pin.Position.a;
 	pout.Normal  = N;
-	pout.LightLink = LightLinkID;
+	pout.LightLink = float(LightLinkID);
 	pout.Emissive = EmissiveMap;
 	return pout;
 }
