@@ -9,7 +9,7 @@ Size=400,1637
 Collapsed=0
 
 [Window][Pinned]
-Pos=137,223
+Pos=104,542
 Size=724,618
 Collapsed=0
 DockId=0x00000001,1
@@ -36,7 +36,7 @@ Size=294,995
 Collapsed=0
 
 [Window][Properties]
-Pos=4,20
+Pos=4,19
 Size=294,995
 Collapsed=0
 
@@ -313,7 +313,7 @@ Size=600,400
 Collapsed=0
 
 [Window][###SavePreviewTextureDlg]
-Pos=666,304
+Pos=667,304
 Size=600,400
 Collapsed=0
 
@@ -456,7 +456,7 @@ Column 1
 Column 2 
 
 [Docking][Data]
-DockNode          ID=0x00000001 Pos=-68,335 Size=724,924 Selected=0xFE26F2A7
+DockNode          ID=0x00000001 Pos=104,542 Size=724,618 Selected=0xFE26F2A7
 DockSpace         ID=0x160B189F Window=0x912BA114 Pos=0,22 Size=1920,995 Split=X
   DockNode        ID=0x0000000B Parent=0x160B189F SizeRef=729,826
   DockNode        ID=0x0000000C Parent=0x160B189F SizeRef=848,826 Split=X

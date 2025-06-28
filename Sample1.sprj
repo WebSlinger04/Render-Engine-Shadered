@@ -79,7 +79,7 @@
 						<value>0.204166681</value>
 						<value>0.448229253</value>
 						<value>0.5</value>
-						<value>0.200000003</value>
+						<value>0.219999999</value>
 					</row>
 				</variable>
 				<variable type="float" name="fogStart">
@@ -288,7 +288,7 @@
 				</variable>
 				<variable type="float" name="HDRStrength">
 					<row>
-						<value>1</value>
+						<value>0.800000012</value>
 					</row>
 				</variable>
 				<variable type="int" name="ShadowSamples">
@@ -466,7 +466,7 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Lighting" item="pipe" />
+		<entry type="property" name="VBuffer" item="pipe" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
