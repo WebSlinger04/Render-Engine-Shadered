@@ -61,7 +61,7 @@
 					<row>
 						<value>0.0399999991</value>
 						<value>0.00999999978</value>
-						<value>0.0149999997</value>
+						<value>0.0179999992</value>
 					</row>
 					<row>
 						<value>1</value>
@@ -281,19 +281,19 @@
 				<variable type="float4" name="AmbientColor">
 					<row>
 						<value>0.0196078438</value>
-						<value>0.0151769677</value>
-						<value>0.0074586696</value>
+						<value>0.0157378372</value>
+						<value>0.00899653975</value>
 						<value>0</value>
 					</row>
 				</variable>
 				<variable type="float" name="HDRStrength">
 					<row>
-						<value>0.600000024</value>
+						<value>1</value>
 					</row>
 				</variable>
 				<variable type="int" name="ShadowSamples">
 					<row>
-						<value>16</value>
+						<value>124</value>
 					</row>
 				</variable>
 			</variables>
@@ -376,7 +376,7 @@
 				<variable type="int" name="Frame" system="FrameIndex" />
 				<variable type="int" name="updateShadow">
 					<row>
-						<value>600</value>
+						<value>3</value>
 					</row>
 				</variable>
 			</variables>

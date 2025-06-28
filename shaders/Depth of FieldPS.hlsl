@@ -27,7 +27,7 @@ float4 main(PSInput pin) : SV_TARGET
 	float4 blurFinal;
 	float4 Final = FinalPass.Sample(smp,pin.UV);
 	
-	//return Final;
+	return Final;
 	
 	float Depth = mul(Position.Sample(smp,pin.UV),matVP).z / 3;
 	Depth += 1.2;
