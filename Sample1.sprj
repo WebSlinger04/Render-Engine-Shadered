@@ -1,6 +1,33 @@
 <?xml version="1.0"?>
 <project version="2">
 	<pipeline>
+		<pass name="Anti-Alias" type="shader" active="true" patchverts="1">
+			<shader type="vs" path="shaders\FullScreenQuadVS.hlsl" entry="main" />
+			<shader type="ps" path="shaders\Anti-AliasPS.hlsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture />
+			<items>
+				<item name="Anti-Alias Quad" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float2" name="screenSize" system="ViewportSize" />
+				<variable type="float4x4" name="ortho" system="Orthographic" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+			</variables>
+			<macros />
+		</pass>
 		<pass name="Depth of Field" type="shader" active="true" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\FullScreenQuadVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\Depth of FieldPS.hlsl" entry="main" />
@@ -9,7 +36,7 @@
 				<item value="Normal" semantic="NORMAL" />
 				<item value="Texcoord" semantic="TEXCOORD0" />
 			</inputlayout>
-			<rendertexture />
+			<rendertexture name="Scene Final 2" />
 			<items>
 				<item name="DOF Quad" type="geometry">
 					<type>ScreenQuad</type>
@@ -53,7 +80,7 @@
 				<variable type="float3" name="PP_ECS">
 					<row>
 						<value>0.200000003</value>
-						<value>0.25</value>
+						<value>0.100000001</value>
 						<value>1</value>
 					</row>
 				</variable>
@@ -61,7 +88,7 @@
 					<row>
 						<value>0.0399999991</value>
 						<value>0.00999999978</value>
-						<value>0.0179999992</value>
+						<value>0.0149999997</value>
 					</row>
 					<row>
 						<value>1</value>
@@ -79,7 +106,7 @@
 						<value>0.204166681</value>
 						<value>0.448229253</value>
 						<value>0.5</value>
-						<value>0.219999999</value>
+						<value>0.200000003</value>
 					</row>
 				</variable>
 				<variable type="float" name="fogStart">
@@ -280,26 +307,27 @@
 				<variable type="float4x4" name="matVP" system="ViewProjection" />
 				<variable type="float4" name="AmbientColor">
 					<row>
-						<value>0.0196078438</value>
-						<value>0.0157378372</value>
-						<value>0.00899653975</value>
+						<value>0</value>
+						<value>0</value>
+						<value>0</value>
 						<value>0</value>
 					</row>
 				</variable>
 				<variable type="float" name="HDRStrength">
 					<row>
-						<value>1</value>
+						<value>1.10000002</value>
 					</row>
 				</variable>
-				<variable type="int" name="ShadowSamples">
+				<variable type="float2" name="ShadowSamples">
 					<row>
 						<value>124</value>
+						<value>0.00100000005</value>
 					</row>
 				</variable>
 			</variables>
 			<macros />
 		</pass>
-		<pass name="Main" type="shader" active="true" patchverts="1" collapsed="true">
+		<pass name="Main" type="shader" active="true" patchverts="1">
 			<shader type="vs" path="shaders\MainVS.hlsl" entry="main" />
 			<shader type="ps" path="shaders\MainPS.hlsl" entry="main" />
 			<inputlayout>
@@ -316,12 +344,16 @@
 			<rendertexture name="Scene ORM" />
 			<rendertexture name="Scene Emissive" />
 			<items>
-				<item name="Opaque" type="model">
-					<filepath>ArtAssets\Models\SM_Clasroom_Opaque.obj</filepath>
-					<grouponly>false</grouponly>
-				</item>
 				<item name="Blinds" type="model">
 					<filepath>ArtAssets\Models\SM_Classroom_Blinds.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+				<item name="LampHead" type="model">
+					<filepath>ArtAssets\Models\SM_ClassRoom_LampHeads.obj</filepath>
+					<grouponly>false</grouponly>
+				</item>
+				<item name="Opaque" type="model">
+					<filepath>ArtAssets\Models\SM_Clasroom_Opaque.obj</filepath>
 					<grouponly>false</grouponly>
 				</item>
 			</items>
@@ -329,6 +361,11 @@
 				<value variable="LightLinkID" for="Blinds">
 					<row>
 						<value>1</value>
+					</row>
+				</value>
+				<value variable="LightLinkID" for="LampHead">
+					<row>
+						<value>2</value>
 					</row>
 				</value>
 			</itemvalues>
@@ -407,7 +444,7 @@
 			<bind slot="1" name="SSAO" />
 			<bind slot="1" name="Lighting" />
 		</object>
-		<object type="rendertexture" name="Scene Light Link" format="R8" rsize="1.000000,1.000000" clear="true">
+		<object type="rendertexture" name="Scene Light Link" format="R16_FLOAT" rsize="1.000000,1.000000" clear="true">
 			<bind slot="2" name="Lighting" />
 		</object>
 		<object type="rendertexture" name="Scene Color" format="RGB" rsize="1.000000,1.000000" clear="true">
@@ -463,10 +500,13 @@
 		<object type="texture" path="ArtAssets\Texture\T_Classroom_Emissive.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat">
 			<bind slot="3" name="Main" />
 		</object>
+		<object type="rendertexture" name="Scene Final 2" rsize="1.000000,1.000000" clear="true">
+			<bind slot="0" name="Anti-Alias" />
+		</object>
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Color Grade" item="pipe" />
+		<entry type="property" name="SSAO" item="pipe" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />

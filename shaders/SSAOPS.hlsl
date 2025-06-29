@@ -46,7 +46,7 @@ float main(PSInput pin) : SV_TARGET
 	float radius = PP_AO.x;
 	float aoSamples = PP_AO.y;
 	float bias = PP_AO.z;
-	float depth = mul(PositionPass,matView).z + bias;
+	float depth = mul(float4(PositionPass.xyz,1),matView).z + bias;
 		
 	//hemishpere
 	for (int i = 0; i < aoSamples ; i ++)
@@ -68,11 +68,11 @@ float main(PSInput pin) : SV_TARGET
 		samplePos = samplePos + float3(pin.UV.xy,depth);
 
 		//sample and depth check
-		float textureOffset =  mul(Position.Sample(smp, samplePos.xy),matView).z;
+		float textureOffset =  mul(float4(Position.Sample(smp, samplePos.xy).xyz,1),matView).z;
 		float radiusCheck = smoothstep(0,1,radius/abs(depth-textureOffset));
 		ao += ((textureOffset <= samplePos.z) ? 1 :0) * radiusCheck;
 
 	}
-	ao = 1-(ao/aoSamples);
+	ao = 1-(ao/aoSamples) + PP_AO.w;
 	return ao;
 }

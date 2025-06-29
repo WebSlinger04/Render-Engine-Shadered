@@ -39,7 +39,7 @@ float randomNumber(float maxNumber)
 }
 
 float HDRStrength;
-int ShadowSamples;
+float2 ShadowSamples;
 
 struct Lighting
 {
@@ -218,8 +218,8 @@ struct Lighting
 			Shadow = 0;
 		} else
 		{
-			float d = 0.001;
-			for (int i = 0; i < ShadowSamples; i++)
+			float d = ShadowSamples.y;
+			for (int i = 0; i < ShadowSamples.x; i++)
 			{
 				float2 offset = float2(randomNumber(i*3.1232)*2-1,randomNumber(i*1.63434)*2-1);
 				offset *= d;

@@ -173,8 +173,8 @@
 					<row>
 						<value>0.100000001</value>
 						<value>16</value>
-						<value>-0.0399999991</value>
-						<value>0</value>
+						<value>-0.100000001</value>
+						<value>0.25</value>
 					</row>
 				</variable>
 				<variable type="float4x4" name="matView" system="View" />
@@ -288,12 +288,13 @@
 				</variable>
 				<variable type="float" name="HDRStrength">
 					<row>
-						<value>0.899999976</value>
+						<value>0.699999988</value>
 					</row>
 				</variable>
-				<variable type="int" name="ShadowSamples">
+				<variable type="float2" name="ShadowSamples">
 					<row>
-						<value>16</value>
+						<value>124</value>
+						<value>0.00200000009</value>
 					</row>
 				</variable>
 			</variables>
@@ -411,7 +412,7 @@
 			<bind slot="0" name="Lighting" />
 			<bind slot="0" name="ShadowMap" />
 		</object>
-		<object type="buffer" name="wPositionBuffer4" size="19398256" format="float4" pausedpreview="false">
+		<object type="buffer" name="wPositionBuffer4" size="19401136" format="float4" pausedpreview="false">
 			<bind slot="0" name="Main" />
 			<bind slot="1" name="ShadowMapAtlas" />
 		</object>
@@ -488,9 +489,7 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="Color Grade" item="pipe" />
-		<entry type="file" name="Color Grade" shader="vs" />
-		<entry type="file" name="Color Grade" shader="ps" />
+		<entry type="property" name="SSAO" item="pipe" />
 		<entry type="pinned" name="PP_ECS" owner="Color Grade" />
 		<entry type="pinned" name="PP_LGG" owner="Color Grade" />
 		<entry type="pinned" name="PP_Fog" owner="Color Grade" />
